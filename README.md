@@ -47,21 +47,21 @@ An interactive desktop quiz application developed using Python and Tkinter. User
 
 &nbsp;
 
-**Fitur 1 — \[nama fitur\]**
+**Fitur 1 — Pemilihan Quiz**
 
-![Fitur 1](screenshots/02_fitur_1.png)
+![Fitur 1](screenshots/02_Pilihan_Quiz.png)
 
-**Fitur 2 — \[nama fitur\]**
+**Fitur 2 — Pengerjaan Quiz**
 
-![Fitur 2](screenshots/03_fitur_2.png)
+![Fitur 2](screenshots/03_Soal_Quiz.png)
 
-**Fitur 3 — \[nama fitur\]**
+**Fitur 3 — Screen Hasil Quiz**
 
-![Fitur 3](screenshots/04_fitur_3.png)
+![Fitur 3](screenshots/04_Hasil_Kuis.png)
 
-**Fitur 4 — \[nama fitur\]**
+**Fitur 4 — Papan Peringkat**
 
-![Fitur 4](screenshots/05_fitur_4.png)
+![Fitur 4](screenshots/05_Leaderboard_Score.png)
 
 **Pesan validasi saat input salah**
 
