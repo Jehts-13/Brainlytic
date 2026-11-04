@@ -23,12 +23,12 @@ An interactive desktop quiz application developed using Python and Tkinter. User
 | 1 | James Elisha Hamonangan Tambanie Supit | 105022610045 | Ketua | \[main.py: …\] |
 | 2 | Bastian Jansen Tangkuman | 105022610082 | Programmer GUI | \[main.py: tampilkan\_daftar(), …\] |
 | 3 | Viola Keni | 105012610069 | Programmer logika | \[logika.py: hitung\_total(), …\] |
-| 4 | Riwan Rikardo | \[NIM\] | Programmer data/file | \[penyimpanan.py: simpan\_data(), muat\_data()\] |
+| 4 | Riwan Rikardo | 105032310004 | Programmer data/file | \[penyimpanan.py: simpan\_data(), muat\_data()\] |
 | 5 | Hillary Maindoka | 105012610083 | Penguji & dokumentasi | \[skenario uji, README, slide\] |
 
 ## Latar Belakang
 
-- **Masalah:** Beberapa siswa/mahasiswa membutuhkan pembuat kuis lokal yang intuitif dan mudah digunakan tanpa internet. 
+- **Masalah:** Beberapa siswa/mahasiswa membutuhkan aplikasi pembuat kuis lokal yang intuitif dan mudah digunakan tanpa internet. 
 - **Pengguna sasaran:**  Siswa/mahasiswa, dari tingkat pendidikan mana pun, yang mampu mengoperasikan komputer
 - **Tujuan:** Membangun aplikasi kuis interaktif dengan desain yang intuitif dan sederhana yang siap digunakan langsung.
 
@@ -36,10 +36,10 @@ An interactive desktop quiz application developed using Python and Tkinter. User
 
 | No | Fitur | Input | Output |
 | :---- | :---- | :---- | :---- |
-| 1 | \[Nama fitur\] | \[data yang diisi pengguna\] | \[hasil yang ditampilkan/disimpan\] |
-| 2 | \[Nama fitur\] | \[ \] | \[ \] |
-| 3 | \[Nama fitur\] | \[ \] | \[ \] |
-| 4 | \[Nama fitur\] | \[ \] | \[ \] |
+| 1 | Pemilihan Quiz | Quiz yang dipilih | Membuka halaman Pengerjaan Quiz |
+| 2 | Pengerjaan Quiz | Pengguna menentukan pilihan jawaban di setiap pertanyaan dari Quiz yang dipilih | Progress pengerjaan Quiz dan Timer tiap pertanya |
+| 3 | Screen Hasil Quiz | \[ \] | \[ \] |
+| 4 | Papan Peringkat | \[ \] | \[ \] |
 
 ## Screenshot
 
@@ -59,9 +59,9 @@ An interactive desktop quiz application developed using Python and Tkinter. User
 
 ![Fitur 3](screenshots/04_Hasil_Kuis.png)
 
-**Fitur 4 — Papan Peringkat**
+**Fitur 4 — Pembuatan Quiz**
 
-![Fitur 4](screenshots/05_Leaderboard_Score.png)
+![Fitur 4](screenshots/06_Pembuatan_Quiz.png)
 
 **Pesan validasi saat input salah**
 
