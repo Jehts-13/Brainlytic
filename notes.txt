@@ -1,0 +1,8 @@
+11/9/2026
+---
+on going:
+- tombol mulai quiz berubah ketika di select
+
+future ideas:
+- memberikan warning messagebox ketika tidak ada quiz yang di select di pemilihan quiz
+- memindahkan format data batas_waktu dan jumlah_soal
