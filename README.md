@@ -28,9 +28,9 @@ An interactive desktop quiz application developed using Python and Tkinter. User
 
 ## Latar Belakang
 
-- **Masalah:** Beberapa siswa/mahasiswa membutuhkan aplikasi pembuat kuis lokal yang intuitif dan mudah digunakan tanpa internet. 
+- **Masalah:** Beberapa siswa/mahasiswa membutuhkan aplikasi pembuat quiz lokal yang intuitif dan mudah digunakan tanpa internet. 
 - **Pengguna sasaran:**  Siswa/mahasiswa, dari tingkat pendidikan mana pun, yang mampu mengoperasikan komputer
-- **Tujuan:** Membangun aplikasi kuis interaktif dengan desain yang intuitif dan sederhana yang siap digunakan langsung.
+- **Tujuan:** Membangun aplikasi quiz interaktif dengan desain yang intuitif dan sederhana yang siap digunakan langsung.
 
 ## Fitur Utama
 
@@ -57,7 +57,7 @@ An interactive desktop quiz application developed using Python and Tkinter. User
 
 **Fitur 3 — Screen Hasil Quiz**
 
-![Fitur 3](screenshots/04_Hasil_Kuis.png)
+![Fitur 3](screenshots/04_Hasil_quiz.png)
 
 **Fitur 4 — Pembuatan Quiz**
 

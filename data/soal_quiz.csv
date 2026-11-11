@@ -1,3 +1,3 @@
-nama_kuis,pertanyaan,opsi_a,opsi_b,opsi_c,opsi_d,jawaban_benar,penjelasan
+nama_quiz,pertanyaan,opsi_a,opsi_b,opsi_c,opsi_d,jawaban_benar,penjelasan
 Dasar Python,Apa output dari print(type([]))?,List,<class 'list'>,Array,Error,B,List ditulis dengan kurung siku.
 Dasar Python,Tipe data untuk teks adalah?,Integer,String,Boolean,Float,B,String digunakan untuk teks.

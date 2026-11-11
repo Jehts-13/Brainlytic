@@ -5,20 +5,23 @@ from tkinter import ttk
 from logika import *
 from data_manager import *
 
-def fungsi_dummy(teks):
-    print(teks)
+username_var = None
+
+def reset_username():
+    username_var.set("")
 
 def halaman_homescreen(root):
     def batasi_input(*args):
         batas_maksimal = 20 # Ubah angka ini sesuai kebutuhan batas karakter Anda
-        nilai_saat_ini = nama_var.get()
+        nilai_saat_ini = username_var.get()
         
         # Jika panjang teks melebihi batas, potong teksnya
         if len(nilai_saat_ini) > batas_maksimal:
-            nama_var.set(nilai_saat_ini[:batas_maksimal])
+            username_var.set(nilai_saat_ini[:batas_maksimal])
 
     def validasi_sebelum_lanjut():
-        nama = nama_var.get()
+        global username_var
+        nama = username_var.get()
         # Mengecek apakah input kosong atau mengandung karakter selain huruf/angka
         if not nama.isalnum():
             messagebox.showwarning("Input Tidak Valid", "Nama hanya boleh berisi huruf dan angka (tanpa spasi atau simbol)!")
@@ -43,10 +46,11 @@ def halaman_homescreen(root):
     label_nama = tk.Label(frame_nama, text="Nama pemain", font=("Helvetica", 10, "bold"), fg="#5C3A21", bg="#F4EFE6")
     label_nama.pack(anchor="w")
 
-    nama_var = tk.StringVar()
-    nama_var.trace_add("write", batasi_input)
-    input_nama = tk.Entry(frame_nama, width=50, font=("Helvetica", 12), textvariable=nama_var)
-    input_nama.insert(0, "Ketik nama Anda di sini (maks. 20 karakter)")
+    global username_var
+    if username_var is None:
+        username_var = tk.StringVar(value="Masukkan nama anda")
+    username_var.trace_add("write", batasi_input)
+    input_nama = tk.Entry(frame_nama, width=50, font=("Helvetica", 12), textvariable=username_var)
     input_nama.pack(ipady=5)
 
     # 4. Frame Menu (Tombol Kerjakan Quiz & Buat Quiz Baru)
@@ -112,13 +116,10 @@ def halaman_pilih_quiz(root):
 
     btn_mulai = tk.Button(bottom_frame, text="Mulai Quiz", bg="#4A2C11", fg="white", 
                         font=("Helvetica", 10, "bold"), width=15,
-                        command=lambda: {
-                            bersihkan_layar(root),  # Bersihkan halaman 
-                            halaman_soal_quiz(root) # Pindah ke halaman soal quiz
-                        }) 
+                        command=lambda: aksi_mulai_kuis()) 
     btn_mulai.pack(side="right", ipady=5)
 
-    # --- AREA SCROLL UNTUK DAFTAR KUIS ---
+    # --- AREA SCROLL UNTUK DAFTAR quiz ---
     # 1. Buat kontainer utama untuk Canvas dan Scrollbar
     scroll_container = tk.Frame(root, bg="#F4EFE6")
     scroll_container.pack(fill="both", expand=True, padx=40, pady=(0, 20))
@@ -132,7 +133,7 @@ def halaman_pilih_quiz(root):
     scrollbar.pack(side="right", fill="y")
     canvas.configure(yscrollcommand=scrollbar.set)
 
-    # 4. Buat Frame di dalam Canvas untuk menampung tombol kuis
+    # 4. Buat Frame di dalam Canvas untuk menampung tombol quiz
     list_frame = tk.Frame(canvas, bg="#F4EFE6")
     
     # 5. Masukkan list_frame ke dalam Canvas
@@ -162,53 +163,124 @@ def halaman_pilih_quiz(root):
         canvas.unbind_all("<MouseWheel>")
     list_frame.bind("<Destroy>", unbind_scroll)
 
-    # Fungsi untuk membuat satu item (tombol) kuis
+    def mulai_quiz_terpilih(judul_quiz):
+        # Logika pemanggilan muat_soal(judul_quiz) nanti diletakkan di sini
+        pass
+    #==========================================================================================================
+    # 1. Variabel untuk menyimpan judul kuis yang dipilih
+    kuis_terpilih = tk.StringVar(value="")
+    
+    # 2. Dictionary untuk menyimpan referensi widget tombol
+    tombol_kuis_dict = {}
+
+    # --- FUNGSI PEMILIHAN WARNA DAN PENYIMPANAN ---
+    def pilih_kuis(judul_quiz):
+        # Menyimpan nama kuis ke variabel
+        kuis_terpilih.set(judul_quiz)
+        
+        # Iterasi semua tombol di dalam dictionary
+        for nama, tombol in tombol_kuis_dict.items():
+            if nama == judul_quiz:
+                # Ubah tombol yang dipilih menjadi cokelat dengan teks putih[cite: 2]
+                tombol.configure(bg="#A06A42", fg="white")
+            else:
+                # Reset tombol lainnya kembali ke putih[cite: 2]
+                tombol.configure(bg="white", fg="#4A2C11")
+
+    # --- FUNGSI MEMBUAT TOMBOL ---
     def buat_item_quiz(parent, judul_quiz, deskripsi):
         teks_tombol = f"{judul_quiz}\n{deskripsi}"
         btn = tk.Button(parent, text=teks_tombol, bg="white", fg="#4A2C11", 
-                        font=("Helvetica", 9), justify="left", anchor="w", relief="solid", bd=1,
-                        command=lambda: mulai_kuis_terpilih(judul_quiz))
+                        font=("Helvetica", 9), justify="left", anchor="w", relief="solid", bd=1)
+        
+        # Simpan widget tombol ke dalam dictionary berdasarkan judulnya
+        tombol_kuis_dict[judul_quiz] = btn
+        
+        # Pasang perintah yang memanggil pilih_kuis saat diklik
+        btn.configure(command=lambda q=judul_quiz: pilih_kuis(q))
+        
         btn.pack(fill="x", pady=5, ipady=8, padx=2)
         return btn
 
-    def mulai_kuis_terpilih(judul_quiz):
-        # Logika pemanggilan muat_soal(judul_quiz) nanti diletakkan di sini
-        pass
+    # --- FUNGSI TOMBOL "MULAI QUIZ" ---
+    def aksi_mulai_kuis():
+        judul = kuis_terpilih.get()
+        if not judul:
+            # Cegah user lanjut jika belum ada frame yang diklik
+            messagebox.showwarning("Peringatan", "Silakan pilih salah satu kuis terlebih dahulu!")
+            return
+            
+        print(f"Kuis yang akan dimainkan: {judul}")
+        # Lanjutkan ke logika pemanggilan muat_soal(judul) di sini
+        # halaman_soal_quiz(root, judul)
+        bersihkan_layar(root)
+        halaman_soal_quiz(root, judul)  # Panggil halaman soal quiz dengan judul yang dipilih
+        return
 
-    # --- MEMUAT DATA DARI data_manager.py ---
+    # [Kode pembuatan canvas, scrollbar, on_configure, _on_mousewheel tetap sama...]
+
+    # --- MEMUAT DATA ---
     daftar_quiz = load_daftar_quiz()
-
-    # Mengecek apakah daftar kuis memiliki isi atau tidak
+    
     if not daftar_quiz:
-        pesan_kosong = tk.Label(list_frame, text="Belum ada kuis yang tersedia.", bg="#F4EFE6", fg="#4A2C11")
-        pesan_kosong.pack(pady=20)
+        tk.Label(list_frame, text="Belum ada kuis yang tersedia.", bg="#F4EFE6", fg="#4A2C11").pack(pady=20)
     else:
-        # Looping data dari dictionary dan membuatkan tombolnya secara otomatis
         for quiz in daftar_quiz:
             buat_item_quiz(list_frame, quiz["judul"], quiz["deskripsi"])
+
+    # Pastikan tombol "Mulai Quiz" di nav_frame Anda terhubung dengan aksi_mulai_kuis
+    # btn_mulai.configure(command=aksi_mulai_kuis)
 
 
 
     
 
-def halaman_soal_quiz(root):
+def halaman_soal_quiz(root, judul_quiz, soal_saat_ini=1):
     root.configure(bg="#F4EFE6")
+
+    # variabel untuk menyimpan jumlah soal, dan batas waktu (detik)
+    jumlah_soal, batas_waktu = load_quiz_details(judul_quiz)
+    sisa_waktu = batas_waktu
 
     # 2. Header Info (Indikator Soal & Waktu)
     header_frame = tk.Frame(root, bg="#F4EFE6")
     header_frame.pack(fill="x", padx=20, pady=(15, 5))
 
-    label_soal = tk.Label(header_frame, text="Soal 3 dari 10", font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    # text indikator soal
+    text_indikator_soal = f"Soal {soal_saat_ini} dari {jumlah_soal}"  # Contoh teks indikator soal
+
+    label_soal = tk.Label(header_frame, text=text_indikator_soal, font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
     label_soal.pack(side="left")
 
-    label_waktu = tk.Label(header_frame, text="Waktu: 00:15", font=("Helvetica", 10, "bold"), fg="white", bg="#A06A42", width=12, pady=3)
+    
+    # text indikator waktu
+    label_waktu = tk.Label(header_frame, text=f"Waktu: {format_waktu(sisa_waktu)}", font=("Helvetica", 10, "bold"), fg="white", bg="#A06A42", width=12, pady=3)
     label_waktu.pack(side="right")
+    
+    def update_timer():
+        nonlocal sisa_waktu
+        sisa_waktu -= 1
+        text_waktu = format_waktu(sisa_waktu)
+        label_waktu.configure(text=f"Waktu: {text_waktu}")
+        root.after(1000, update_timer)  # Memanggil fungsi ini lagi setelah 1 detik
+
+        if sisa_waktu < 0:
+            save_hasil_quiz()
+            bersihkan_layar(root)
+            halaman_hasil_quiz(root, username_var.get(), waktu=format_waktu(batas_waktu * 60 - sisa_waktu))
+
+    root.after(1000, update_timer)  # Memulai timer
+
+
 
     # 3. Bilah Progres (Progress Bar Manual menggunakan Frame)
     progress_bg = tk.Frame(root, bg="#A0B084", height=10) # Latar belakang progres (hijau pudar)
     progress_bg.pack(fill="x", padx=20, pady=(0, 15))
-    
-    progress_fill = tk.Frame(progress_bg, bg="#4A2C11", width=150, height=10) # Bagian yang terisi (coklat tua)
+
+    # Panjang total progress bar
+    panjang_progres = progress_bg.winfo_width() * (soal_saat_ini / jumlah_soal)
+
+    progress_fill = tk.Frame(progress_bg, bg="#4A2C11", width=panjang_progres, height=10) # Bagian yang terisi (coklat tua)
     progress_fill.pack(side="left")
     progress_bg.pack_propagate(False) # Mencegah frame bg mengecil mengikuti isi
 
@@ -248,7 +320,9 @@ def halaman_soal_quiz(root):
     bottom_frame = tk.Frame(root, bg="#F4EFE6")
     bottom_frame.pack(fill="x", padx=20, pady=10)
 
-    btn_keluar = tk.Button(bottom_frame, text="Keluar", bg="white", fg="#4A2C11", font=("Helvetica", 10), relief="solid", bd=1, width=12)
+    btn_keluar = tk.Button(bottom_frame, text="Keluar", bg="white", fg="#4A2C11", 
+                           font=("Helvetica", 10), relief="solid", bd=1, width=12,
+                           command=lambda: {bersihkan_layar(root),halaman_homescreen(root)})
     btn_keluar.pack(side="left", ipady=5)
 
     label_skor = tk.Label(bottom_frame, text="Skor: 20", font=("Helvetica", 10), fg="#4A2C11", bg="#F4EFE6")
@@ -269,7 +343,7 @@ def halaman_hasil_quiz(root, nama_pemain="Budi", skor=80, benar=8, salah=2, wakt
     main_frame.pack(expand=True)
 
     # Judul / Header[cite: 5]
-    judul = tk.Label(main_frame, text=f"Kuis selesai, {nama_pemain}!", font=("Helvetica", 24, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    judul = tk.Label(main_frame, text=f"quiz selesai, {nama_pemain}!", font=("Helvetica", 24, "bold"), fg="#4A2C11", bg="#F4EFE6")
     judul.pack(pady=(0, 20))
 
     # Tampilan Skor dengan Lingkaran (menggunakan Canvas)[cite: 5]
@@ -313,6 +387,7 @@ def halaman_hasil_quiz(root, nama_pemain="Budi", skor=80, benar=8, salah=2, wakt
     btn_main = tk.Button(btn_frame, text="Main Lagi", bg="#4A2C11", fg="white", font=("Helvetica", 10, "bold"), width=15,
                         command=lambda: {
                             bersihkan_layar(root),  # Bersihkan halaman 
+                            reset_username(),
                             halaman_homescreen(root)  # Kembali ke Home Screen
                         })
     btn_main.grid(row=0, column=2, padx=10, ipady=5)
@@ -390,7 +465,7 @@ def halaman_papan_skor(root):
     btn_kembali.pack(side="left", ipady=5)
 
 
-def halaman_buat_kuis_soal(root):
+def halaman_buat_quiz_soal(root):
     bersihkan_layar(root)
     root.configure(bg="#F4EFE6")
 
@@ -469,7 +544,7 @@ def halaman_buat_kuis_soal(root):
     bottom_frame = tk.Frame(root, bg="#F4EFE6")
     bottom_frame.pack(fill="x", padx=20, pady=(0, 20))
 
-    btn_kembali = tk.Button(bottom_frame, text="Kembali", bg="white", fg="#4A2C11", font=("Helvetica", 10, "bold"), width=15, relief="solid", bd=1, command=lambda: halaman_buat_kuis_info(root))
+    btn_kembali = tk.Button(bottom_frame, text="Kembali", bg="white", fg="#4A2C11", font=("Helvetica", 10, "bold"), width=15, relief="solid", bd=1, command=lambda: halaman_buat_quiz_info(root))
     btn_kembali.pack(side="left", ipady=5)
 
     btn_simpan = tk.Button(bottom_frame, text="Simpan Quiz", bg="#4A2C11", fg="white", font=("Helvetica", 10, "bold"), width=15)
@@ -479,7 +554,7 @@ def halaman_buat_kuis_soal(root):
     btn_hapus.pack(side="right", padx=10, ipady=5)
 
 
-def halaman_buat_kepala_kuis(root):
+def halaman_buat_kepala_quiz(root):
     # Membersihkan layar dari widget sebelumnya[cite: 1]
     for widget in root.winfo_children():
         widget.destroy()
@@ -547,6 +622,117 @@ def halaman_buat_kepala_kuis(root):
     btn_batal.pack(side="left", ipady=5)
 
     btn_lanjut = tk.Button(bottom_frame, text="Lanjut: Tambah Soal", bg="#4A2C11", fg="white", font=("Helvetica", 10, "bold"), width=20)
-    # Catatan: tambahkan command=lambda: halaman_buat_kuis_soal(root) pada btn_lanjut untuk menyambungkan navigasi
+    # Catatan: tambahkan command=lambda: halaman_buat_quiz_soal(root) pada btn_lanjut untuk menyambungkan navigasi
     btn_lanjut.pack(side="right", ipady=5)
 
+
+def halaman_tinjau_jawaban(root, data_tinjauan=None):
+    # Membersihkan layar dari widget sebelumnya[cite: 1]
+    for widget in root.winfo_children():
+        widget.destroy()
+
+    root.configure(bg="#F4EFE6")
+
+    # Bilah Atas
+    top_bar = tk.Frame(root, bg="#A0B084", height=25)
+    top_bar.pack(fill="x")
+    
+    label_top = tk.Label(top_bar, text="QuizPy | Tinjauan Jawaban", bg="#A0B084", fg="#4A2C11", font=("Helvetica", 9, "bold"))
+    label_top.pack(side="left", padx=10, pady=2)
+
+    # Header Judul
+    header_frame = tk.Frame(root, bg="#F4EFE6")
+    header_frame.pack(fill="x", padx=40, pady=(20, 10))
+
+    judul = tk.Label(header_frame, text="Tinjauan Jawaban", font=("Helvetica", 24, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    judul.pack(side="left")
+
+    # Data Dummy jika tidak ada data yang dilemparkan dari fungsi sebelumnya
+    if data_tinjauan is None:
+        data_tinjauan = [
+            {
+                "pertanyaan": "Apa output dari print(type([]))?",
+                "jawaban_pemain": "List",
+                "jawaban_benar": "<class 'list'>",
+                "status": "Salah",
+                "penjelasan": "List ditulis dengan kurung siku."
+            },
+            {
+                "pertanyaan": "Tipe data untuk teks adalah?",
+                "jawaban_pemain": "String",
+                "jawaban_benar": "String",
+                "status": "Benar",
+                "penjelasan": "String digunakan untuk teks."
+            }
+        ]
+
+    # --- AREA SCROLL UNTUK DAFTAR TINJAUAN ---[cite: 2]
+    scroll_container = tk.Frame(root, bg="#F4EFE6")
+    scroll_container.pack(fill="both", expand=True, padx=40, pady=(0, 20))
+
+    canvas = tk.Canvas(scroll_container, bg="#F4EFE6", highlightthickness=0)
+    canvas.pack(side="left", fill="both", expand=True)
+
+    scrollbar = ttk.Scrollbar(scroll_container, orient="vertical", command=canvas.yview)
+    scrollbar.pack(side="right", fill="y")
+    canvas.configure(yscrollcommand=scrollbar.set)
+
+    list_frame = tk.Frame(canvas, bg="#F4EFE6")
+    canvas_window = canvas.create_window((0, 0), window=list_frame, anchor="nw")
+
+    def on_configure(event):
+        canvas.configure(scrollregion=canvas.bbox("all"))
+        canvas.itemconfig(canvas_window, width=event.width)
+        
+    canvas.bind("<Configure>", on_configure)
+
+    def _on_mousewheel(event):
+        canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+        
+    canvas.bind_all("<MouseWheel>", _on_mousewheel)
+
+    def unbind_scroll(event):
+        canvas.unbind_all("<MouseWheel>")
+    list_frame.bind("<Destroy>", unbind_scroll)
+
+    # --- MEMUAT KOTAK TINJAUAN UNTUK SETIAP SOAL ---
+    for i, item in enumerate(data_tinjauan, start=1):
+        # Frame untuk setiap soal
+        soal_frame = tk.Frame(list_frame, bg="white", relief="solid", bd=1)
+        soal_frame.pack(fill="x", pady=10, ipady=10, padx=5)
+
+        # Pertanyaan
+        lbl_tanya = tk.Label(soal_frame, text=f"Soal {i}: {item['pertanyaan']}", font=("Helvetica", 11, "bold"), fg="#4A2C11", bg="white", anchor="w")
+        lbl_tanya.pack(fill="x", padx=15, pady=(5, 10))
+
+        # Menentukan warna teks berdasarkan status benar/salah
+        warna_status = "#A0B084" if item["status"] == "Benar" else "#A06A42"
+
+        # Menampilkan jawaban pemain
+        lbl_jwbn_pemain = tk.Label(soal_frame, text=f"Jawaban Anda: {item['jawaban_pemain']} ({item['status']})", font=("Helvetica", 10), fg=warna_status, bg="white", anchor="w")
+        lbl_jwbn_pemain.pack(fill="x", padx=15, pady=2)
+
+        # Jika salah, tampilkan jawaban yang benar
+        if item["status"] == "Salah":
+            lbl_jwbn_benar = tk.Label(soal_frame, text=f"Jawaban Benar: {item['jawaban_benar']}", font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="white", anchor="w")
+            lbl_jwbn_benar.pack(fill="x", padx=15, pady=2)
+
+        # Penjelasan tambahan
+        if item.get("penjelasan"):
+            lbl_jelas = tk.Label(soal_frame, text=f"Penjelasan: {item['penjelasan']}", font=("Helvetica", 9, "italic"), fg="#4A2C11", bg="white", anchor="w")
+            lbl_jelas.pack(fill="x", padx=15, pady=(5, 5))
+
+    # --- TOMBOL NAVIGASI BAWAH ---
+    bottom_frame = tk.Frame(root, bg="#F4EFE6")
+    bottom_frame.pack(fill="x", padx=40, pady=20)
+
+    # Tombol Kembali ke Hasil Kuis (Bisa disesuaikan command-nya untuk memanggil halaman_hasil_quiz)
+    btn_kembali = tk.Button(bottom_frame, text="Kembali ke Hasil", bg="white", fg="#4A2C11", font=("Helvetica", 10, "bold"), width=20, relief="solid", bd=1)
+    btn_kembali.pack(side="left", ipady=5)
+    
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.title("Aplikasi quiz Interaktif")
+    root.geometry("800x600")
+    halaman_tinjau_jawaban(root)
+    root.mainloop()
