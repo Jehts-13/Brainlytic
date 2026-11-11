@@ -1,4 +1,4 @@
-nama_kuis,deskripsi,batas_waktu,jumlah_soal
+nama_quiz,deskripsi,batas_waktu,jumlah_soal
 Dasar Python,Tipe data dasar dan operator,5,10
 Struktur Kontrol,"If, for, while, dan logika program",4,8
 Sains Umum,Fisika kimia dan biologi dasar,10,15

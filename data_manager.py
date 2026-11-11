@@ -12,7 +12,7 @@ def load_daftar_quiz(filepath="data/daftar_quiz.csv"):
         
         for row in csv_reader:
             # Sesuaikan dengan header kolom CSV Anda
-            nama = row.get('nama_kuis', 'Tanpa Nama')
+            nama = row.get('nama_quiz', 'Tanpa Nama')
             deskripsi_dasar = row.get('deskripsi', 'Tidak ada deskripsi')
             waktu = row.get('batas_waktu', 0)
             jumlah_soal = row.get('jumlah_soal', 0)
