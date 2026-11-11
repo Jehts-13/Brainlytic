@@ -544,7 +544,7 @@ def halaman_buat_quiz_soal(root):
     bottom_frame = tk.Frame(root, bg="#F4EFE6")
     bottom_frame.pack(fill="x", padx=20, pady=(0, 20))
 
-    btn_kembali = tk.Button(bottom_frame, text="Kembali", bg="white", fg="#4A2C11", font=("Helvetica", 10, "bold"), width=15, relief="solid", bd=1, command=lambda: halaman_buat_quiz_info(root))
+    btn_kembali = tk.Button(bottom_frame, text="Kembali", bg="white", fg="#4A2C11", font=("Helvetica", 10, "bold"), width=15, relief="solid", bd=1, command=lambda: halaman_buat_kepala_quiz(root))
     btn_kembali.pack(side="left", ipady=5)
 
     btn_simpan = tk.Button(bottom_frame, text="Simpan Quiz", bg="#4A2C11", fg="white", font=("Helvetica", 10, "bold"), width=15)
