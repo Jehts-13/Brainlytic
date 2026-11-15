@@ -1,8 +1,24 @@
-11/9/2026
+11/15/2026 1:15PM
 ---
 on going:
-- tombol mulai quiz berubah ketika di select
+- fungsionalitas tombol di halaman pengerjaan quiz
+- menyimpan jawaban dalam user_history.csv
 
 future ideas:
-- memberikan warning messagebox ketika tidak ada quiz yang di select di pemilihan quiz
 - memindahkan format data batas_waktu dan jumlah_soal
+- meload data dari soal_kuis
+
+feature:
+- memilih quiz
+- navigasi
+- tombol mulai quiz berubah ketika di select
+- username disimpan setelah pergi dari homescreen
+- timer untuk pengerjaan quiz
+- progress bar mengikuti pengerjaan soal saat ini
+- memunculkan soal-soal quiz
+
+
+
+
+
+
