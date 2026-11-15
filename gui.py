@@ -352,11 +352,7 @@ def halaman_soal_quiz(ROOT):
     buat_item_opsi(opsi_frame, 2, 1, 0)
     buat_item_opsi(opsi_frame, 3, 1, 1)
 
-    # 6. Umpan Balik (Feedback Box)
-    feedback_label = tk.Label(ROOT, text="Benar! List ditulis dengan tanda kurung siku.", bg="#A0B084", fg="#4A2C11", font=("Helvetica", 9, "bold"))
-    feedback_label.pack(fill="x", padx=20, pady=(15, 10), ipady=8)
-
-    # 7. Tombol Navigasi Bawah
+    # 6. Tombol Navigasi Bawah
     bottom_frame = tk.Frame(ROOT, bg="#F4EFE6")
     bottom_frame.pack(fill="x", padx=20, pady=10)
 
