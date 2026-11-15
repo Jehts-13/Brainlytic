@@ -1,0 +1,24 @@
+11/15/2026 1:15PM
+---
+on going:
+- fungsionalitas tombol di halaman pengerjaan quiz
+- menyimpan jawaban dalam user_history.csv
+
+future ideas:
+- memindahkan format data batas_waktu dan jumlah_soal
+- meload data dari soal_kuis
+
+feature:
+- memilih quiz
+- navigasi
+- tombol mulai quiz berubah ketika di select
+- username disimpan setelah pergi dari homescreen
+- timer untuk pengerjaan quiz
+- progress bar mengikuti pengerjaan soal saat ini
+- memunculkan soal-soal quiz
+
+
+
+
+
+
