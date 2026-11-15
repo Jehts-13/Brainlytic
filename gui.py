@@ -154,19 +154,14 @@ def halaman_pilih_quiz(ROOT):
         canvas.yview_scroll(int(-1*(event.delta/120)), "units")
         
     # Bind scroll event saat kursor berada di dalam canvas
-    canvas.bind_all("<MouseWheel>", _on_mousewheel) # Windows & Mac
-    # Untuk Linux: canvas.bind_all("<Button-4>", lambda e: canvas.yview_scroll(-1, "units"))
-    # Untuk Linux: canvas.bind_all("<Button-5>", lambda e: canvas.yview_scroll(1, "units"))
-
+    canvas.bind_all("<MouseWheel>", _on_mousewheel)
+    
     # Pastikan untuk menghapus bind_all saat frame ini ditutup/dihancurkan
     # agar tidak mengganggu scroll di halaman lain
     def unbind_scroll(event):
         canvas.unbind_all("<MouseWheel>")
     list_frame.bind("<Destroy>", unbind_scroll)
 
-    def mulai_quiz_terpilih(judul_quiz):
-        logika.muat_soal(judul_quiz)
-        pass
     #============================================================================================
     # 1. Variabel untuk menyimpan judul kuis yang dipilih
     kuis_terpilih = tk.StringVar(value="")
@@ -239,6 +234,7 @@ def halaman_pilih_quiz(ROOT):
 
 def halaman_soal_quiz(ROOT):
     # VARIABEL: jumlah soal, dan batas waktu (detik)
+    jawaban = tk.StringVar(value="")
     jumlah_soal = logika.Jumlah_soal 
     batas_waktu = logika.Total_waktu
     sisa_waktu = batas_waktu
@@ -325,19 +321,36 @@ def halaman_soal_quiz(ROOT):
     opsi_frame.columnconfigure(0, weight=1)
     opsi_frame.columnconfigure(1, weight=1)
 
-    # Membuat tombol pilihan (Opsi B dibuat aktif sesuai screenshot)
     teks_pilihan = logika.Soal[nomor_soal]['pilihan']
-    btn_a = tk.Button(opsi_frame, text=teks_pilihan[0], bg="white", fg="#4A2C11", font=("Helvetica", 10), relief="solid", bd=1)
-    btn_a.grid(row=0, column=0, sticky="ew", padx=(0, 5), pady=5, ipady=8)
+    tombol_pilihan_dict = {}
+    
+    def pilih_opsi(jawabanIndex):
+        jawaban.set(jawabanIndex)
+        
+        for index, btn in tombol_pilihan_dict.items():
+            if index == jawabanIndex:
+                btn.configure(bg="#A06A42", fg="white")
+                print(f"\n@@ Pilihan ke-{index+1} terpilih!")
+            else:
+                btn.configure(bg="white", fg="#4A2C11")
+    def reset_opsi():
+        for i, btn in tombol_pilihan_dict.items():
+            btn.configure(bg="white", fg="#4A2C11")
+            
+        jawaban.set(value="")
+        print("\n@@ Jawaban telah di reset!")
+    
+    def buat_item_opsi(parent, nomor_index, baris, kolom):
+        btn = tk.Button(parent, text=teks_pilihan[nomor_index], bg="white", fg="#4A2C11", font=("Helvetica", 10), relief="solid", bd=1)
+        btn.grid(row=baris, column=kolom, sticky="ew", padx=(0, 5), pady=5, ipady=8)
+        tombol_pilihan_dict[nomor_index] = btn
+        btn.configure(command=lambda opsi=nomor_index: pilih_opsi(opsi))
+        
 
-    btn_b = tk.Button(opsi_frame, text=teks_pilihan[1], bg="#A06A42", fg="white", font=("Helvetica", 10), relief="solid", bd=1) # Opsi terpilih
-    btn_b.grid(row=0, column=1, sticky="ew", padx=(5, 0), pady=5, ipady=8)
-
-    btn_c = tk.Button(opsi_frame, text=teks_pilihan[2], bg="white", fg="#4A2C11", font=("Helvetica", 10), relief="solid", bd=1)
-    btn_c.grid(row=1, column=0, sticky="ew", padx=(0, 5), pady=5, ipady=8)
-
-    btn_d = tk.Button(opsi_frame, text=teks_pilihan[3], bg="white", fg="#4A2C11", font=("Helvetica", 10), relief="solid", bd=1)
-    btn_d.grid(row=1, column=1, sticky="ew", padx=(5, 0), pady=5, ipady=8)
+    buat_item_opsi(opsi_frame, 0, 0, 0)
+    buat_item_opsi(opsi_frame, 1, 0, 1)
+    buat_item_opsi(opsi_frame, 2, 1, 0)
+    buat_item_opsi(opsi_frame, 3, 1, 1)
 
     # 6. Umpan Balik (Feedback Box)
     feedback_label = tk.Label(ROOT, text="Benar! List ditulis dengan tanda kurung siku.", bg="#A0B084", fg="#4A2C11", font=("Helvetica", 9, "bold"))
@@ -352,8 +365,12 @@ def halaman_soal_quiz(ROOT):
                            command=lambda: {bersihkan_layar(ROOT),halaman_homescreen(ROOT)})
     btn_keluar.pack(side="left", ipady=5)
 
-    label_skor = tk.Label(bottom_frame, text="Skor: 20", font=("Helvetica", 10), fg="#4A2C11", bg="#F4EFE6")
-    label_skor.pack(side="left", expand=True)
+
+
+    label_reset = tk.Button(bottom_frame, text="Reset Jawaban", font=("Helvetica", 10), fg="#4A2C11", bg="#F4EFE6",  
+                            relief="sunken", bd=1, width=16,
+                            command=lambda:reset_opsi())
+    label_reset.pack(side="left", expand=True)
 
     btn_berikutnya = tk.Button(bottom_frame, text="Berikutnya", bg="#4A2C11", fg="white", font=("Helvetica", 10, "bold"), width=12)
     btn_berikutnya.pack(side="right", ipady=5)
