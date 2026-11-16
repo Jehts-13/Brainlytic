@@ -104,12 +104,15 @@ python main.py
 ## Struktur Folder
 
 ```
-[NamaAplikasi_KelompokN]/
-├── main.py            # [titik masuk aplikasi dan tampilan]
-├── logika.py          # [perhitungan, validasi, pengolahan koleksi]
-├── penyimpanan.py     # [baca/tulis file data]
+Brainlytic_Ventus/
+├── main.py                   # [titik masuk aplikasi dan tampilan]
+├── gui.py                    # [tempat tampilan aplikasi, validasi input]
+├── logika.py                 # [perhitungan,  pengolahan koleksi]
+├── penyimpanan.py            # [baca/tulis file data]
 ├── data/
-│   └── [data.txt]     # [file data]
+│   └── [daftar_quiz.csv]     # [file data]
+│   └── [soal_quiz.csv]       # [file data]
+│   └── [user_history.csv]    # [file data]
 ├── screenshots/
 └── README.md
 ```

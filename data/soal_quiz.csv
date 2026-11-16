@@ -1,5 +1,5 @@
 nama_quiz,deskripsi_soal,opsi_a,opsi_b,opsi_c,opsi_d,jawaban_benar,penjelasan
-Dasar Python,Apa output dari print(type([]))?,List,<class 'list'>,Array,Error,1,List ditulis dengan kurung siku.
+Dasar Python,Apa output dari print(type([]))?,List,<class 'list'>,Array,Error,0,List ditulis dengan kurung siku.
 Dasar Python,Tipe data untuk teks adalah?,Integer,String,Boolean,Float,1,String digunakan untuk teks.
 Struktur Kontrol,Manakah yang merupakan perulangan?,If,For,While,Switch,2,For digunakan untuk perulangan.
 Struktur Kontrol,Manakah yang digunakan untuk percabangan?,If,For,While,Switch,1,If digunakan untuk percabangan.
@@ -24,3 +24,4 @@ Sains Umum,Apa itu hukum kekekalan energi nuklir?,Energi nuklir tidak dapat dici
 Sains Umum,Apa itu hukum kekekalan energi kimia?,Energi kimia tidak dapat diciptakan atau dimusnahkan, hanya dapat diubah bentuknya,Energi kimia dapat diciptakan dan dimusnahkan sesuai kebutuhan,Energi kimia hanya dapat diciptakan, tidak dapat dimusnahkan,Energi kimia hanya dapat dimusnahkan, tidak dapat diciptakan,1,Hukum kekekalan energi kimia menyatakan bahwa energi kimia tidak dapat diciptakan atau dimusnahkan, hanya dapat diubah bentuknya.
 Sains Umum,Apa itu hukum kekekalan energi mekanik?,Energi mekanik tidak dapat diciptakan atau dimusnahkan, hanya dapat diubah bentuknya,Energi mekanik dapat diciptakan dan dimusnahkan sesuai kebutuhan,Energi mekanik hanya dapat diciptakan, tidak dapat dimusnahkan,Energi mekanik hanya dapat dimusnahkan, tidak dapat diciptakan,1,Hukum kekekalan energi mekanik menyatakan bahwa energi mekanik tidak dapat diciptakan atau dimusnahkan, hanya dapat diubah bentuknya.
 Sains Umum,Apa itu hukum kekekalan energi termal?,Energi termal tidak dapat diciptakan atau dimusnahkan, hanya dapat diubah bentuknya,Energi termal dapat diciptakan dan dimusnahkan sesuai kebutuhan,Energi termal hanya dapat diciptakan, tidak dapat dimusnahkan,Energi termal hanya dapat dimusnahkan, tidak dapat diciptakan,1,Hukum kekekalan energi termal menyatakan bahwa energi termal tidak dapat diciptakan atau dimusnahkan, hanya dapat diubah bentuknya.
+tes,deskripsi_teks_soal_quiz_tes,pilihan_jawaban_teks_quiz_tes_1,pilihan_jawaban_teks_quiz_tes_2,pilihan_jawaban_teks_quiz_tes_3,pilihan_jawaban_teks_quiz_tes_4,0,ini_adalah_teks_penjelasan
