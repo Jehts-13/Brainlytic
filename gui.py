@@ -282,9 +282,18 @@ def halaman_soal_quiz(ROOT):
             timer_id = ROOT.after(1000, update_timer)
         else:
             # 3. Jika waktu habis, proses selesai tanpa menjadwalkan .after() lagi
-            logika.hitung_skor()
+            try:
+                logika.simpan_jawaban_soal(None)
+                logika.hitung_skor(0)
+            except IndexError:
+                print("The Quiz has encountered an error!\t# Cannot continue the process!")
+                print("Cancelling the quiz...")
+                logika.reset_data()
+                bersihkan_layar(ROOT)
+                halaman_homescreen(ROOT)
+                return
             bersihkan_layar(ROOT)
-            halaman_hasil_quiz(ROOT, username_var.get(), waktu=batas_waktu)
+            halaman_hasil_quiz(ROOT)
 
     timer_id = ROOT.after(1000, update_timer)
 
@@ -382,7 +391,7 @@ def halaman_soal_quiz(ROOT):
         try:
             # Menyimpan jawaban ke penyimpanan sementara
             nonlocal nomor_soal 
-            logika.simpan_jawaban_soal(jawaban.get())
+            logika.simpan_jawaban_soal(jawaban.get() if jawaban.get() != "" else None)
             
             # Jika jumlah_soal == nomor_soal+1, lanjut ke hasil quiz
             if jumlah_soal == nomor_soal + 1:

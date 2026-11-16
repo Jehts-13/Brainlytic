@@ -50,6 +50,7 @@ def simpan_jawaban_soal(index_jawaban):
     if Riwayat_jawaban is None:
         Riwayat_jawaban = []
     Riwayat_jawaban.append(index_jawaban)
+    
 
     Nomor_soal += 1
     return
@@ -59,21 +60,23 @@ def hitung_skor(sisa_waktu):
     global Jumlah_benar, Jumlah_salah, Skor, Waktu_digunakan, Riwayat_jawaban, Jumlah_soal, Judul_quiz
     jawaban = load_quiz_jawaban(Judul_quiz)
     # Menghitung jumlah jawaban benar dan salah
-    for i in range(Jumlah_soal):
-        if Riwayat_jawaban[i] == jawaban[i]:
-            Jumlah_benar += 1
-            print(f"Riwayat_jawaban {Riwayat_jawaban[i]} == jawaban {jawaban[i]} (Benar)")
-        else:
-            Jumlah_salah += 1
-            print(f"Riwayat_jawaban {Riwayat_jawaban[i]} != jawaban {jawaban[i]} (Salah)")
-    # Menghitung persentase skor
-    Skor = int((Jumlah_benar / Jumlah_soal) * 100)
-    print(f"Jumlah Benar: {Jumlah_benar:<5}Jumlah Salah: {Jumlah_salah:<5}Skor: {f"{Skor:.2f}":<7}")
-    # Menghitung waktu yang digunakan
-    Waktu_digunakan = Total_waktu - sisa_waktu
+    try:
+        for i in range(Jumlah_soal):
+            if Riwayat_jawaban[i] == jawaban[i]:
+                Jumlah_benar += 1
+                print(f"Riwayat_jawaban {Riwayat_jawaban[i]} == jawaban {jawaban[i]} (Benar)")
+            else:
+                Jumlah_salah += 1
+                print(f"Riwayat_jawaban {Riwayat_jawaban[i]} != jawaban {jawaban[i]} (Salah)")
+        # Menghitung persentase skor
+        Skor = int((Jumlah_benar / Jumlah_soal) * 100)
+        print(f"Jumlah Benar: {Jumlah_benar:<5}Jumlah Salah: {Jumlah_salah:<5}Skor: {f"{Skor:.2f}":<7}")
+        # Menghitung waktu yang digunakan
+        Waktu_digunakan = Total_waktu - sisa_waktu
 
-    simpan_hasil_quiz(username, Judul_quiz, Skor, Jumlah_benar, Jumlah_salah, Waktu_digunakan)
-
+        simpan_hasil_quiz(username, Judul_quiz, Skor, Jumlah_benar, Jumlah_salah, Waktu_digunakan)
+    except IndexError:
+        return IndexError
 
 def format_waktu(SISA_DETIK):
     '''
