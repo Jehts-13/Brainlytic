@@ -6,7 +6,8 @@ import tkinter as tk
 # bukan saat diimpor oleh file lain.
 root = tk.Tk()
 root.title("Aplikasi quiz Interaktif")
-root.geometry("600x450")
+root.geometry("800x600")
+root.resizable(False, False)
 root.configure(bg="#F4EFE6")
 
 if __name__ == "__main__":
