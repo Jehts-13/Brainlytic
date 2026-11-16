@@ -562,7 +562,8 @@ def halaman_papan_skor(ROOT):
     bottom_frame = tk.Frame(main_frame, bg="#F4EFE6")
     bottom_frame.pack(fill="x", pady=(20, 10))
 
-    btn_kembali = tk.Button(bottom_frame, text="Kembali", bg="white", fg="#4A2C11", font=("Helvetica", 10), width=15, relief="solid", bd=1)
+    btn_kembali = tk.Button(bottom_frame, text="Kembali", bg="white", fg="#4A2C11", font=("Helvetica", 10), width=15, relief="solid", bd=1,
+                            command=lambda: {bersihkan_layar(ROOT), halaman_homescreen(ROOT)})
     btn_kembali.pack(side="left", ipady=5)
 
 
@@ -645,14 +646,20 @@ def halaman_buat_quiz_soal(ROOT):
     bottom_frame = tk.Frame(ROOT, bg="#F4EFE6")
     bottom_frame.pack(fill="x", padx=20, pady=(0, 20))
 
-    btn_kembali = tk.Button(bottom_frame, text="Kembali", bg="white", fg="#4A2C11", font=("Helvetica", 10, "bold"), width=15, relief="solid", bd=1, command=lambda: halaman_buat_kepala_quiz(ROOT))
+    btn_kembali = tk.Button(bottom_frame, text="Kembali", bg="white", fg="#4A2C11", font=("Helvetica", 10, "bold"), width=15, relief="solid", bd=1, 
+                            command=lambda: {
+                                bersihkan_layar(ROOT), 
+                                halaman_buat_kepala_quiz(ROOT)
+                            })
     btn_kembali.pack(side="left", ipady=5)
 
-    btn_simpan = tk.Button(bottom_frame, text="Simpan Quiz", bg="#4A2C11", fg="white", font=("Helvetica", 10, "bold"), width=15)
+    btn_simpan = tk.Button(bottom_frame, text="Simpan Quiz", bg="#4A2C11", fg="white", font=("Helvetica", 10, "bold"), width=15,
+                           command=lambda: {
+                               bersihkan_layar(ROOT),
+                               halaman_homescreen(ROOT)
+                           })
     btn_simpan.pack(side="right", ipady=5)
     
-    btn_hapus = tk.Button(bottom_frame, text="Hapus Soal", bg="white", fg="#4A2C11", font=("Helvetica", 10, "bold"), width=15, relief="solid", bd=1)
-    btn_hapus.pack(side="right", padx=10, ipady=5)
 
 
 def halaman_buat_kepala_quiz(ROOT):
@@ -719,11 +726,18 @@ def halaman_buat_kepala_quiz(ROOT):
     bottom_frame = tk.Frame(ROOT, bg="#F4EFE6")
     bottom_frame.pack(fill="x", padx=40, pady=20)
 
-    btn_batal = tk.Button(bottom_frame, text="Batal", bg="white", fg="#4A2C11", font=("Helvetica", 10, "bold"), width=15, relief="solid", bd=1)
+    btn_batal = tk.Button(bottom_frame, text="Batal", bg="white", fg="#4A2C11", font=("Helvetica", 10, "bold"), width=15, relief="solid", bd=1,
+                          command=lambda:{
+                              bersihkan_layar(ROOT),
+                              halaman_homescreen(ROOT)
+                          })
     btn_batal.pack(side="left", ipady=5)
 
-    btn_lanjut = tk.Button(bottom_frame, text="Lanjut: Tambah Soal", bg="#4A2C11", fg="white", font=("Helvetica", 10, "bold"), width=20)
-    # Catatan: tambahkan command=lambda: halaman_buat_quiz_soal(ROOT) pada btn_lanjut untuk menyambungkan navigasi
+    btn_lanjut = tk.Button(bottom_frame, text="Lanjut: Tambah Soal", bg="#4A2C11", fg="white", font=("Helvetica", 10, "bold"), width=20,
+                           command= lambda: {
+                               bersihkan_layar(ROOT), 
+                               halaman_buat_quiz_soal(ROOT)
+                           })
     btn_lanjut.pack(side="right", ipady=5)
 
 
@@ -835,5 +849,5 @@ if __name__ == "__main__":
     root = tk.Tk()
     root.title("Aplikasi quiz Interaktif")
     root.geometry("800x600")
-    halaman_tinjau_jawaban(root)
+    halaman_buat_kepala_quiz(root)
     root.mainloop()
