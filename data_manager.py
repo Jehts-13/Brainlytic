@@ -55,7 +55,6 @@ def load_quiz_soal(JUDUL,  filepath="data/soal_quiz.csv"):
     '''
     Mengambil data secara default dari data/soal_quiz.csv dan menyimpannya sementara di logika.py
     '''
-    
     if not os.path.exists(filepath):
         return None  # Return None if the file doesn't exist
     
@@ -92,8 +91,19 @@ def load_quiz_jawaban(JUDUL, filepath="data/soal_quiz.csv"):
         return None
     
 def load_user_history(filepath="data/user_history.csv"):
-    '''Mengambil seluruh data dari user'''
-    pass
+    '''
+    Mengambil seluruh data dari user
+    '''
+    if not os.path.exists(filepath):
+        return []
+    
+    daftar_user_history = []
+    with open(filepath, mode='r', encoding='utf-8') as file:
+        csv_reader = csv.DictReader(file)
+        
+        for row in csv_reader:
+            daftar_user_history.append(dict(row))
+    return daftar_user_history
     
 def simpan_hasil_quiz(username, judul_quiz, skor, jumlah_benar, jumlah_salah, waktu_digunakan, filepath="data/user_history.csv"):
     # Implementasikan logika untuk menyimpan hasil quiz ke file 

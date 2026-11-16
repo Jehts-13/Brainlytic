@@ -100,3 +100,12 @@ def reset_data():
     Skor = 0
     
     print("Temporary Data sudah di reset!")
+    
+user_history_dict = None    
+
+def sort_user_history(data):
+    '''
+    Mengembalikan data_user_history yang telah di sort berdasarkan nilai yang di ambil dari quiz yang sama, kemudian berdasarkan tanggal dan waktu pengerjaan
+    '''
+    pass
+    
