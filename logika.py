@@ -41,7 +41,14 @@ def lanjut_quiz(PILIHAN):
 def ambil_rasio_progressbar():
     return (Nomor_soal+1 / Jumlah_soal)
 
-
+def simpan_jawaban_soal(nomor_soal, index_jawaban):
+    if nomor_soal != Nomor_soal:
+        print("Error[!]:\tnomor soal di gui.py dan logika.py tidak selaras")
+        return KeyError
+    Riwayat_jawaban.append(index_jawaban)
+    Nomor_soal += 1
+    
+    
 
 
 

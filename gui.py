@@ -333,24 +333,32 @@ def halaman_soal_quiz(ROOT):
                 print(f"\n@@ Pilihan ke-{index+1} terpilih!")
             else:
                 btn.configure(bg="white", fg="#4A2C11")
+
     def reset_opsi():
-        for i, btn in tombol_pilihan_dict.items():
+        for btn in tombol_pilihan_dict.values():
             btn.configure(bg="white", fg="#4A2C11")
             
         jawaban.set(value="")
         print("\n@@ Jawaban telah di reset!")
     
     def buat_item_opsi(parent, nomor_index, baris, kolom):
+        nonlocal teks_pilihan
         btn = tk.Button(parent, text=teks_pilihan[nomor_index], bg="white", fg="#4A2C11", font=("Helvetica", 10), relief="solid", bd=1)
         btn.grid(row=baris, column=kolom, sticky="ew", padx=(0, 5), pady=5, ipady=8)
         tombol_pilihan_dict[nomor_index] = btn
         btn.configure(command=lambda opsi=nomor_index: pilih_opsi(opsi))
         
-
+    def update_pilihan():
+        nonlocal teks_pilihan
+        for index, btn in tombol_pilihan_dict.items():
+            btn.configure(text=teks_pilihan[index])
+    
     buat_item_opsi(opsi_frame, 0, 0, 0)
     buat_item_opsi(opsi_frame, 1, 0, 1)
     buat_item_opsi(opsi_frame, 2, 1, 0)
     buat_item_opsi(opsi_frame, 3, 1, 1)
+        
+    update_pilihan()
 
     # 6. Tombol Navigasi Bawah
     bottom_frame = tk.Frame(ROOT, bg="#F4EFE6")
@@ -361,14 +369,35 @@ def halaman_soal_quiz(ROOT):
                            command=lambda: {bersihkan_layar(ROOT),halaman_homescreen(ROOT)})
     btn_keluar.pack(side="left", ipady=5)
 
-
-
     label_reset = tk.Button(bottom_frame, text="Reset Jawaban", font=("Helvetica", 10), fg="#4A2C11", bg="#F4EFE6",  
                             relief="sunken", bd=1, width=16,
                             command=lambda:reset_opsi())
     label_reset.pack(side="left", expand=True)
 
-    btn_berikutnya = tk.Button(bottom_frame, text="Berikutnya", bg="#4A2C11", fg="white", font=("Helvetica", 10, "bold"), width=12)
+    def load_berikutnya():
+        try:
+            # Menyimpan jawaban ke penyimpanan sementara
+            logika.simpan_jawaban_soal(nomor_soal, jawaban)
+            nomor_soal += 1
+            
+            nonlocal panjang_progres, pertanyaan, teks_pilihan
+            # mengupdate progressbar
+            panjang_progres = logika.ambil_rasio_progressbar()
+            update_progressbar()
+            # load soal yang baru
+            pertanyaan = logika.Soal[nomor_soal]['deskripsi']
+            teks_pertanyaan_frame.configure(text=pertanyaan)
+            # load pilihan yang baru
+            teks_pilihan = logika.Soal[nomor_soal]['pilihan']
+            update_pilihan
+            
+        except KeyError:
+            messagebox.showerror("Error!", "Terjadi kesalahan penyimpanan jawaban")
+
+    btn_berikutnya = tk.Button(bottom_frame, text="Berikutnya", bg="#4A2C11", fg="white", font=("Helvetica", 10, "bold"), width=12,
+                               command=lambda: {
+                                   load_berikutnya()
+                               })
     btn_berikutnya.pack(side="right", ipady=5)
 
 def halaman_hasil_quiz(ROOT, nama_pemain="Budi", skor=80, benar=8, salah=2, waktu="02:45"):
