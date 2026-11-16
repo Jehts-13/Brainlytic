@@ -387,7 +387,6 @@ def halaman_soal_quiz(ROOT):
             if jumlah_soal == nomor_soal + 1:
                 logika.hitung_skor()
                 halaman_hasil_quiz(ROOT)
-                logika.reset_data()
             # selain itu, update nomor_soal untuk lanjut ke soal berikutnya
             reset_opsi()
             nomor_soal += 1

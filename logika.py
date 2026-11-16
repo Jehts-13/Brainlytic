@@ -59,7 +59,17 @@ def simpan_jawaban_soal(nomor_soal, index_jawaban):
     
 def hitung_skor():
     '''Menghitung jumlah benar dan salah, persentase skor, serta menghitung waktu yang digunakan'''
-    
+    global Jumlah_benar, Jumlah_salah, Skor, Waktu_digunakan, Soal, Riwayat_jawaban, Jumlah_soal
+    # Menghitung jumlah jawaban benar dan salah
+    for i in range(Jumlah_soal):
+        if Riwayat_jawaban[i] == Soal[i]['jawaban_benar']:
+            Jumlah_benar += 1
+        else:
+            Jumlah_salah += 1
+    # Menghitung persentase skor
+    Skor = (Jumlah_benar / Jumlah_soal) * 100
+    # Menghitung waktu yang digunakan
+    Waktu_digunakan = Total_waktu - Sisa_waktu
 
 
 
