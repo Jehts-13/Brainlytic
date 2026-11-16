@@ -4,12 +4,18 @@ from data_manager import *
 username = ""
 Judul_quiz = ""
 Jumlah_soal = -1
+
 Total_waktu = -1
-Sisa_waktu = -1
+Waktu_digunakan = -1
+
 Nomor_soal = -1 # quiz belum dimulai memiliki nilai Nomor_soal -1
 # variabel soal menyimpan dictionary yang berisi deskripsi_soal dan list pilihan
 Soal = None
 Riwayat_jawaban = None
+
+Jumlah_benar = 0
+Jumlah_salah = 0
+Skor = 0
 
 
 def simpan_nama_pemain(NAMA):
@@ -42,13 +48,16 @@ def ambil_rasio_progressbar():
     return (Nomor_soal+1 / Jumlah_soal)
 
 def simpan_jawaban_soal(nomor_soal, index_jawaban):
+    global Nomor_soal, Riwayat_jawaban
     if nomor_soal != Nomor_soal:
         print("Error[!]:\tnomor soal di gui.py dan logika.py tidak selaras")
         return KeyError
     Riwayat_jawaban.append(index_jawaban)
     Nomor_soal += 1
     
-    
+def hitung_skor():
+    '''Menghitung jumlah benar dan salah, persentase skor, serta menghitung waktu yang digunakan'''
+    pass
 
 
 

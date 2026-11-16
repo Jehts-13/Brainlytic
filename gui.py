@@ -177,10 +177,10 @@ def halaman_pilih_quiz(ROOT):
         # Iterasi semua tombol di dalam dictionary
         for nama, tombol in tombol_kuis_dict.items():
             if nama == judul_quiz:
-                # Ubah tombol yang dipilih menjadi cokelat dengan teks putih[cite: 2]
+                # Ubah tombol yang dipilih menjadi cokelat dengan teks putih
                 tombol.configure(bg="#A06A42", fg="white")
             else:
-                # Reset tombol lainnya kembali ke putih[cite: 2]
+                # Reset tombol lainnya kembali ke putih
                 tombol.configure(bg="white", fg="#4A2C11")
 
     # --- FUNGSI MEMBUAT TOMBOL ---
@@ -239,7 +239,7 @@ def halaman_soal_quiz(ROOT):
     batas_waktu = logika.Total_waktu
     sisa_waktu = batas_waktu
     nomor_soal = logika.Nomor_soal
-    print(f"batas waktu:    {batas_waktu}")
+    print(f"batas waktu:\t{batas_waktu}")
 
     ROOT.configure(bg="#F4EFE6")
 
@@ -248,9 +248,11 @@ def halaman_soal_quiz(ROOT):
     header_frame.pack(fill="x", padx=20, pady=(15, 5))
 
     # text indikator soal
-    text_indikator_soal = f"Soal {nomor_soal} dari {jumlah_soal}"  # Contoh teks indikator soal
+    def text_indikator_soal():
+        nonlocal nomor_soal, jumlah_soal
+        return f"Soal {nomor_soal+1} dari {jumlah_soal}" 
 
-    label_soal = tk.Label(header_frame, text=text_indikator_soal, font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    label_soal = tk.Label(header_frame, text=text_indikator_soal(), font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
     label_soal.pack(side="left")
 
     
@@ -279,7 +281,7 @@ def halaman_soal_quiz(ROOT):
             timer_id = ROOT.after(1000, update_timer)
         else:
             # 3. Jika waktu habis (0), proses selesai tanpa menjadwalkan .after() lagi
-            save_hasil_quiz()
+            logika.hitung_skor()
             bersihkan_layar(ROOT)
             halaman_hasil_quiz(ROOT, username_var.get(), waktu=batas_waktu)
 
@@ -300,6 +302,7 @@ def halaman_soal_quiz(ROOT):
     progress_bg.pack_propagate(False) # Mencegah frame bg mengecil mengikuti isi
     
     def update_progressbar():
+        label_soal.configure(text=text_indikator_soal())
         progress_fill.place(x=0,y=0, relheight=1.0, relwidth=panjang_progres)
     
     # Mengupdate progress_bar di awal
@@ -377,8 +380,16 @@ def halaman_soal_quiz(ROOT):
     def load_berikutnya():
         try:
             # Menyimpan jawaban ke penyimpanan sementara
+            nonlocal nomor_soal 
             logika.simpan_jawaban_soal(nomor_soal, jawaban)
+            # Jika jumlah_soal == nomor_soal+1, lanjut ke hasil quiz
+            if jumlah_soal == nomor_soal + 1:
+                logika.hitung_skor()
+                halaman_hasil_quiz(ROOT)
+                logika.reset_data()
+            # selain itu, update nomor_soal untuk lanjut ke soal berikutnya
             nomor_soal += 1
+            print(f"{nomor_soal}")
             
             nonlocal panjang_progres, pertanyaan, teks_pilihan
             # mengupdate progressbar
@@ -389,10 +400,12 @@ def halaman_soal_quiz(ROOT):
             teks_pertanyaan_frame.configure(text=pertanyaan)
             # load pilihan yang baru
             teks_pilihan = logika.Soal[nomor_soal]['pilihan']
-            update_pilihan
+            update_pilihan()
             
         except KeyError:
             messagebox.showerror("Error!", "Terjadi kesalahan penyimpanan jawaban")
+        except IndexError:
+            print(f"{nomor_soal} index is not in the list!")
 
     btn_berikutnya = tk.Button(bottom_frame, text="Berikutnya", bg="#4A2C11", fg="white", font=("Helvetica", 10, "bold"), width=12,
                                command=lambda: {
@@ -400,60 +413,67 @@ def halaman_soal_quiz(ROOT):
                                })
     btn_berikutnya.pack(side="right", ipady=5)
 
-def halaman_hasil_quiz(ROOT, nama_pemain="Budi", skor=80, benar=8, salah=2, waktu="02:45"):
+def halaman_hasil_quiz(ROOT):
+    
+    # VARIABEL: 
+    jumlah_benar = logika.Jumlah_salah
+    jumlah_salah = logika.Jumlah_benar
+    skor = logika.Skor
+    waktu = logika.Waktu_digunakan
+    
     # Membersihkan layar dari widget sebelumnya
     for widget in ROOT.winfo_children():
         widget.destroy()
         
-    ROOT.configure(bg="#F4EFE6")
+    ROOT.configure(bg="#F4EFE6") 
 
     # Kontainer Utama untuk menengahkan konten
     main_frame = tk.Frame(ROOT, bg="#F4EFE6")
     main_frame.pack(expand=True)
 
-    # Judul / Header[cite: 5]
-    judul = tk.Label(main_frame, text=f"quiz selesai, {nama_pemain}!", font=("Helvetica", 24, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    # Judul / Header
+    judul = tk.Label(main_frame, text=f"quiz selesai, {username_var.get()}!", font=("Helvetica", 24, "bold"), fg="#4A2C11", bg="#F4EFE6")
     judul.pack(pady=(0, 20))
 
-    # Tampilan Skor dengan Lingkaran (menggunakan Canvas)[cite: 5]
+    # Tampilan Skor dengan Lingkaran (menggunakan Canvas)
     canvas = tk.Canvas(main_frame, width=160, height=160, bg="#F4EFE6", highlightthickness=0)
     canvas.pack(pady=10)
     
-    # Gambar background lingkaran cokelat[cite: 5]
+    # Gambar background lingkaran cokelat
     canvas.create_oval(10, 10, 150, 150, fill="#A06A42", outline="#A06A42")
-    # Teks angka skor di tengah lingkaran[cite: 5]
+    # Teks angka skor di tengah lingkaran
     canvas.create_text(80, 80, text=f"{skor}/100", font=("Helvetica", 24, "bold"), fill="white")
 
-    # Frame untuk deretan Statistik (Benar, Salah, Waktu)[cite: 5]
+    # Frame untuk deretan Statistik (Benar, Salah, Waktu)
     stats_frame = tk.Frame(main_frame, bg="#F4EFE6")
     stats_frame.pack(pady=20)
 
-    # Kotak Jawaban Benar (Background Hijau)[cite: 5]
-    box_benar = tk.Label(stats_frame, text=f"Benar: {benar}", font=("Helvetica", 11, "bold"), bg="#A0B084", fg="#4A2C11", width=15, height=2)
+    # Kotak Jawaban Benar (Background Hijau)
+    box_benar = tk.Label(stats_frame, text=f"Benar: {jumlah_benar}", font=("Helvetica", 11, "bold"), bg="#A0B084", fg="#4A2C11", width=15, height=2)
     box_benar.grid(row=0, column=0, padx=10)
 
-    # Kotak Jawaban Salah (Background Putih, Border Cokelat)[cite: 5]
-    box_salah = tk.Label(stats_frame, text=f"Salah: {salah}", font=("Helvetica", 11, "bold"), bg="white", fg="#A06A42", width=15, height=2, relief="solid", bd=1)
+    # Kotak Jawaban Salah (Background Putih, Border Cokelat)
+    box_salah = tk.Label(stats_frame, text=f"Salah: {jumlah_salah}", font=("Helvetica", 11, "bold"), bg="white", fg="#A06A42", width=15, height=2, relief="solid", bd=1)
     box_salah.grid(row=0, column=1, padx=10)
 
-    # Kotak Waktu (Background Putih, Border Cokelat)[cite: 5]
+    # Kotak Waktu (Background Putih, Border Cokelat)
     box_waktu = tk.Label(stats_frame, text=f"Waktu: {waktu}", font=("Helvetica", 11, "bold"), bg="white", fg="#4A2C11", width=15, height=2, relief="solid", bd=1)
     box_waktu.grid(row=0, column=2, padx=10)
 
-    # Frame untuk Navigasi Tombol Bawah[cite: 5]
+    # Frame untuk Navigasi Tombol Bawah
     btn_frame = tk.Frame(main_frame, bg="#F4EFE6")
     btn_frame.pack(pady=20)
 
-    # Tombol Tinjau Jawaban[cite: 5]
+    # Tombol Tinjau Jawaban
     btn_tinjau = tk.Button(btn_frame, text="Tinjau Jawaban", bg="white", fg="#4A2C11", font=("Helvetica", 10), width=15, relief="solid", bd=1)
     btn_tinjau.grid(row=0, column=0, padx=10, ipady=5)
 
-    # Tombol Papan Skor[cite: 5]
+    # Tombol Papan Skor
     btn_papan = tk.Button(btn_frame, text="Papan Skor", bg="white", fg="#4A2C11", font=("Helvetica", 10), width=15, relief="solid", bd=1,
                           command=lambda: halaman_papan_skor(ROOT))
     btn_papan.grid(row=0, column=1, padx=10, ipady=5)
 
-    # Tombol Main Lagi[cite: 5]
+    # Tombol Main Lagi
     btn_main = tk.Button(btn_frame, text="Main Lagi", bg="#4A2C11", fg="white", font=("Helvetica", 10, "bold"), width=15,
                         command=lambda: {
                             bersihkan_layar(ROOT),  # Bersihkan halaman 
@@ -463,13 +483,13 @@ def halaman_hasil_quiz(ROOT, nama_pemain="Budi", skor=80, benar=8, salah=2, wakt
     btn_main.grid(row=0, column=2, padx=10, ipady=5)
 
 def halaman_papan_skor(ROOT):
-    # Membersihkan layar dari widget sebelumnya[cite: 3]
+    # Membersihkan layar dari widget sebelumnya
     for widget in ROOT.winfo_children():
         widget.destroy()
 
     ROOT.configure(bg="#F4EFE6")
 
-    # Bilah Atas[cite: 1]
+    # Bilah Atas
     top_bar = tk.Frame(ROOT, bg="#A0B084", height=25)
     top_bar.pack(fill="x")
     
@@ -480,7 +500,7 @@ def halaman_papan_skor(ROOT):
     main_frame = tk.Frame(ROOT, bg="#F4EFE6")
     main_frame.pack(expand=True, fill="both", padx=40, pady=20)
 
-    # Header Frame (Judul & Filter Kategori)[cite: 1]
+    # Header Frame (Judul & Filter Kategori)
     header_frame = tk.Frame(main_frame, bg="#F4EFE6")
     header_frame.pack(fill="x", pady=(10, 20))
 
@@ -490,11 +510,11 @@ def halaman_papan_skor(ROOT):
     btn_filter = tk.Button(header_frame, text="Semua kategori", bg="white", fg="#4A2C11", font=("Helvetica", 10), relief="solid", bd=1, padx=15)
     btn_filter.pack(side="right", ipady=2)
 
-    # Tabel Frame[cite: 1]
+    # Tabel Frame
     tabel_frame = tk.Frame(main_frame, bg="#F4EFE6")
     tabel_frame.pack(fill="x")
 
-    # Header Tabel (Background Cokelat)[cite: 1]
+    # Header Tabel (Background Cokelat)
     header_bg = "#4A2C11"
     header_fg = "white"
     row_header = tk.Frame(tabel_frame, bg=header_bg)
@@ -513,7 +533,7 @@ def halaman_papan_skor(ROOT):
         ("", "", "")
     ]
 
-    # Melakukan iterasi untuk membuat baris Tabel[cite: 1]
+    # Melakukan iterasi untuk membuat baris Tabel
     for rank, data in enumerate(data_skor):
         row_frame = tk.Frame(tabel_frame, bg="white", relief="solid", bd=1)
         row_frame.pack(fill="x", pady=4, ipady=5)
@@ -527,7 +547,7 @@ def halaman_papan_skor(ROOT):
     spacer = tk.Frame(main_frame, bg="#F4EFE6")
     spacer.pack(expand=True, fill="both")
 
-    # Tombol Navigasi Bawah[cite: 1]
+    # Tombol Navigasi Bawah
     bottom_frame = tk.Frame(main_frame, bg="#F4EFE6")
     bottom_frame.pack(fill="x", pady=(20, 10))
 
@@ -625,31 +645,31 @@ def halaman_buat_quiz_soal(ROOT):
 
 
 def halaman_buat_kepala_quiz(ROOT):
-    # Membersihkan layar dari widget sebelumnya[cite: 1]
+    # Membersihkan layar dari widget sebelumnya
     for widget in ROOT.winfo_children():
         widget.destroy()
 
     ROOT.configure(bg="#F4EFE6")
 
-    # Bilah Atas[cite: 3]
+    # Bilah Atas
     top_bar = tk.Frame(ROOT, bg="#A0B084", height=25)
     top_bar.pack(fill="x")
     
     label_top = tk.Label(top_bar, text="QuizPy | Buat Quiz Baru (Langkah 1 dari 2)", bg="#A0B084", fg="#4A2C11", font=("Helvetica", 9, "bold"))
     label_top.pack(side="left", padx=10, pady=2)
 
-    # Header Judul Halaman[cite: 3]
+    # Header Judul Halaman
     header_frame = tk.Frame(ROOT, bg="#F4EFE6")
     header_frame.pack(fill="x", padx=40, pady=(20, 10))
 
     judul = tk.Label(header_frame, text="Informasi Quiz", font=("Helvetica", 24, "bold"), fg="#4A2C11", bg="#F4EFE6")
     judul.pack(side="left")
 
-    # Frame Kontainer Formulir[cite: 3]
+    # Frame Kontainer Formulir
     form_frame = tk.Frame(ROOT, bg="#F4EFE6")
     form_frame.pack(fill="both", expand=True, padx=40)
 
-    # Input Nama Quiz[cite: 3]
+    # Input Nama Quiz
     label_nama = tk.Label(form_frame, text="Nama quiz", font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
     label_nama.grid(row=0, column=0, sticky="w", pady=(10, 5))
     
@@ -657,7 +677,7 @@ def halaman_buat_kepala_quiz(ROOT):
     entry_nama.insert(0, "Contoh: Dasar Python")
     entry_nama.grid(row=1, column=0, columnspan=2, sticky="we", ipady=5)
 
-    # Input Deskripsi Quiz[cite: 3]
+    # Input Deskripsi Quiz
     label_deskripsi = tk.Label(form_frame, text="Deskripsi", font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
     label_deskripsi.grid(row=2, column=0, sticky="w", pady=(15, 5))
     
@@ -665,7 +685,7 @@ def halaman_buat_kepala_quiz(ROOT):
     entry_deskripsi.insert("1.0", "Jelaskan singkat isi quiz ini...")
     entry_deskripsi.grid(row=3, column=0, columnspan=2, sticky="we", pady=5)
 
-    # Input Kategori dan Batas Waktu (Bersebelahan)[cite: 3]
+    # Input Kategori dan Batas Waktu (Bersebelahan)
     label_kategori = tk.Label(form_frame, text="Kategori", font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
     label_kategori.grid(row=4, column=0, sticky="w", pady=(15, 5))
     
@@ -684,7 +704,7 @@ def halaman_buat_kepala_quiz(ROOT):
     form_frame.columnconfigure(0, weight=1)
     form_frame.columnconfigure(1, weight=1)
 
-    # Tombol Navigasi Bawah[cite: 3]
+    # Tombol Navigasi Bawah
     bottom_frame = tk.Frame(ROOT, bg="#F4EFE6")
     bottom_frame.pack(fill="x", padx=40, pady=20)
 
@@ -697,7 +717,7 @@ def halaman_buat_kepala_quiz(ROOT):
 
 
 def halaman_tinjau_jawaban(ROOT, data_tinjauan=None):
-    # Membersihkan layar dari widget sebelumnya[cite: 1]
+    # Membersihkan layar dari widget sebelumnya
     for widget in ROOT.winfo_children():
         widget.destroy()
 
@@ -736,7 +756,7 @@ def halaman_tinjau_jawaban(ROOT, data_tinjauan=None):
             }
         ]
 
-    # --- AREA SCROLL UNTUK DAFTAR TINJAUAN ---[cite: 2]
+    # --- AREA SCROLL UNTUK DAFTAR TINJAUAN ---
     scroll_container = tk.Frame(ROOT, bg="#F4EFE6")
     scroll_container.pack(fill="both", expand=True, padx=40, pady=(0, 20))
 
