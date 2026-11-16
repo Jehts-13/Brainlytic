@@ -91,6 +91,10 @@ def load_quiz_jawaban(JUDUL, filepath="data/soal_quiz.csv"):
     else:
         return None
     
+def load_user_history(filepath="data/user_history.csv"):
+    '''Mengambil seluruh data dari user'''
+    pass
+    
 def simpan_hasil_quiz(username, judul_quiz, skor, jumlah_benar, jumlah_salah, waktu_digunakan, filepath="data/user_history.csv"):
     # Implementasikan logika untuk menyimpan hasil quiz ke file 
     with open(filepath, mode='a', newline='', encoding='utf-8') as file:
