@@ -323,7 +323,7 @@ def halaman_soal_quiz(ROOT):
     pertanyaan_frame.pack(fill="x", padx=20, pady=10)
     
     pertanyaan = logika.Soal[nomor_soal]['deskripsi']
-    teks_pertanyaan_frame = tk.Label(pertanyaan_frame, text=pertanyaan, font=("Helvetica", 14, "bold"), fg="#4A2C11", bg="white")
+    teks_pertanyaan_frame = tk.Label(pertanyaan_frame, text=pertanyaan, font=("Helvetica", 14, "bold"), fg="#4A2C11", bg="white", wraplength=500)
     teks_pertanyaan_frame.pack(pady=20)
 
     # 5. Pilihan Ganda (Grid 2x2)
@@ -356,7 +356,7 @@ def halaman_soal_quiz(ROOT):
     
     def buat_item_opsi(parent, nomor_index, baris, kolom):
         nonlocal teks_pilihan
-        btn = tk.Button(parent, text=teks_pilihan[nomor_index], bg="white", fg="#4A2C11", font=("Helvetica", 10), relief="solid", bd=1)
+        btn = tk.Button(parent, text=teks_pilihan[nomor_index], bg="white", fg="#4A2C11", font=("Helvetica", 10), relief="solid", bd=1, wraplength=200)
         btn.grid(row=baris, column=kolom, sticky="ew", padx=(0, 5), pady=5, ipady=8)
         tombol_pilihan_dict[nomor_index] = btn
         btn.configure(command=lambda opsi=nomor_index: pilih_opsi(opsi))
