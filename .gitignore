@@ -1,1 +1,3 @@
 __pycache__
+*.pyc
+user_history.csv

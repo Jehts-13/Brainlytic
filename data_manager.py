@@ -1,6 +1,7 @@
 import csv
 import os
 import logika
+from datetime import datetime
 
 def validasi_data(filepath_daftar="data/daftar_quiz.csv", filepath_soal="data/soal_quiz.csv"):
     '''Fungsi untuk memvalidasi Jumlah Soal yang ada di daftar_quiz.csv dengan Jumlah Soal yang ada di soal_quiz.csv'''
@@ -92,4 +93,22 @@ def load_quiz_jawaban(JUDUL, filepath="data/soal_quiz.csv"):
     
 def simpan_hasil_quiz(username, judul_quiz, skor, jumlah_benar, jumlah_salah, waktu_digunakan, filepath="data/user_history.csv"):
     # Implementasikan logika untuk menyimpan hasil quiz ke file 
-    pass
+    with open(filepath, mode='a', newline='', encoding='utf-8') as file:
+        fieldnames = ['username', 'tanggal', 'judul_quiz', 'skor', 'jumlah_benar', 'jumlah_salah', 'waktu_digunakan']
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+        
+        # Jika file kosong, tulis header
+        if file.tell() == 0:
+            writer.writeheader()
+        
+        tanggal = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        writer.writerow({
+            'username': username,
+            'tanggal': tanggal,
+            'judul_quiz': judul_quiz,
+            'skor': skor,
+            'jumlah_benar': jumlah_benar,
+            'jumlah_salah': jumlah_salah,
+            'waktu_digunakan': waktu_digunakan
+        })
