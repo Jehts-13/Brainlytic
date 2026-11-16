@@ -343,7 +343,7 @@ def halaman_soal_quiz(ROOT):
             btn.configure(bg="white", fg="#4A2C11")
             
         jawaban.set(value="")
-        print("\n@@ Jawaban telah di reset!")
+        # print("\n@@ Jawaban telah di reset!")
     
     def buat_item_opsi(parent, nomor_index, baris, kolom):
         nonlocal teks_pilihan
@@ -382,15 +382,20 @@ def halaman_soal_quiz(ROOT):
         try:
             # Menyimpan jawaban ke penyimpanan sementara
             nonlocal nomor_soal 
-            logika.simpan_jawaban_soal(nomor_soal, jawaban)
+            logika.simpan_jawaban_soal(nomor_soal, jawaban.get())
+            
             # Jika jumlah_soal == nomor_soal+1, lanjut ke hasil quiz
             if jumlah_soal == nomor_soal + 1:
-                logika.hitung_skor()
+                logika.hitung_skor(sisa_waktu)
+                time.sleep(0.5)
                 halaman_hasil_quiz(ROOT)
+                return
+            
+            
             # selain itu, update nomor_soal untuk lanjut ke soal berikutnya
             reset_opsi()
+            print(f"Jawaban {nomor_soal} disimpan, nomor_soal bertambah 1")
             nomor_soal += 1
-            print(f"{nomor_soal}")
             
             nonlocal panjang_progres, pertanyaan, teks_pilihan
             # mengupdate progressbar
@@ -403,8 +408,6 @@ def halaman_soal_quiz(ROOT):
             teks_pilihan = logika.Soal[nomor_soal]['pilihan']
             update_pilihan()
             
-        except KeyError:
-            messagebox.showerror("Error!", "Terjadi kesalahan penyimpanan jawaban")
         except IndexError:
             print(f"{nomor_soal} index is not in the list!")
 
@@ -417,15 +420,13 @@ def halaman_soal_quiz(ROOT):
 def halaman_hasil_quiz(ROOT):
     
     # VARIABEL: 
-    jumlah_benar = logika.Jumlah_salah
-    jumlah_salah = logika.Jumlah_benar
+    jumlah_benar = logika.Jumlah_benar
+    jumlah_salah = logika.Jumlah_salah
     skor = logika.Skor
     waktu = logika.Waktu_digunakan
-    
+    print(f"Jumlah Benar: {jumlah_benar:<5}\nJumlah Salah: {jumlah_salah:<5}\nSkor: {skor:<5}Waktu: {waktu:<5}")
     # Membersihkan layar dari widget sebelumnya
-    for widget in ROOT.winfo_children():
-        widget.destroy()
-        
+    bersihkan_layar(ROOT)
     ROOT.configure(bg="#F4EFE6") 
 
     # Kontainer Utama untuk menengahkan konten
@@ -458,7 +459,7 @@ def halaman_hasil_quiz(ROOT):
     box_salah.grid(row=0, column=1, padx=10)
 
     # Kotak Waktu (Background Putih, Border Cokelat)
-    box_waktu = tk.Label(stats_frame, text=f"Waktu: {waktu}", font=("Helvetica", 11, "bold"), bg="white", fg="#4A2C11", width=15, height=2, relief="solid", bd=1)
+    box_waktu = tk.Label(stats_frame, text=f"Waktu: {logika.format_waktu(waktu)}", font=("Helvetica", 11, "bold"), bg="white", fg="#4A2C11", width=15, height=2, relief="solid", bd=1)
     box_waktu.grid(row=0, column=2, padx=10)
 
     # Frame untuk Navigasi Tombol Bawah

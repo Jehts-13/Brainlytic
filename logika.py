@@ -35,9 +35,6 @@ def muat_quiz(JUDUL):
     
     Nomor_soal = 0
     Riwayat_jawaban = []
-    print(f"Jumlah soal:    {Jumlah_soal}\nTotal Waktu:    {Total_waktu}\n")
-    for i in range(Jumlah_soal):
-        print(f"{Soal[i]['deskripsi']}\nPilihan: {Soal[i]['pilihan']}")
     
 def lanjut_quiz(PILIHAN):
     '''
@@ -46,30 +43,34 @@ def lanjut_quiz(PILIHAN):
     Nomor_soal += 1
     
 def ambil_rasio_progressbar():
-    return (Nomor_soal / Jumlah_soal)
+    return (Nomor_soal+1) / Jumlah_soal
 
 def simpan_jawaban_soal(nomor_soal, index_jawaban):
     global Nomor_soal, Riwayat_jawaban
-    if nomor_soal != Nomor_soal:
-        print("Error[!]:\tnomor soal di gui.py dan logika.py tidak selaras")
-        return KeyError
-    # J
+    if Riwayat_jawaban is None:
+        Riwayat_jawaban = []
     Riwayat_jawaban.append(index_jawaban)
+
     Nomor_soal += 1
+    return
     
-def hitung_skor():
+def hitung_skor(sisa_waktu):
     '''Menghitung jumlah benar dan salah, persentase skor, serta menghitung waktu yang digunakan'''
-    global Jumlah_benar, Jumlah_salah, Skor, Waktu_digunakan, Soal, Riwayat_jawaban, Jumlah_soal
+    global Jumlah_benar, Jumlah_salah, Skor, Waktu_digunakan, Riwayat_jawaban, Jumlah_soal, Judul_quiz
+    jawaban = load_quiz_jawaban(Judul_quiz)
     # Menghitung jumlah jawaban benar dan salah
     for i in range(Jumlah_soal):
-        if Riwayat_jawaban[i] == Soal[i]['jawaban_benar']:
+        if Riwayat_jawaban[i] == jawaban[i]:
             Jumlah_benar += 1
+            print(f"Riwayat_jawaban {Riwayat_jawaban[i]} == jawaban {jawaban[i]} (Benar)")
         else:
             Jumlah_salah += 1
+            print(f"Riwayat_jawaban {Riwayat_jawaban[i]} != jawaban {jawaban[i]} (Salah)")
     # Menghitung persentase skor
     Skor = (Jumlah_benar / Jumlah_soal) * 100
+    print(f"Jumlah Benar: {Jumlah_benar:<5}Jumlah Salah: {Jumlah_salah:<5}Skor: {f"{Skor:.2f}":<7}")
     # Menghitung waktu yang digunakan
-    Waktu_digunakan = Total_waktu - Sisa_waktu
+    Waktu_digunakan = Total_waktu - sisa_waktu
 
 
 

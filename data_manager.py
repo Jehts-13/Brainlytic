@@ -4,7 +4,7 @@ import logika
 
 def validasi_data(filepath_daftar="data/daftar_quiz.csv", filepath_soal="data/soal_quiz.csv"):
     '''Fungsi untuk memvalidasi Jumlah Soal yang ada di daftar_quiz.csv dengan Jumlah Soal yang ada di soal_quiz.csv'''
-    
+
 
 
 
@@ -70,7 +70,25 @@ def load_quiz_soal(JUDUL,  filepath="data/soal_quiz.csv"):
         return list_soal
     else:
         return None
+
+def load_quiz_jawaban(JUDUL, filepath="data/soal_quiz.csv"):
+    '''
+    Mengambil jawaban benar dari soal_quiz.csv berdasarkan judul quiz
+    '''
+    if not os.path.exists(filepath):
+        return None  # Return None if the file doesn't exist
     
+    list_jawaban = []
+    with open(filepath, mode='r', encoding='utf-8') as file:
+        csv_reader = csv.DictReader(file)
+        for row in csv_reader:
+            if row.get('nama_quiz') == JUDUL:
+                jawaban_benar = row.get('jawaban_benar')
+                list_jawaban.append(jawaban_benar)
+    if list_jawaban:
+        return list_jawaban
+    else:
+        return None
     
 def save_hasil_quiz():
     # Implementasikan logika untuk menyimpan hasil quiz ke file 
