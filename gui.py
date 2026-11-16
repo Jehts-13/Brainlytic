@@ -70,7 +70,7 @@ def halaman_homescreen(ROOT):
 
     # 5. Link Papan Skor
     link_skor = tk.Label(ROOT, text="Lihat papan skor", font=("Helvetica", 10), fg="#A06A42", bg="#F4EFE6", cursor="hand2",) 
-    link_skor.bind("<Button-1>", lambda: halaman_papan_skor(ROOT))
+    link_skor.bind("<Button-1>", lambda event: halaman_papan_skor(ROOT=ROOT))
     link_skor.pack(pady=10)
 
     # Memulai perulangan aplikasi
