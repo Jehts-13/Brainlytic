@@ -382,7 +382,7 @@ def halaman_soal_quiz(ROOT):
         try:
             # Menyimpan jawaban ke penyimpanan sementara
             nonlocal nomor_soal 
-            logika.simpan_jawaban_soal(nomor_soal, jawaban.get())
+            logika.simpan_jawaban_soal(jawaban.get())
             
             # Jika jumlah_soal == nomor_soal+1, lanjut ke hasil quiz
             if jumlah_soal == nomor_soal + 1:
