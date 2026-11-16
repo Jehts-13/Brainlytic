@@ -265,7 +265,6 @@ def halaman_soal_quiz(ROOT):
 
     def update_timer():
         nonlocal sisa_waktu, timer_id
-        print(sisa_waktu, end=' ')
         # 1. Cek terlebih dahulu apakah widget label_waktu masih ada di layar
         # Jika pemain sudah pindah halaman (misal klik Keluar/Selesai), hentikan fungsi
         if not label_waktu.winfo_exists():
@@ -280,7 +279,7 @@ def halaman_soal_quiz(ROOT):
             # Jadwalkan 1 detik berikutnya dan simpan ID-nya
             timer_id = ROOT.after(1000, update_timer)
         else:
-            # 3. Jika waktu habis (0), proses selesai tanpa menjadwalkan .after() lagi
+            # 3. Jika waktu habis, proses selesai tanpa menjadwalkan .after() lagi
             logika.hitung_skor()
             bersihkan_layar(ROOT)
             halaman_hasil_quiz(ROOT, username_var.get(), waktu=batas_waktu)
@@ -388,6 +387,7 @@ def halaman_soal_quiz(ROOT):
                 halaman_hasil_quiz(ROOT)
                 logika.reset_data()
             # selain itu, update nomor_soal untuk lanjut ke soal berikutnya
+            reset_opsi()
             nomor_soal += 1
             print(f"{nomor_soal}")
             
