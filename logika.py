@@ -67,12 +67,12 @@ def hitung_skor(sisa_waktu):
             Jumlah_salah += 1
             print(f"Riwayat_jawaban {Riwayat_jawaban[i]} != jawaban {jawaban[i]} (Salah)")
     # Menghitung persentase skor
-    Skor = (Jumlah_benar / Jumlah_soal) * 100
+    Skor = int((Jumlah_benar / Jumlah_soal) * 100)
     print(f"Jumlah Benar: {Jumlah_benar:<5}Jumlah Salah: {Jumlah_salah:<5}Skor: {f"{Skor:.2f}":<7}")
     # Menghitung waktu yang digunakan
     Waktu_digunakan = Total_waktu - sisa_waktu
 
-    simpan_hasil_quiz(username, Judul_quiz, Jumlah_benar, Jumlah_salah, Skor, Waktu_digunakan)
+    simpan_hasil_quiz(username, Judul_quiz, Skor, Jumlah_benar, Jumlah_salah, Waktu_digunakan)
 
 
 def format_waktu(SISA_DETIK):
