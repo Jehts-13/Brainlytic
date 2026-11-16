@@ -64,7 +64,8 @@ def halaman_homescreen(ROOT):
     btn_kerjakan.grid(row=0, column=0, padx=10)
 
     btn_buat = tk.Button(frame_menu, text="Buat Quiz Baru\n\nSusun soal dan jawabanmu\nsendiri", 
-                         bg="#A06A42", fg="white", font=("Helvetica", 10, "bold"), width=25, height=5)
+                         bg="#A06A42", fg="white", font=("Helvetica", 10, "bold"), width=25, height=5,
+                         command=lambda: halaman_buat_kepala_quiz(ROOT))
     btn_buat.grid(row=0, column=1, padx=10)
 
     # 5. Link Papan Skor
@@ -221,6 +222,7 @@ def halaman_pilih_quiz(ROOT):
     daftar_quiz = load_daftar_quiz()
     
     if not daftar_quiz:
+        print("Belum ada kuis yang tersedia.")
         tk.Label(list_frame, text="Belum ada kuis yang tersedia.", bg="#F4EFE6", fg="#4A2C11").pack(pady=20)
     else:
         for quiz in daftar_quiz:

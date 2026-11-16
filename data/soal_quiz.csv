@@ -1,3 +1,10 @@
 nama_quiz,deskripsi_soal,opsi_a,opsi_b,opsi_c,opsi_d,jawaban_benar,penjelasan
-Dasar Python,Apa output dari print(type([]))?,List,<class 'list'>,Array,Error,B,List ditulis dengan kurung siku.
-Dasar Python,Tipe data untuk teks adalah?,Integer,String,Boolean,Float,B,String digunakan untuk teks.
+Dasar Python,Apa output dari print(type([]))?,List,<class 'list'>,Array,Error,1,List ditulis dengan kurung siku.
+Dasar Python,Tipe data untuk teks adalah?,Integer,String,Boolean,Float,1,String digunakan untuk teks.
+Struktur Kontrol,Manakah yang merupakan perulangan?,If,For,While,Switch,2,For digunakan untuk perulangan.
+Struktur Kontrol,Manakah yang digunakan untuk percabangan?,If,For,While,Switch,1,If digunakan untuk percabangan.
+Struktur Kontrol,Manakah yang digunakan untuk perulangan?,If,For,While,Switch,3,While digunakan untuk perulangan.
+Struktur Kontrol,Manakah yang digunakan untuk percabangan?,If,For,While,Switch,1,If digunakan untuk percabangan.
+Struktur Kontrol,Manakah yang digunakan untuk perulangan?,If,For,While,Switch,2,For digunakan untuk perulangan.1
+Sains Umum,Apa hukum Newton pertama?,Hukum Aksi-Reaksi,Hukum Inersia,Hukum Gravitasi,Hukum Termodinamika,2,Hukum Inersia menyatakan bahwa benda akan tetap diam atau bergerak lurus beraturan kecuali ada gaya yang bekerja padanya.
+Sains Umum,Apa hukum Newton kedua?,F=ma,F=mv,F=mg,F=mc^2,1,Hukum Newton kedua menyatakan bahwa percepatan suatu benda sebanding dengan gaya yang bekerja padanya dan berbanding terbalik dengan massanya.

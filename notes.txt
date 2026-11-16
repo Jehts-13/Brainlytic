@@ -7,6 +7,7 @@ future ideas:
 - memindahkan format data batas_waktu dan jumlah_soal
 - menghubungkan halaman_buat_kepala_quiz dengan halaman_homescreen
 - menambahkan fitur validasi quiz sebelum memuat homescreen
+- Pembuatan Quiz maksimum memiliki 30 soal
 
 feature:
 - memilih quiz

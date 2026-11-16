@@ -2,6 +2,12 @@ import csv
 import os
 import logika
 
+def validasi_data(filepath_daftar="data/daftar_quiz.csv", filepath_soal="data/soal_quiz.csv"):
+    '''Fungsi untuk memvalidasi Jumlah Soal yang ada di daftar_quiz.csv dengan Jumlah Soal yang ada di soal_quiz.csv'''
+    
+
+
+
 def load_daftar_quiz(filepath="data/daftar_quiz.csv"):
     if not os.path.exists(filepath):
         return []  # Return an empty list if the file doesn't exist
@@ -19,7 +25,7 @@ def load_daftar_quiz(filepath="data/daftar_quiz.csv"):
             jumlah_soal = row.get('jumlah_soal', 0)
             
             teks_deskripsi = f"{deskripsi_dasar}. {jumlah_soal} soal, {logika.format_waktu(int(waktu))} menit."
-            
+            print("Menambahkan quiz:", nama, "dengan deskripsi:", teks_deskripsi)
             daftar_quiz.append({
                 "judul": nama,
                 "deskripsi": teks_deskripsi
