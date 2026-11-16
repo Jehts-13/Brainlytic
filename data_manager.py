@@ -90,6 +90,6 @@ def load_quiz_jawaban(JUDUL, filepath="data/soal_quiz.csv"):
     else:
         return None
     
-def save_hasil_quiz():
+def simpan_hasil_quiz(username, judul_quiz, skor, jumlah_benar, jumlah_salah, waktu_digunakan, filepath="data/user_history.csv"):
     # Implementasikan logika untuk menyimpan hasil quiz ke file 
     pass

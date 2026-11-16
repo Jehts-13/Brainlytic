@@ -72,7 +72,7 @@ def hitung_skor(sisa_waktu):
     # Menghitung waktu yang digunakan
     Waktu_digunakan = Total_waktu - sisa_waktu
 
-
+    simpan_hasil_quiz(username, Judul_quiz, Jumlah_benar, Jumlah_salah, Skor, Waktu_digunakan)
 
 
 def format_waktu(SISA_DETIK):
