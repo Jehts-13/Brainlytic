@@ -536,23 +536,19 @@ def halaman_papan_skor(ROOT):
     tk.Label(row_header, text="Kategori", bg=header_bg, fg=header_fg, font=("Helvetica", 10, "bold"), width=20, anchor="w").pack(side="left")
     tk.Label(row_header, text="Skor", bg=header_bg, fg=header_fg, font=("Helvetica", 10, "bold"), width=10, anchor="e").pack(side="left")
 
-    # Data Dummy untuk Tabel (Bisa diganti dengan data dari data_manager.py)[cite: 1, 3]
-    data_skor = [
-        ("Sari", "Python", "100"),
-        ("Budi", "Python", "80"),
-        ("Andi", "Sains", "70"),
-        ("", "", "")
-    ]
+    data_peringkat_raw = load_user_history()
+    data_peringkat = logika.sort_user_history(data_peringkat_raw)
+    print(data_peringkat)
 
     # Melakukan iterasi untuk membuat baris Tabel
-    for rank, data in enumerate(data_skor):
+    for rank, data in enumerate(data_peringkat_raw):
         row_frame = tk.Frame(tabel_frame, bg="white", relief="solid", bd=1)
         row_frame.pack(fill="x", pady=4, ipady=5)
         
         tk.Label(row_frame, text=rank+1, bg="white", fg="#4A2C11", font=("Helvetica", 10), width=5, anchor="w").pack(side="left", padx=(15, 0))
-        tk.Label(row_frame, text=data[0], bg="white", fg="#4A2C11", font=("Helvetica", 10), width=25, anchor="w").pack(side="left")
-        tk.Label(row_frame, text=data[1], bg="white", fg="#4A2C11", font=("Helvetica", 10), width=20, anchor="w").pack(side="left")
-        tk.Label(row_frame, text=data[2], bg="white", fg="#4A2C11", font=("Helvetica", 10), width=10, anchor="e").pack(side="left")
+        tk.Label(row_frame, text=data['username'], bg="white", fg="#4A2C11", font=("Helvetica", 10), width=25, anchor="w").pack(side="left")
+        tk.Label(row_frame, text=data['judul_quiz'], bg="white", fg="#4A2C11", font=("Helvetica", 10), width=20, anchor="w").pack(side="left")
+        tk.Label(row_frame, text=data['skor'], bg="white", fg="#4A2C11", font=("Helvetica", 10), width=10, anchor="e").pack(side="left")
 
     # Frame Pembatas untuk mendorong tombol ke dasar layar
     spacer = tk.Frame(main_frame, bg="#F4EFE6")

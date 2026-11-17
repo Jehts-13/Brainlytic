@@ -86,6 +86,7 @@ def format_waktu(SISA_DETIK):
     detik = SISA_DETIK % 60
     return f"{menit:02d}:{detik:02d}"
 
+
 def reset_data():
     global username, Judul_quiz, Total_waktu, Sisa_waktu, Nomor_soal, Soal, Riwayat_jawaban, Jumlah_benar, Jumlah_salah, Skor
     username = ""
@@ -101,11 +102,16 @@ def reset_data():
     
     print("Temporary Data sudah di reset!")
     
-user_history_dict = None    
-
 def sort_user_history(data):
     '''
     Mengembalikan data_user_history yang telah di sort berdasarkan nilai yang di ambil dari quiz yang sama, kemudian berdasarkan tanggal dan waktu pengerjaan
     '''
-    pass
+    return sorted(
+        data,
+        key=lambda item: {
+            item['judul_quiz'].lower(),
+            -int(item['skor']),
+            int(item['waktu_digunakan'])
+        }
+    )
     
