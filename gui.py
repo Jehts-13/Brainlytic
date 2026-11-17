@@ -537,11 +537,17 @@ def halaman_papan_skor(ROOT):
     tk.Label(row_header, text="Skor", bg=header_bg, fg=header_fg, font=("Helvetica", 10, "bold"), width=10, anchor="e").pack(side="left")
 
     data_peringkat_raw = load_user_history()
-    data_peringkat = logika.sort_user_history(data_peringkat_raw)
-    print(data_peringkat)
+    data_peringkat = logika.sort_user_history(data_peringkat_raw)[:10]
+    
+    print("PAPAN_PERINGKAT_RAW")
+    for data in data_peringkat_raw:
+        print(data)
+    print('='*40,"\nPAPAN_PERINGKAT_SORTED")
+    for data in data_peringkat:
+        print(data)
 
     # Melakukan iterasi untuk membuat baris Tabel
-    for rank, data in enumerate(data_peringkat_raw):
+    for rank, data in enumerate(data_peringkat):
         row_frame = tk.Frame(tabel_frame, bg="white", relief="solid", bd=1)
         row_frame.pack(fill="x", pady=4, ipady=5)
         

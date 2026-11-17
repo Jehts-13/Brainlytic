@@ -102,16 +102,21 @@ def reset_data():
     
     print("Temporary Data sudah di reset!")
     
-def sort_user_history(data):
+def sort_user_history(data, judul=None):
     '''
     Mengembalikan data_user_history yang telah di sort berdasarkan nilai yang di ambil dari quiz yang sama, kemudian berdasarkan tanggal dan waktu pengerjaan
     '''
+    result_data = []
+    if judul != None:
+        for item in data:
+            if item['judul_quiz'] == judul:
+                result_data.append(item)
+    else:
+        result_data = data
+    
+    
     return sorted(
-        data,
-        key=lambda item: {
-            item['judul_quiz'].lower(),
-            -int(item['skor']),
-            int(item['waktu_digunakan'])
-        }
+        result_data,
+        key=lambda x: (x['judul_quiz'], -int(x['skor']), x['waktu_digunakan'])
     )
     
