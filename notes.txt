@@ -13,7 +13,12 @@ on going:
 future ideas:
 - 
 
-- Pembuatan Quiz maksimum memiliki 25 soal
+Batasan Pembuatan Quiz 
+- Judul Quiz memiliki maks. 20 karakter
+- Deskripsi Quiz memiliki maks. 55
+- Jumlah soal maksimum adalah 25 soal
+- Batas waktu Maks. 125 menit
+
 
 feature:
 - memilih quiz

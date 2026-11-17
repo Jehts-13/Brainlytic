@@ -44,8 +44,8 @@ def halaman_homescreen(ROOT):
     frame_nama = tk.Frame(ROOT, bg="#F4EFE6")
     frame_nama.pack(pady=10)
 
-    label_nama = tk.Label(frame_nama, text="Nama pemain", font=("Helvetica", 10, "bold"), fg="#5C3A21", bg="#F4EFE6")
-    label_nama.pack(anchor="w")
+    label_judul = tk.Label(frame_nama, text="Nama pemain", font=("Helvetica", 10, "bold"), fg="#5C3A21", bg="#F4EFE6")
+    label_judul.pack(anchor="w")
 
     global username_var
     if username_var is None:
@@ -65,7 +65,7 @@ def halaman_homescreen(ROOT):
 
     btn_buat = tk.Button(frame_menu, text="Buat Quiz Baru\n\nSusun soal dan jawabanmu\nsendiri", 
                          bg="#A06A42", fg="white", font=("Helvetica", 10, "bold"), width=25, height=5,
-                         command=lambda: halaman_buat_kepala_quiz(ROOT))
+                         command=lambda: {bersihkan_layar(ROOT),halaman_buat_kepala_quiz(ROOT)})
     btn_buat.grid(row=0, column=1, padx=10)
 
     # 5. Link Papan Skor
@@ -728,9 +728,12 @@ def halaman_buat_quiz_soal(ROOT):
 
 
 def halaman_buat_kepala_quiz(ROOT):
-    # Membersihkan layar dari widget sebelumnya
-    for widget in ROOT.winfo_children():
-        widget.destroy()
+    # VARIABEL: 
+    judul = tk.StringVar("")
+    deskripsi = tk.StringVar("")
+    jumlah_soal = tk.StringVar("")
+    batas_waktu = tk.StringVar("")
+    
 
     ROOT.configure(bg="#F4EFE6")
 
@@ -745,16 +748,16 @@ def halaman_buat_kepala_quiz(ROOT):
     header_frame = tk.Frame(ROOT, bg="#F4EFE6")
     header_frame.pack(fill="x", padx=40, pady=(20, 10))
 
-    judul = tk.Label(header_frame, text="Informasi Quiz", font=("Helvetica", 24, "bold"), fg="#4A2C11", bg="#F4EFE6")
-    judul.pack(side="left")
+    label_judul = tk.Label(header_frame, text="Informasi Quiz", font=("Helvetica", 24, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    label_judul.pack(side="left")
 
     # Frame Kontainer Formulir
     form_frame = tk.Frame(ROOT, bg="#F4EFE6")
     form_frame.pack(fill="both", expand=True, padx=40)
 
-    # Input Nama Quiz
-    label_nama = tk.Label(form_frame, text="Nama quiz", font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
-    label_nama.grid(row=0, column=0, sticky="w", pady=(10, 5))
+    # Input Judul Quiz
+    label_judul = tk.Label(form_frame, text="Judul quiz", font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    label_judul.grid(row=0, column=0, sticky="w", pady=(10, 5))
     
     entry_nama = tk.Entry(form_frame, font=("Helvetica", 10), width=60)
     entry_nama.insert(0, "Contoh: Dasar Python")
@@ -914,5 +917,5 @@ if __name__ == "__main__":
     root = tk.Tk()
     root.title("Aplikasi quiz Interaktif")
     root.geometry("800x600")
-    halaman_buat_kepala_quiz(root)
+    halaman_buat_quiz_soal(root)
     root.mainloop()
