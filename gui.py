@@ -521,9 +521,72 @@ def halaman_papan_skor(ROOT):
     btn_filter = tk.Button(header_frame, text="Semua kategori", bg="white", fg="#4A2C11", font=("Helvetica", 10), relief="solid", bd=1, padx=15)
     btn_filter.pack(side="right", ipady=2)
 
-    # Tabel Frame
-    tabel_frame = tk.Frame(main_frame, bg="#F4EFE6")
-    tabel_frame.pack(fill="x")
+    # Tabel Frame Container
+    table_container = tk.Frame(main_frame, bg="#F4EFE6")
+    table_container.pack(fill="both", expand=True)
+
+    # Canvas untuk scrolling
+    table_canvas = tk.Canvas(
+        table_container,
+        bg="#F4EFE6",
+        highlightthickness=0
+    )
+    table_canvas.pack(side="left", fill="both", expand=True)
+
+    # Scrollbar
+    scrollbar = tk.Scrollbar(
+        table_container,
+        orient="vertical",
+        command=table_canvas.yview
+    )
+    scrollbar.pack(side="right", fill="y")
+
+    table_canvas.configure(yscrollcommand=scrollbar.set)
+
+    # Frame untuk isi tabel
+    tabel_frame = tk.Frame(table_canvas, bg="#F4EFE6")
+
+    canvas_window = table_canvas.create_window(
+        (0, 0),
+        window=tabel_frame,
+        anchor="nw"
+    )
+
+    # Update scroll region ketika ukuran tabel berubah
+    def update_scroll_region(event):
+        table_canvas.configure(
+            scrollregion=table_canvas.bbox("all")
+        )
+
+    tabel_frame.bind("<Configure>", update_scroll_region)
+
+    # Menyesuaikan lebar tabel dengan canvas
+    def update_canvas_width(event):
+        table_canvas.itemconfig(
+            canvas_window,
+            width=event.width
+        )
+
+    table_canvas.bind("<Configure>", update_canvas_width)
+
+    def on_mousewheel(event):
+        table_canvas.yview_scroll(
+            int(-1 * (event.delta / 120)),
+            "units"
+        )
+
+    table_canvas.bind_all("<MouseWheel>", on_mousewheel)
+
+    # Linux support
+    table_canvas.bind_all(
+        "<Button-4>",
+        lambda event: table_canvas.yview_scroll(-1, "units")
+    )
+
+    table_canvas.bind_all(
+        "<Button-5>",
+        lambda event: table_canvas.yview_scroll(1, "units")
+    )
 
     # Header Tabel (Background Cokelat)
     header_bg = "#4A2C11"
@@ -557,8 +620,8 @@ def halaman_papan_skor(ROOT):
         tk.Label(row_frame, text=data['skor'], bg="white", fg="#4A2C11", font=("Helvetica", 10), width=10, anchor="e").pack(side="left")
 
     # Frame Pembatas untuk mendorong tombol ke dasar layar
-    spacer = tk.Frame(main_frame, bg="#F4EFE6")
-    spacer.pack(expand=True, fill="both")
+    spacer = tk.Frame(main_frame, bg="#F4EFE6", height=5)
+    spacer.pack(fill="x")
 
     # Tombol Navigasi Bawah
     bottom_frame = tk.Frame(main_frame, bg="#F4EFE6")
