@@ -15,6 +15,7 @@ future ideas:
 
 Batasan Pembuatan Quiz 
 - Judul Quiz memiliki maks. 20 karakter
+- Judul Quiz tidak boleh sama dengan yang sudah ada
 - Deskripsi Quiz memiliki maks. 55
 - Jumlah soal maksimum adalah 25 soal
 - Batas waktu Maks. 125 menit

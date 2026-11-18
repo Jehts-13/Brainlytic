@@ -11,14 +11,17 @@ username_var = None
 def reset_username():
     username_var.set("")
 
+def reset_pembuatan_quiz():
+    
+
 def halaman_homescreen(ROOT):
     def batasi_input(*args):
         batas_maksimal = 20 # Ubah angka ini sesuai kebutuhan batas karakter Anda
-        nilai_saat_ini = username_var.get()
+        nama = username_var.get()
         
         # Jika panjang teks melebihi batas, potong teksnya
-        if len(nilai_saat_ini) > batas_maksimal:
-            username_var.set(nilai_saat_ini[:batas_maksimal])
+        if len(nama) > batas_maksimal:
+            username_var.set(nama[0:20])
 
     def validasi_sebelum_lanjut():
         global username_var
@@ -601,7 +604,8 @@ def halaman_papan_skor(ROOT):
 
     data_peringkat_raw = load_user_history()
     data_peringkat = logika.sort_user_history(data_peringkat_raw)[:10]
-    
+
+    # Debugging Papan Peringkat
     print("PAPAN_PERINGKAT_RAW")
     for data in data_peringkat_raw:
         print(data)
@@ -628,7 +632,7 @@ def halaman_papan_skor(ROOT):
     bottom_frame.pack(fill="x", pady=(20, 10))
 
     btn_kembali = tk.Button(bottom_frame, text="Kembali", bg="white", fg="#4A2C11", font=("Helvetica", 10), width=15, relief="solid", bd=1,
-                            command=lambda: {bersihkan_layar(ROOT), halaman_homescreen(ROOT)})
+                            command=lambda: {logika.reset_data(),bersihkan_layar(ROOT), halaman_homescreen(ROOT)})
     btn_kembali.pack(side="left", ipady=5)
 
 
@@ -771,6 +775,45 @@ def halaman_buat_kepala_quiz(ROOT):
             else:
                 batas_waktu_var.set(f"{waktu}")
 
+    def validasi_kepala_quiz():
+        judul = judul_var.get()
+        deskripsi = entry_deskripsi.get("1.0", "end-1c")
+        jumlah = jumlah_soal_var.get()
+        waktu = batas_waktu_var.get()
+
+        # Check jika ada Input yang masih kosong
+        if len(judul) == 0:
+            messagebox.showwarning("Judul belum ada", "Mohon isi terlebih dahulu Judul Quiz ini!")
+            return NameError
+        if len(deskripsi) == 0:
+            messagebox.showwarning("Deskripsi belum ada", "Mohon isi terlebih dahulu Deskripsi Quiz ini!")
+        if len(jumlah) == 0:
+            messagebox.showwarning("Jumlah soal belum ada", "Mohon isi terlebih dahulu Jumlah Soal!")
+            return NameError
+        if len(waktu) == 0:
+            messagebox.showwarning("Batas Waktu belum ada", "Mohon isi terlebih dahulu Batas Waktu Quiz!")
+            return NameError
+
+        # Check jika judul yang sama telah ada di daftar quiz
+        daftar_quiz = load_daftar_quiz()
+        for quiz in daftar_quiz:
+            if judul == quiz['judul']:
+                messagebox.showwarning("Judul duplikat!", "Judul telah terdaftar dalam list Quiz aplikasi! Mohon masukkan Judul Quiz yang berbeda",)
+                return NameError
+
+        
+    def lanjut_pembuatan_soal():
+        try:
+            validasi_kepala_quiz()
+            logika.simpan_kepala_quiz(judul_var.get(), entry_deskripsi.get("1.0", "end-1c"), jumlah_soal_var.get(), batas_waktu_var.get())
+            bersihkan_layar(ROOT)
+            halaman_buat_quiz_soal(ROOT)
+        except NameError:
+            return
+
+
+
+        
     ROOT.configure(bg="#F4EFE6")
 
     # Bilah Atas
@@ -841,10 +884,7 @@ def halaman_buat_kepala_quiz(ROOT):
     btn_batal.pack(side="left", ipady=5)
 
     btn_lanjut = tk.Button(bottom_frame, text="Lanjut: Tambah Soal", bg="#4A2C11", fg="white", font=("Helvetica", 10, "bold"), width=20,
-                           command= lambda: {
-                               bersihkan_layar(ROOT), 
-                               halaman_buat_quiz_soal(ROOT)
-                           })
+                           command= lambda: lanjut_pembuatan_soal())
     btn_lanjut.pack(side="right", ipady=5)
 
 

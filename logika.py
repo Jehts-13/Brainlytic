@@ -36,11 +36,6 @@ def muat_quiz(JUDUL):
     Nomor_soal = 0
     Riwayat_jawaban = []
     
-def lanjut_quiz(PILIHAN):
-    '''
-    Menyimpan pilihan yang telah dibuat di soal ini
-    '''
-    Nomor_soal += 1
     
 def ambil_rasio_progressbar():
     return (Nomor_soal+1) / Jumlah_soal
@@ -51,7 +46,6 @@ def simpan_jawaban_soal(index_jawaban):
         Riwayat_jawaban = []
     Riwayat_jawaban.append(index_jawaban)
     
-
     Nomor_soal += 1
     return
     
@@ -119,4 +113,14 @@ def sort_user_history(data, judul=None):
         result_data,
         key=lambda x: (x['judul_quiz'], -int(x['skor']), x['waktu_digunakan'])
     )
+
+Deskripsi = ""
+
+def simpan_kepala_quiz(judul, deskripsi, jumlah, waktu):
+    global Judul_quiz, Deskripsi, Jumlah_soal, Total_waktu
+    Judul_quiz = judul
+    Deskripsi = deskripsi
+    Jumlah_soal = jumlah
+    Total_waktu = waktu
+    print(f"Berhasil menyimpan\nJudul_quiz: {Judul_quiz}\nDeskripsi: {Deskripsi}\nJumlah_soal: {Jumlah_soal}\tWaktu: {Total_waktu}")
     
