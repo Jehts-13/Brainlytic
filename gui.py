@@ -817,46 +817,47 @@ def halaman_buat_quiz_soal(ROOT):
     label_daftar = tk.Label(left_panel, text=f"Daftar soal ({jumlah_soal_var.get()})", font=("Helvetica", 9, "bold"), bg="#A0B084", fg="#4A2C11")
     label_daftar.pack(pady=(15, 10))
     
-    # --- AREA SCROLL UNTUK DAFTAR quiz ---
-    # # 1. Buat kontainer utama untuk Canvas dan Scrollbar
-    # scroll_container = tk.Frame(ROOT, bg="#F4EFE6")
-    # scroll_container.pack(fill="both", expand=True, padx=40, pady=(0, 20))
+    # --- AREA SCROLL UNTUK DAFTAR QUIZ ---
+    # Container untuk Canvas dan Scrollbar
+    scroll_container = tk.Frame(left_panel, bg="#A0B084")
+    scroll_container.pack(fill="both", expand=True, padx=5, pady=5)
 
-    # 2. Buat Canvas
-    canvas = tk.Canvas(left_panel, bg="#F4EFE6", highlightthickness=0)
+    # Canvas
+    canvas = tk.Canvas(scroll_container, bg="#A0B084", highlightthickness=0)
     canvas.pack(side="left", fill="both", expand=True)
 
-    # 3. Buat Scrollbar dan pasangkan dengan Canvas
-    scrollbar = ttk.Scrollbar(left_panel, orient="vertical", command=canvas.yview)
+    # Scrollbar di sebelah kanan Canvas
+    scrollbar = ttk.Scrollbar( scroll_container, orient="vertical", command=canvas.yview)
     scrollbar.pack(side="right", fill="y")
+
     canvas.configure(yscrollcommand=scrollbar.set)
 
-    # 4. Buat Frame di dalam Canvas untuk menampung tombol quiz
-    list_frame = tk.Frame(canvas, bg="#F4EFE6")
-    
-    # 5. Masukkan list_frame ke dalam Canvas
+    # Frame untuk tombol-tombol soal
+    list_frame = tk.Frame(canvas, bg="#A0B084")
+
     canvas_window = canvas.create_window((0, 0), window=list_frame, anchor="nw")
 
-    # 6. Fungsi untuk memperbarui area scroll (dipanggil setiap kali isi list_frame berubah)
-    def on_configure(event):
+    # Update scroll region ketika ukuran list berubah
+    def update_scroll(event):
         canvas.configure(scrollregion=canvas.bbox("all"))
-        # Menyesuaikan lebar list_frame agar sama dengan lebar canvas
-        canvas.itemconfig(canvas_window, width=event.width)
-        
-    canvas.bind("<Configure>", on_configure)
 
-    # 7. Fungsi untuk mengaktifkan scroll menggunakan mouse wheel
+    list_frame.bind("<Configure>", update_scroll)
+
+    # Sesuaikan lebar frame dengan Canvas
+    def resize_canvas(event):
+        canvas.itemconfig(canvas_window, width=event.width)
+
+    canvas.bind("<Configure>", resize_canvas)
+
+    # Mouse wheel scrolling
     def _on_mousewheel(event):
-        # Untuk Windows/Mac (event.delta biasanya kelipatan 120)
-        canvas.yview_scroll(int(-1*(event.delta/120)), "units")
-        
-    # Bind scroll event saat kursor berada di dalam canvas
+        canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+
     canvas.bind_all("<MouseWheel>", _on_mousewheel)
-    
-    # Pastikan untuk menghapus bind_all saat frame ini ditutup/dihancurkan
-    # agar tidak mengganggu scroll di halaman lain
+
     def unbind_scroll(event):
         canvas.unbind_all("<MouseWheel>")
+
     list_frame.bind("<Destroy>", unbind_scroll)
 
     tombol_soal_list = {}
