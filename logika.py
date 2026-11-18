@@ -120,7 +120,7 @@ def simpan_kepala_quiz(judul, deskripsi, jumlah, waktu):
     global Judul_quiz, Deskripsi, Jumlah_soal, Total_waktu
     Judul_quiz = judul
     Deskripsi = deskripsi
-    Jumlah_soal = jumlah
-    Total_waktu = waktu
-    print(f"Berhasil menyimpan\nJudul_quiz: {Judul_quiz}\nDeskripsi: {Deskripsi}\nJumlah_soal: {Jumlah_soal}\tWaktu: {Total_waktu}")
+    Jumlah_soal = int(jumlah)
+    Total_waktu = int(waktu)
+    print(f"Berhasil menyimpan\nJudul_quiz: {Judul_quiz}\nDeskripsi: {Deskripsi}\nJumlah_soal: {Jumlah_soal:<7}Waktu: {Total_waktu}")
     

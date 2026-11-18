@@ -8,11 +8,19 @@ from data_manager import *
 
 username_var = None
 
+# Variabel Pembuatan Quiz
+judul_var = None
+deskripsi = None
+jumlah_soal_var = None
+batas_waktu_var = None
+
+
 def reset_username():
     username_var.set("")
 
 def reset_pembuatan_quiz():
-    
+    global judul_var, deskripsi, jumlah_soal_var, batas_waktu_var 
+    judul_var = deskripsi = jumlah_soal_var = batas_waktu_var = None
 
 def halaman_homescreen(ROOT):
     def batasi_input(*args):
@@ -637,7 +645,6 @@ def halaman_papan_skor(ROOT):
 
 
 def halaman_buat_quiz_soal(ROOT):
-    bersihkan_layar(ROOT)
     ROOT.configure(bg="#F4EFE6")
 
     # Kontainer Utama
@@ -652,14 +659,26 @@ def halaman_buat_quiz_soal(ROOT):
     label_daftar = tk.Label(left_panel, text="Daftar soal (3)", font=("Helvetica", 9, "bold"), bg="#A0B084", fg="#4A2C11")
     label_daftar.pack(pady=(15, 10))
 
-    soal_1 = tk.Button(left_panel, text="Soal 1", bg="white", fg="#4A2C11", relief="flat", anchor="w", padx=10)
-    soal_1.pack(fill="x", padx=10, pady=5, ipady=3)
-    
-    soal_2 = tk.Button(left_panel, text="Soal 2", bg="white", fg="#4A2C11", relief="flat", anchor="w", padx=10)
-    soal_2.pack(fill="x", padx=10, pady=5, ipady=3)
-    
-    soal_3 = tk.Button(left_panel, text="Soal 3 (sedang diedit)", bg="#A06A42", fg="white", relief="solid", bd=1, anchor="w", padx=10)
-    soal_3.pack(fill="x", padx=10, pady=5, ipady=3)
+    tombol_soal_list = {}
+
+    def pilih_soal(indeks):
+        for i, tombol in tombol_soal_list.items():
+            if i == indeks:
+                tombol.configure(bg="#A06A42", fg="white")
+            else:
+                tombol.configure(bg="white", fg="#4A2C11")
+
+    def buat_item_soal(parent, indeks):
+        btn = tk.Button(parent, text=f"Soal {indeks+1}", bg="white", fg="#4A2C11", relief="flat", anchor="w", padx=10)
+        tombol_soal_list[indeks] = btn
+        
+        btn.configure(command=lambda q=indeks: pilih_soal(q))
+        
+        btn.pack(fill="x", padx=10, pady=5, ipady=3)
+        return btn
+        
+    for i in range(logika.Jumlah_soal):
+        buat_item_soal(left_panel, i)
 
     btn_tambah = tk.Button(left_panel, text="+ Tambah Soal", bg="#4A2C11", fg="white", font=("Helvetica", 9, "bold"))
     btn_tambah.pack(side="bottom", fill="x", padx=10, pady=15, ipady=5)
@@ -732,27 +751,33 @@ def halaman_buat_quiz_soal(ROOT):
 
 
 def halaman_buat_kepala_quiz(ROOT):
-    # VARIABEL: 
-    judul_var = tk.StringVar(value="")
-    jumlah_soal_var = tk.StringVar(value="")
-    batas_waktu_var = tk.StringVar(value="")
+    global judul_var, deskripsi, jumlah_soal_var, batas_waktu_var
+    if judul_var == None:
+        judul_var = tk.StringVar(value="")
+    if jumlah_soal_var == None:
+        jumlah_soal_var = tk.StringVar(value="")
+    if batas_waktu_var == None:
+        batas_waktu_var = tk.StringVar(value="")
+    if deskripsi == None:
+        deskripsi = ""
     
     def batasan_judul(*args):
-        nonlocal judul_var
-        if len(judul_var.get()) > 20:
-            judul_var.set(judul_var.get()[:20])
+        global judul_var
+        if len(judul_var.get()) > 28:
+            judul_var.set(judul_var.get()[:28])
 
     def batasan_deskripsi(*args):
         nonlocal entry_deskripsi
+        global deskripsi
         deskripsi = entry_deskripsi.get("1.0", "end-1c")
         if len(deskripsi) > 55:
             entry_deskripsi.delete("1.0", "end")
             entry_deskripsi.insert("1.0", deskripsi[:55])
-            deskripsi[:55]
+            deskripsi = deskripsi[:55]
         label_deskripsi_cnt.configure(text=f"{len(deskripsi)}/55 karakter")
     
     def batasan_soal(*args):
-        nonlocal jumlah_soal_var
+        global jumlah_soal_var
         jumlah = jumlah_soal_var.get() 
         if not jumlah.isdigit():
             jumlah_soal_var.set(jumlah[:len(jumlah)-1])
@@ -764,7 +789,7 @@ def halaman_buat_kepala_quiz(ROOT):
                 jumlah_soal_var.set(f"{jumlah}")
 
     def batasan_waktu(*args):
-        nonlocal batas_waktu_var
+        global batas_waktu_var
         waktu = batas_waktu_var.get() 
         if not waktu.isdigit():
             batas_waktu_var.set(waktu[:len(waktu)-1])
@@ -784,32 +809,31 @@ def halaman_buat_kepala_quiz(ROOT):
         # Check jika ada Input yang masih kosong
         if len(judul) == 0:
             messagebox.showwarning("Judul belum ada", "Mohon isi terlebih dahulu Judul Quiz ini!")
-            return NameError
+            return False
         if len(deskripsi) == 0:
             messagebox.showwarning("Deskripsi belum ada", "Mohon isi terlebih dahulu Deskripsi Quiz ini!")
+            return False
         if len(jumlah) == 0:
             messagebox.showwarning("Jumlah soal belum ada", "Mohon isi terlebih dahulu Jumlah Soal!")
-            return NameError
+            return False
         if len(waktu) == 0:
             messagebox.showwarning("Batas Waktu belum ada", "Mohon isi terlebih dahulu Batas Waktu Quiz!")
-            return NameError
+            return False
 
         # Check jika judul yang sama telah ada di daftar quiz
         daftar_quiz = load_daftar_quiz()
         for quiz in daftar_quiz:
             if judul == quiz['judul']:
                 messagebox.showwarning("Judul duplikat!", "Judul telah terdaftar dalam list Quiz aplikasi! Mohon masukkan Judul Quiz yang berbeda",)
-                return NameError
+                return False
 
         
     def lanjut_pembuatan_soal():
-        try:
-            validasi_kepala_quiz()
-            logika.simpan_kepala_quiz(judul_var.get(), entry_deskripsi.get("1.0", "end-1c"), jumlah_soal_var.get(), batas_waktu_var.get())
-            bersihkan_layar(ROOT)
-            halaman_buat_quiz_soal(ROOT)
-        except NameError:
-            return
+        valid = validasi_kepala_quiz()
+        logika.simpan_kepala_quiz(judul_var.get(), entry_deskripsi.get("1.0", "end-1c"), jumlah_soal_var.get(), batas_waktu_var.get())
+        bersihkan_layar(ROOT)
+        halaman_buat_quiz_soal(ROOT)
+    
 
 
 
@@ -835,37 +859,38 @@ def halaman_buat_kepala_quiz(ROOT):
     form_frame.pack(fill="both", expand=True, padx=40)
 
     # Input Judul Quiz
-    label_judul = tk.Label(form_frame, text="Judul quiz", font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    label_judul = tk.Label(form_frame, text="Judul quiz", font=("Helvetica", 14, "bold"), fg="#4A2C11", bg="#F4EFE6")
     label_judul.grid(row=0, column=0, sticky="w", pady=(10, 5))
     
     judul_var.trace_add("write", batasan_judul)
-    entry_judul = tk.Entry(form_frame, font=("Helvetica", 10), width=60, textvariable=judul_var)
+    entry_judul = tk.Entry(form_frame, font=("Helvetica", 14), width=60, textvariable=judul_var)
     entry_judul.grid(row=1, column=0, columnspan=2, sticky="we", ipady=5)
 
     # Input Deskripsi Quiz
-    label_deskripsi = tk.Label(form_frame, text="Deskripsi", font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    label_deskripsi = tk.Label(form_frame, text="Deskripsi", font=("Helvetica", 14, "bold"), fg="#4A2C11", bg="#F4EFE6")
     label_deskripsi.grid(row=2, column=0, sticky="w", pady=(15, 5))
 
-    label_deskripsi_cnt = tk.Label(form_frame, text="Deskripsi", font=("Helvetica", 7, "bold"), fg="#A06A42", bg="#F4EFE6")
+    label_deskripsi_cnt = tk.Label(form_frame, text="0/55 karakter", font=("Helvetica", 10, "bold"), fg="#A06A42", bg="#F4EFE6")
     label_deskripsi_cnt.grid(row=2, column=1, sticky="e", pady=(15, 5))
     
-    entry_deskripsi = tk.Text(form_frame, font=("Helvetica", 10), height=4, width=60)
+    entry_deskripsi = tk.Text(form_frame, font=("Helvetica", 14), height=4, width=60)
     entry_deskripsi.bind("<KeyRelease>", batasan_deskripsi)
+    entry_deskripsi.insert("1.0", deskripsi)
     entry_deskripsi.grid(row=3, column=0, columnspan=2, sticky="we", pady=5)
 
     # Input Jumlah Soal dan Batas Waktu (Bersebelahan)
-    label_jumlah_soal = tk.Label(form_frame, text="Jumlah soal (maks. 25)", font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    label_jumlah_soal = tk.Label(form_frame, text="Jumlah soal (maks. 25)", font=("Helvetica", 14, "bold"), fg="#4A2C11", bg="#F4EFE6")
     label_jumlah_soal.grid(row=4, column=0, sticky="w", pady=(15, 5))
     
     jumlah_soal_var.trace_add("write", batasan_soal)
-    entry_jumlah_soal = tk.Entry(form_frame, font=("Helvetica", 10), textvariable=jumlah_soal_var)
+    entry_jumlah_soal = tk.Entry(form_frame, font=("Helvetica", 14), textvariable=jumlah_soal_var)
     entry_jumlah_soal.grid(row=5, column=0, sticky="we", padx=(0, 10), ipady=5)
     
-    label_waktu = tk.Label(form_frame, text="Batas waktu (menit)", font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    label_waktu = tk.Label(form_frame, text="Batas waktu (menit)", font=("Helvetica", 14, "bold"), fg="#4A2C11", bg="#F4EFE6")
     label_waktu.grid(row=4, column=1, sticky="w", pady=(15, 5))
     
     batas_waktu_var.trace_add("write", batasan_waktu)
-    entry_waktu = tk.Entry(form_frame, font=("Helvetica", 10), textvariable=batas_waktu_var)
+    entry_waktu = tk.Entry(form_frame, font=("Helvetica", 14), textvariable=batas_waktu_var)
     entry_waktu.grid(row=5, column=1, sticky="we", ipady=5)
 
     # Mengatur bobot kolom agar lebar grid proporsional
@@ -878,6 +903,7 @@ def halaman_buat_kepala_quiz(ROOT):
 
     btn_batal = tk.Button(bottom_frame, text="Batal", bg="white", fg="#4A2C11", font=("Helvetica", 10, "bold"), width=15, relief="solid", bd=1,
                           command=lambda:{
+                              reset_pembuatan_quiz(ROOT),
                               bersihkan_layar(ROOT),
                               halaman_homescreen(ROOT)
                           })
