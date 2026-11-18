@@ -978,12 +978,19 @@ def halaman_tinjau_jawaban(ROOT, data_tinjauan=None):
         if item["status"] == "Salah":
             lbl_jwbn_benar = tk.Label(soal_frame, text=f"Jawaban Benar: {item['jawaban_benar']}", font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="white", anchor="w")
             lbl_jwbn_benar.pack(fill="x", padx=15, pady=2)
+        else: # Jika benar, tampilkan penambahan poin dari pertanyaan (Placeholder)
+            lbl_penambahan_poin = tk.Label(soal_frame, text= "+Placeholder points", font=("Helvetica", 10, "bold"),fg="#F4EFE6", bg="#4A2C11")
 
         # Penjelasan tambahan
         if item.get("penjelasan"):
             lbl_jelas = tk.Label(soal_frame, text=f"Penjelasan: {item['penjelasan']}", font=("Helvetica", 9, "italic"), fg="#4A2C11", bg="white", anchor="w")
             lbl_jelas.pack(fill="x", padx=15, pady=(5, 5))
+            
+    # Total poin pemain (Placeholder)
 
+    totalpoin = tk.Label(header_frame, text=f"Total: {logika.Skor}/{logika.Perfect_Skor}",font=("Helvetica", 15, "bold"), fg="#F4EFE6", bg="#4A2C11" )
+    totalpoin.place(relx= 1.0, y=23, anchor="e")
+    
     # --- TOMBOL NAVIGASI BAWAH ---
     bottom_frame = tk.Frame(ROOT, bg="#F4EFE6")
     bottom_frame.pack(fill="x", padx=40, pady=20)
