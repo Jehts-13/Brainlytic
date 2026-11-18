@@ -729,11 +729,47 @@ def halaman_buat_quiz_soal(ROOT):
 
 def halaman_buat_kepala_quiz(ROOT):
     # VARIABEL: 
-    judul = tk.StringVar("")
-    deskripsi = tk.StringVar("")
-    jumlah_soal = tk.StringVar("")
-    batas_waktu = tk.StringVar("")
+    judul_var = tk.StringVar(value="")
+    jumlah_soal_var = tk.StringVar(value="")
+    batas_waktu_var = tk.StringVar(value="")
     
+    def batasan_judul(*args):
+        nonlocal judul_var
+        if len(judul_var.get()) > 20:
+            judul_var.set(judul_var.get()[:20])
+
+    def batasan_deskripsi(*args):
+        nonlocal entry_deskripsi
+        deskripsi = entry_deskripsi.get("1.0", "end-1c")
+        if len(deskripsi) > 55:
+            entry_deskripsi.delete("1.0", "end")
+            entry_deskripsi.insert("1.0", deskripsi[:55])
+            deskripsi[:55]
+        label_deskripsi_cnt.configure(text=f"{len(deskripsi)}/55 karakter")
+    
+    def batasan_soal(*args):
+        nonlocal jumlah_soal_var
+        jumlah = jumlah_soal_var.get() 
+        if not jumlah.isdigit():
+            jumlah_soal_var.set(jumlah[:len(jumlah)-1])
+        else:
+            jumlah = int(jumlah)
+            if jumlah > 25:
+                jumlah_soal_var.set("25")
+            else:
+                jumlah_soal_var.set(f"{jumlah}")
+
+    def batasan_waktu(*args):
+        nonlocal batas_waktu_var
+        waktu = batas_waktu_var.get() 
+        if not waktu.isdigit():
+            batas_waktu_var.set(waktu[:len(waktu)-1])
+        else:
+            waktu = int(waktu)
+            if waktu > 125:
+                batas_waktu_var.set("125")
+            else:
+                batas_waktu_var.set(f"{waktu}")
 
     ROOT.configure(bg="#F4EFE6")
 
@@ -759,31 +795,34 @@ def halaman_buat_kepala_quiz(ROOT):
     label_judul = tk.Label(form_frame, text="Judul quiz", font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
     label_judul.grid(row=0, column=0, sticky="w", pady=(10, 5))
     
-    entry_nama = tk.Entry(form_frame, font=("Helvetica", 10), width=60)
-    entry_nama.insert(0, "Contoh: Dasar Python")
-    entry_nama.grid(row=1, column=0, columnspan=2, sticky="we", ipady=5)
+    judul_var.trace_add("write", batasan_judul)
+    entry_judul = tk.Entry(form_frame, font=("Helvetica", 10), width=60, textvariable=judul_var)
+    entry_judul.grid(row=1, column=0, columnspan=2, sticky="we", ipady=5)
 
     # Input Deskripsi Quiz
     label_deskripsi = tk.Label(form_frame, text="Deskripsi", font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
     label_deskripsi.grid(row=2, column=0, sticky="w", pady=(15, 5))
+
+    label_deskripsi_cnt = tk.Label(form_frame, text="Deskripsi", font=("Helvetica", 7, "bold"), fg="#A06A42", bg="#F4EFE6")
+    label_deskripsi_cnt.grid(row=2, column=1, sticky="e", pady=(15, 5))
     
     entry_deskripsi = tk.Text(form_frame, font=("Helvetica", 10), height=4, width=60)
-    entry_deskripsi.insert("1.0", "Jelaskan singkat isi quiz ini...")
+    entry_deskripsi.bind("<KeyRelease>", batasan_deskripsi)
     entry_deskripsi.grid(row=3, column=0, columnspan=2, sticky="we", pady=5)
 
-    # Input Kategori dan Batas Waktu (Bersebelahan)
-    label_kategori = tk.Label(form_frame, text="Kategori", font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
-    label_kategori.grid(row=4, column=0, sticky="w", pady=(15, 5))
+    # Input Jumlah Soal dan Batas Waktu (Bersebelahan)
+    label_jumlah_soal = tk.Label(form_frame, text="Jumlah soal (maks. 25)", font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    label_jumlah_soal.grid(row=4, column=0, sticky="w", pady=(15, 5))
     
-    entry_kategori = tk.Entry(form_frame, font=("Helvetica", 10))
-    entry_kategori.insert(0, "Pilih kategori")
-    entry_kategori.grid(row=5, column=0, sticky="we", padx=(0, 10), ipady=5)
+    jumlah_soal_var.trace_add("write", batasan_soal)
+    entry_jumlah_soal = tk.Entry(form_frame, font=("Helvetica", 10), textvariable=jumlah_soal_var)
+    entry_jumlah_soal.grid(row=5, column=0, sticky="we", padx=(0, 10), ipady=5)
     
     label_waktu = tk.Label(form_frame, text="Batas waktu (menit)", font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
     label_waktu.grid(row=4, column=1, sticky="w", pady=(15, 5))
     
-    entry_waktu = tk.Entry(form_frame, font=("Helvetica", 10))
-    entry_waktu.insert(0, "5")
+    batas_waktu_var.trace_add("write", batasan_waktu)
+    entry_waktu = tk.Entry(form_frame, font=("Helvetica", 10), textvariable=batas_waktu_var)
     entry_waktu.grid(row=5, column=1, sticky="we", ipady=5)
 
     # Mengatur bobot kolom agar lebar grid proporsional
