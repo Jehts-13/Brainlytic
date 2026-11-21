@@ -807,7 +807,6 @@ def halaman_buat_kepala_quiz(ROOT):
     btn_lanjut.pack(side="right", ipady=5)
 
 def halaman_buat_quiz_soal(ROOT):
-    jawaban_benar_var = tk.IntVar(None)
     ROOT.configure(bg="#F4EFE6")
     nomor_pertanyaan_var = tk.IntVar(value=None)
     pertanyaan = ""
@@ -815,7 +814,7 @@ def halaman_buat_quiz_soal(ROOT):
     jawaban_b_var = tk.StringVar(value="")
     jawaban_c_var = tk.StringVar(value="")
     jawaban_d_var = tk.StringVar(value="")
-    jawaban_benar_var = tk.IntVar(value=None)
+    jawaban_benar_var = tk.IntVar()
     penjelasan_var = tk.StringVar(value="")
 
     # Kontainer Utama
@@ -894,6 +893,16 @@ def halaman_buat_quiz_soal(ROOT):
         
         btn.pack(fill="x", padx=10, pady=5, ipady=3)
         return btn
+    
+    opsi_entry_list = [] # Menyimpan tombol widget entry A-D
+    
+    def pilih_jawaban(val):
+        print(f"kunci jawaban ada pada indeks: {val}")
+        for i,entry in enumerate(opsi_entry_list):
+            if i == val:
+                entry.configure(bg="#A0B084")
+            else:
+                entry.configure(bg="white")
         
     for i in range(logika.Jumlah_soal):
         buat_item_soal(list_frame, i)
@@ -919,29 +928,34 @@ def halaman_buat_quiz_soal(ROOT):
     # Opsi A
     frame_a = tk.Frame(right_panel, bg="#F4EFE6")
     frame_a.pack(fill="x", pady=2)
-    tk.Radiobutton(frame_a, bg="#F4EFE6").pack(side="left")
-    tk.Entry(frame_a, font=("Helvetica", 10)).pack(side="left", fill="x", expand=True, ipady=3)
+    tk.Radiobutton(frame_a, bg="#F4EFE6", variable=jawaban_benar_var, value=0, command=lambda: pilih_jawaban(0)).pack(side="left")
+    entry_a = tk.Entry(frame_a, font=("Helvetica", 10))
+    entry_a.pack(side="left", fill="x", expand=True, ipady=3)
+    opsi_entry_list.append(entry_a)
 
     # Opsi B (Terpilih)
     frame_b = tk.Frame(right_panel, bg="#F4EFE6")
     frame_b.pack(fill="x", pady=2)
-    tk.Radiobutton(frame_b, bg="#F4EFE6").pack(side="left")
-    entry_b = tk.Entry(frame_b, font=("Helvetica", 10), bg="#A0B084")
-    entry_b.insert(0, "B. (jawaban benar)")
+    tk.Radiobutton(frame_b, bg="#F4EFE6", variable=jawaban_benar_var, value=1, command=lambda: pilih_jawaban(1)).pack(side="left")
+    entry_b = tk.Entry(frame_b, font=("Helvetica", 10))
     entry_b.pack(side="left", fill="x", expand=True, ipady=3)
     opsi_entry_list.append(entry_b)
 
     # Opsi C
     frame_c = tk.Frame(right_panel, bg="#F4EFE6")
     frame_c.pack(fill="x", pady=2)
-    tk.Radiobutton(frame_c, bg="#F4EFE6").pack(side="left")
-    tk.Entry(frame_c, font=("Helvetica", 10)).pack(side="left", fill="x", expand=True, ipady=3)
+    tk.Radiobutton(frame_c, bg="#F4EFE6", variable=jawaban_benar_var, value=2, command=lambda: pilih_jawaban(2)).pack(side="left")
+    entry_c = tk.Entry(frame_c, font=("Helvetica", 10))
+    entry_c.pack(side="left", fill="x", expand=True, ipady=3)
+    opsi_entry_list.append(entry_c)
 
     # Opsi D
     frame_d = tk.Frame(right_panel, bg="#F4EFE6")
     frame_d.pack(fill="x", pady=2)
-    tk.Radiobutton(frame_d, bg="#F4EFE6").pack(side="left")
-    tk.Entry(frame_d, font=("Helvetica", 10)).pack(side="left", fill="x", expand=True, ipady=3)
+    tk.Radiobutton(frame_d, bg="#F4EFE6", variable=jawaban_benar_var, value=3, command=lambda: pilih_jawaban(3)).pack(side="left")
+    entry_d = tk.Entry(frame_d, font=("Helvetica", 10))
+    entry_d.pack(side="left", fill="x", expand=True, ipady=3)
+    opsi_entry_list.append(entry_d)
 
     # Penjelasan
     entry_jelas = tk.Entry(right_panel, font=("Helvetica", 10), textvariable=penjelasan_var)
