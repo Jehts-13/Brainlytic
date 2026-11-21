@@ -122,5 +122,6 @@ def simpan_kepala_quiz(judul, deskripsi, jumlah, waktu):
     Deskripsi = deskripsi
     Jumlah_soal = int(jumlah)
     Total_waktu = int(waktu)
+    Nomor_soal = 0
     print(f"Berhasil menyimpan\nJudul_quiz: {Judul_quiz}\nDeskripsi: {Deskripsi}\nJumlah_soal: {Jumlah_soal:<7}Waktu: {Total_waktu}")
     
