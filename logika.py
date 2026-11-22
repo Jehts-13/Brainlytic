@@ -44,7 +44,7 @@ def simpan_jawaban_soal(index_jawaban):
     global Nomor_soal, Riwayat_jawaban
     if Riwayat_jawaban is None:
         Riwayat_jawaban = []
-    Riwayat_jawaban.append(index_jawaban)
+    Riwayat_jawaban.append(int(index_jawaban))
     
     Nomor_soal += 1
     return
@@ -57,6 +57,7 @@ def hitung_skor(sisa_waktu):
     try:
         for i in range(Jumlah_soal):
             jawaban = Soal[i]['jawaban']
+            print(type(jawaban), '==' if type(jawaban) == type(Riwayat_jawaban[i]) else '!=' ,type(Riwayat_jawaban[i]))
             if Riwayat_jawaban[i] == jawaban:
                 Jumlah_benar += 1
                 print(f"Riwayat_jawaban {Riwayat_jawaban[i]} == jawaban {jawaban} (Benar)")
