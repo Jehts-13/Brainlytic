@@ -9,7 +9,7 @@ Total_waktu = -1
 Waktu_digunakan = -1
 
 Nomor_soal = -1 # quiz belum dimulai memiliki nilai Nomor_soal -1
-# variabel soal menyimpan dictionary yang berisi deskripsi_soal dan list pilihan
+# variabel soal menyimpan dictionary berisi deskripsi_soal, jawaban dan list pilihan
 Soal = None
 Riwayat_jawaban = None
 
@@ -51,12 +51,13 @@ def simpan_jawaban_soal(index_jawaban):
     
 def hitung_skor(sisa_waktu):
     '''Menghitung jumlah benar dan salah, persentase skor, serta menghitung waktu yang digunakan'''
-    global Jumlah_benar, Jumlah_salah, Skor, Waktu_digunakan, Riwayat_jawaban, Jumlah_soal, Judul_quiz
-    jawaban = load_quiz_jawaban(Judul_quiz)
+    global Jumlah_benar, Jumlah_salah, Skor, Waktu_digunakan, Riwayat_jawaban, Jumlah_soal, Judul_quiz, Soal
+    
     # Menghitung jumlah jawaban benar dan salah
     try:
         for i in range(Jumlah_soal):
-            if Riwayat_jawaban[i] == jawaban[i]:
+            jawaban = Soal[i]['jawaban_benar']
+            if Riwayat_jawaban[i] == jawaban:
                 Jumlah_benar += 1
                 print(f"Riwayat_jawaban {Riwayat_jawaban[i]} == jawaban {jawaban[i]} (Benar)")
             else:
@@ -117,11 +118,35 @@ def sort_user_history(data, judul=None):
 Deskripsi = ""
 
 def simpan_kepala_quiz(judul, deskripsi, jumlah, waktu):
-    global Judul_quiz, Deskripsi, Jumlah_soal, Total_waktu
+    global Judul_quiz, Deskripsi, Jumlah_soal, Total_waktu, Nomor_soal, Soal
     Judul_quiz = judul
     Deskripsi = deskripsi
     Jumlah_soal = int(jumlah)
     Total_waktu = int(waktu)
     Nomor_soal = 0
+    Soal = []
+    for _ in range(Jumlah_soal):
+        Soal.append(None)
+    
     print(f"Berhasil menyimpan\nJudul_quiz: {Judul_quiz}\nDeskripsi: {Deskripsi}\nJumlah_soal: {Jumlah_soal:<7}Waktu: {Total_waktu}")
     
+def simpan_soal(index, deskripsi_soal, opsi_a, opsi_b, opsi_c, opsi_d, jawaban_benar, penjelasan):
+    global Soal
+    if index != Nomor_soal:
+        print(f"index:{index}\t\tNomor_soal:{Nomor_soal}")
+        return False
+    opsi = [opsi_a, opsi_b, opsi_c, opsi_d]
+    Soal[index] = {'deskripsi_soal': deskripsi_soal, 'opsi': opsi, 'jawaban': jawaban_benar, 'penjelasan':penjelasan}
+    return True
+
+def ambil_soal(index):
+    global Soal
+    print(f"Isi Soal:\n{Soal}")
+    for i, soal in enumerate(Soal):
+        if i == index:
+            if soal == None:
+                return ("", '','','','', 0, 'Tuliskan penjelasan anda di sini...')
+            opsi_a, opsi_b, opsi_c, opsi_d = tuple(soal['opsi'])
+            return (soal['deskripsi_soal'], opsi_a, opsi_b, opsi_c, opsi_d, soal['jawaban'], soal['penjelasan'])
+    return None
+

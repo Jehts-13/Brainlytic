@@ -65,30 +65,13 @@ def load_quiz_soal(JUDUL,  filepath="data/soal_quiz.csv"):
             if row.get('nama_quiz') == JUDUL:
                 deskripsi_soal = row.get('deskripsi_soal')
                 opsi = [row.get('opsi_a'), row.get('opsi_b'), row.get('opsi_c'), row.get('opsi_d')]
-                list_soal.append({"deskripsi": deskripsi_soal, "pilihan": opsi})
+                jawaban = int(row.get('jawaban_benar'))
+                list_soal.append({"deskripsi": deskripsi_soal,"jawaban":jawaban ,"pilihan": opsi})
     if list_soal:
         return list_soal
     else:
         return None
 
-def load_quiz_jawaban(JUDUL, filepath="data/soal_quiz.csv"):
-    '''
-    Mengambil jawaban benar dari soal_quiz.csv berdasarkan judul quiz
-    '''
-    if not os.path.exists(filepath):
-        return None  # Return None if the file doesn't exist
-    
-    list_jawaban = []
-    with open(filepath, mode='r', encoding='utf-8') as file:
-        csv_reader = csv.DictReader(file)
-        for row in csv_reader:
-            if row.get('nama_quiz') == JUDUL:
-                jawaban_benar = row.get('jawaban_benar')
-                list_jawaban.append(jawaban_benar)
-    if list_jawaban:
-        return list_jawaban
-    else:
-        return None
     
 def load_user_history(filepath="data/user_history.csv"):
     '''

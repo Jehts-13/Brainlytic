@@ -387,10 +387,21 @@ def halaman_soal_quiz(ROOT):
     # 6. Tombol Navigasi Bawah
     bottom_frame = tk.Frame(ROOT, bg="#F4EFE6")
     bottom_frame.pack(fill="x", padx=20, pady=10)
+    
+    def keluar_quiz():
+        nonlocal timer_id
+        
+        if timer_id is not None:
+            ROOT.after_cancel(timer_id)
+            timer_id = None
+            
+        logika.reset_data()
+        bersihkan_layar(ROOT)
+        halaman_homescreen(ROOT)
 
     btn_keluar = tk.Button(bottom_frame, text="Keluar", bg="white", fg="#4A2C11", 
                            font=("Helvetica", 10), relief="solid", bd=1, width=12,
-                           command=lambda: {bersihkan_layar(ROOT),halaman_homescreen(ROOT)})
+                           command=lambda: {})
     btn_keluar.pack(side="left", ipady=5)
 
     label_reset = tk.Button(bottom_frame, text="Reset Jawaban", font=("Helvetica", 10), fg="#4A2C11", bg="#F4EFE6",  
@@ -719,9 +730,14 @@ def halaman_buat_kepala_quiz(ROOT):
             if judul == quiz['judul']:
                 messagebox.showwarning("Judul duplikat!", "Judul telah terdaftar dalam list Quiz aplikasi! Mohon masukkan Judul Quiz yang berbeda",)
                 return False
+        return True
         
     def lanjut_pembuatan_soal():
         valid = validasi_kepala_quiz()
+        
+        if not valid:
+            return
+        
         logika.simpan_kepala_quiz(judul_var.get(), entry_deskripsi.get("1.0", "end-1c"), jumlah_soal_var.get(), batas_waktu_var.get())
         bersihkan_layar(ROOT)
         halaman_buat_quiz_soal(ROOT)
@@ -809,13 +825,37 @@ def halaman_buat_kepala_quiz(ROOT):
 def halaman_buat_quiz_soal(ROOT):
     ROOT.configure(bg="#F4EFE6")
     nomor_pertanyaan_var = tk.IntVar(value=None)
-    pertanyaan = ""
+    deskripsi_soal = ""
     jawaban_a_var = tk.StringVar(value="")
     jawaban_b_var = tk.StringVar(value="")
     jawaban_c_var = tk.StringVar(value="")
     jawaban_d_var = tk.StringVar(value="")
     jawaban_benar_var = tk.IntVar()
     penjelasan_var = tk.StringVar(value="")
+    
+    def reset_data_soal():
+        nonlocal deskripsi_soal, nomor_pertanyaan_var, jawaban_a_var, jawaban_b_var, jawaban_c_var, jawaban_d_var, jawaban_benar_var, penjelasan_var
+        deskripsi_soal = ""
+        nomor_pertanyaan_var.set(0)
+        jawaban_a_var.set("")
+        jawaban_b_var.set("")
+        jawaban_c_var.set("")
+        jawaban_d_var.set("")
+        jawaban_benar_var.set(None)
+        penjelasan_var.set("")
+
+    def batasan_deskripsi_soal(*args):
+        nonlocal deskripsi_soal
+
+        teks = entry_deskripsi_soal.get("1.0", "end-1c")
+
+        if len(teks) > 90:
+            teks = teks[:90]
+
+            entry_deskripsi_soal.delete("1.0", "end")
+            entry_deskripsi_soal.insert("1.0", teks)
+
+        deskripsi_soal = teks
 
     # Kontainer Utama
     main_frame = tk.Frame(ROOT, bg="#F4EFE6")
@@ -875,6 +915,28 @@ def halaman_buat_quiz_soal(ROOT):
     tombol_soal_list = {}
 
     def pilih_soal(indeks):
+        #TODO: Deskripsi Soal, Pilihan A-D (0-3), Jawaban Benar, serta Penjelasan
+        # Menyimpan, membersihkan, Mengisi
+        nonlocal deskripsi_soal, jawaban_a_var, jawaban_b_var, jawaban_c_var, jawaban_d_var, jawaban_benar_var, penjelasan_var, nomor_pertanyaan_var
+        tersimpan = logika.simpan_soal(nomor_pertanyaan_var.get(), deskripsi_soal, jawaban_a_var.get(), jawaban_b_var.get(), jawaban_c_var.get(), jawaban_d_var.get(), jawaban_benar_var.get(), penjelasan_var.get())
+        if not tersimpan:
+            print(f"Soal {nomor_pertanyaan_var.get()} tidak tersimpan")
+            return
+        
+        reset_data_soal()
+        
+        deskripsi_soal, jawaban_a, jawaban_b, jawaban_c, jawaban_d, jawaban_benar, penjelasan = logika.ambil_soal(indeks)
+        jawaban_a_var.set(jawaban_a)
+        jawaban_b_var.set(jawaban_b)
+        jawaban_c_var.set(jawaban_c)
+        jawaban_d_var.set(jawaban_d)
+        jawaban_benar_var.set(jawaban_benar)
+        penjelasan_var.set(penjelasan)
+        
+        entry_deskripsi_soal.delete("1.0", "end")
+        entry_deskripsi_soal.insert("1.0", deskripsi_soal)
+        
+
         nomor_pertanyaan_var.set(indeks)
         logika.Nomor_soal = indeks
         for i, tombol in tombol_soal_list.items():
@@ -882,8 +944,6 @@ def halaman_buat_quiz_soal(ROOT):
                 tombol.configure(bg="#A06A42", fg="white")
             else:
                 tombol.configure(bg="white", fg="#4A2C11")
-                
-        #TODO: Update Deskripsi Soal, Pilihan A-D (0-3), serta Penjelasan
 
     def buat_item_soal(parent, indeks):
         btn = tk.Button(parent, text=f"Soal {indeks+1}", bg="white", fg="#4A2C11", relief="flat", anchor="w", padx=10)
@@ -897,7 +957,7 @@ def halaman_buat_quiz_soal(ROOT):
     opsi_entry_list = [] # Menyimpan tombol widget entry A-D
     
     def pilih_jawaban(val):
-        print(f"kunci jawaban ada pada indeks: {val}")
+        print(f"kunci jawaban: {val}")
         for i,entry in enumerate(opsi_entry_list):
             if i == val:
                 entry.configure(bg="#A0B084")
@@ -907,19 +967,18 @@ def halaman_buat_quiz_soal(ROOT):
     for i in range(logika.Jumlah_soal):
         buat_item_soal(list_frame, i)
         
-    pilih_soal(0)
 
     # Panel Kanan (Form Input Soal)
     right_panel = tk.Frame(main_frame, bg="#F4EFE6")
     right_panel.pack(side="left", fill="both", expand=True)
 
-    # Input Pertanyaan
+    # Input Deskripsi Soal
     label_tanya = tk.Label(right_panel, text="Pertanyaan", font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
     label_tanya.pack(anchor="w", pady=(10, 5))
     
-    entry_tanya = tk.Text(right_panel, font=("Helvetica", 10), height=3)
-    entry_tanya.insert("1.0", "Apa output dari print(type([]))?")
-    entry_tanya.pack(fill="x", pady=5)
+    entry_deskripsi_soal = tk.Text(right_panel, font=("Helvetica", 10), height=3)
+    entry_deskripsi_soal.bind("<KeyRelease>", batasan_deskripsi_soal)
+    entry_deskripsi_soal.pack(fill="x", pady=5)
 
     # Input Pilihan Jawaban
     label_pilih = tk.Label(right_panel, text="Pilihan jawaban (tandai yang benar)", font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
@@ -929,7 +988,7 @@ def halaman_buat_quiz_soal(ROOT):
     frame_a = tk.Frame(right_panel, bg="#F4EFE6")
     frame_a.pack(fill="x", pady=2)
     tk.Radiobutton(frame_a, bg="#F4EFE6", variable=jawaban_benar_var, value=0, command=lambda: pilih_jawaban(0)).pack(side="left")
-    entry_a = tk.Entry(frame_a, font=("Helvetica", 10))
+    entry_a = tk.Entry(frame_a, font=("Helvetica", 10), textvariable=jawaban_a_var)
     entry_a.pack(side="left", fill="x", expand=True, ipady=3)
     opsi_entry_list.append(entry_a)
 
@@ -937,7 +996,7 @@ def halaman_buat_quiz_soal(ROOT):
     frame_b = tk.Frame(right_panel, bg="#F4EFE6")
     frame_b.pack(fill="x", pady=2)
     tk.Radiobutton(frame_b, bg="#F4EFE6", variable=jawaban_benar_var, value=1, command=lambda: pilih_jawaban(1)).pack(side="left")
-    entry_b = tk.Entry(frame_b, font=("Helvetica", 10))
+    entry_b = tk.Entry(frame_b, font=("Helvetica", 10), textvariable=jawaban_b_var)
     entry_b.pack(side="left", fill="x", expand=True, ipady=3)
     opsi_entry_list.append(entry_b)
 
@@ -945,7 +1004,7 @@ def halaman_buat_quiz_soal(ROOT):
     frame_c = tk.Frame(right_panel, bg="#F4EFE6")
     frame_c.pack(fill="x", pady=2)
     tk.Radiobutton(frame_c, bg="#F4EFE6", variable=jawaban_benar_var, value=2, command=lambda: pilih_jawaban(2)).pack(side="left")
-    entry_c = tk.Entry(frame_c, font=("Helvetica", 10))
+    entry_c = tk.Entry(frame_c, font=("Helvetica", 10), textvariable=jawaban_c_var)
     entry_c.pack(side="left", fill="x", expand=True, ipady=3)
     opsi_entry_list.append(entry_c)
 
@@ -953,7 +1012,7 @@ def halaman_buat_quiz_soal(ROOT):
     frame_d = tk.Frame(right_panel, bg="#F4EFE6")
     frame_d.pack(fill="x", pady=2)
     tk.Radiobutton(frame_d, bg="#F4EFE6", variable=jawaban_benar_var, value=3, command=lambda: pilih_jawaban(3)).pack(side="left")
-    entry_d = tk.Entry(frame_d, font=("Helvetica", 10))
+    entry_d = tk.Entry(frame_d, font=("Helvetica", 10), textvariable=jawaban_d_var)
     entry_d.pack(side="left", fill="x", expand=True, ipady=3)
     opsi_entry_list.append(entry_d)
 
@@ -962,6 +1021,8 @@ def halaman_buat_quiz_soal(ROOT):
     entry_jelas.insert(0, "Tuliskan penjelasan anda di sini..")
     entry_jelas.pack(fill="x", pady=(15, 5), ipady=5)
 
+    pilih_soal(0)
+    
     # Tombol Navigasi Bawah
     bottom_frame = tk.Frame(ROOT, bg="#F4EFE6")
     bottom_frame.pack(fill="x", padx=20, pady=(0, 20))
