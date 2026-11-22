@@ -56,20 +56,20 @@ def hitung_skor(sisa_waktu):
     # Menghitung jumlah jawaban benar dan salah
     try:
         for i in range(Jumlah_soal):
-            jawaban = Soal[i]['jawaban_benar']
+            jawaban = Soal[i]['jawaban']
             if Riwayat_jawaban[i] == jawaban:
                 Jumlah_benar += 1
-                print(f"Riwayat_jawaban {Riwayat_jawaban[i]} == jawaban {jawaban[i]} (Benar)")
+                print(f"Riwayat_jawaban {Riwayat_jawaban[i]} == jawaban {jawaban} (Benar)")
             else:
                 Jumlah_salah += 1
-                print(f"Riwayat_jawaban {Riwayat_jawaban[i]} != jawaban {jawaban[i]} (Salah)")
+                print(f"Riwayat_jawaban {Riwayat_jawaban[i]} != jawaban {jawaban} (Salah)")
         # Menghitung persentase skor
         Skor = int((Jumlah_benar / Jumlah_soal) * 100)
         print(f"Jumlah Benar: {Jumlah_benar:<5}Jumlah Salah: {Jumlah_salah:<5}Skor: {f"{Skor:.2f}":<7}")
         # Menghitung waktu yang digunakan
         Waktu_digunakan = Total_waktu - sisa_waktu
 
-        simpan_hasil_quiz(username, Judul_quiz, Skor, Jumlah_benar, Jumlah_salah, Waktu_digunakan)
+        save_hasil_quiz(username, Judul_quiz, Skor, Jumlah_benar, Jumlah_salah, Waktu_digunakan)
     except IndexError:
         return IndexError
 
@@ -119,16 +119,30 @@ Deskripsi = ""
 
 def simpan_kepala_quiz(judul, deskripsi, jumlah, waktu):
     global Judul_quiz, Deskripsi, Jumlah_soal, Total_waktu, Nomor_soal, Soal
+    
     Judul_quiz = judul
     Deskripsi = deskripsi
     Jumlah_soal = int(jumlah)
     Total_waktu = int(waktu)
     Nomor_soal = 0
-    Soal = []
-    for _ in range(Jumlah_soal):
-        Soal.append(None)
-    
-    print(f"Berhasil menyimpan\nJudul_quiz: {Judul_quiz}\nDeskripsi: {Deskripsi}\nJumlah_soal: {Jumlah_soal:<7}Waktu: {Total_waktu}")
+    # inisialisasi Soal sebagai list ketika awal pembuatan
+    if Soal == None:
+        print("[Soal] belum pernah di inisialisasi!")
+        Soal = []
+        for _ in range(Jumlah_soal):
+            Soal.append(None)
+    elif len(Soal) != Jumlah_soal: # menyesuaikan panjang Soal setelah inisialisasi
+        panjang_soal = len(Soal)
+        print(f"[Soal] pernah di inisialisasi dengan panjang {panjang_soal} soal")
+        if panjang_soal > Jumlah_soal:
+            for _ in range(len(Soal)-Jumlah_soal):
+                Soal.pop()
+        elif panjang_soal < Jumlah_soal:
+            for _ in range(Jumlah_soal-panjang_soal):
+                Soal.append(None)
+            
+        
+        print(f"Berhasil menyimpan\nJudul_quiz: {Judul_quiz}\nDeskripsi: {Deskripsi}\nJumlah_soal: {Jumlah_soal:<7}Waktu: {Total_waktu}")
     
 def simpan_soal(index, deskripsi_soal, opsi_a, opsi_b, opsi_c, opsi_d, jawaban_benar, penjelasan):
     global Soal
@@ -150,3 +164,7 @@ def ambil_soal(index):
             return (soal['deskripsi_soal'], opsi_a, opsi_b, opsi_c, opsi_d, soal['jawaban'], soal['penjelasan'])
     return None
 
+def simpan_quiz():
+    global Judul_quiz, Deskripsi, Total_waktu, Jumlah_soal, Soal
+    return save_buat_quiz(Judul_quiz, Deskripsi, Total_waktu, Jumlah_soal, Soal)
+    pass

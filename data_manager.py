@@ -88,7 +88,7 @@ def load_user_history(filepath="data/user_history.csv"):
             daftar_user_history.append(dict(row))
     return daftar_user_history
     
-def simpan_hasil_quiz(username, judul_quiz, skor, jumlah_benar, jumlah_salah, waktu_digunakan, filepath="data/user_history.csv"):
+def save_hasil_quiz(username, judul_quiz, skor, jumlah_benar, jumlah_salah, waktu_digunakan, filepath="data/user_history.csv"):
     # Implementasikan logika untuk menyimpan hasil quiz ke file 
     with open(filepath, mode='a', newline='', encoding='utf-8') as file:
         fieldnames = ['username', 'tanggal', 'judul_quiz', 'skor', 'jumlah_benar', 'jumlah_salah', 'waktu_digunakan']
@@ -109,3 +109,6 @@ def simpan_hasil_quiz(username, judul_quiz, skor, jumlah_benar, jumlah_salah, wa
             'jumlah_salah': jumlah_salah,
             'waktu_digunakan': waktu_digunakan
         })
+
+def save_buat_quiz(judul_quiz, deskripsi_quiz, batas_waktu, jumlah_soal, soal):
+    pass

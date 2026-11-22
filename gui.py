@@ -101,14 +101,14 @@ def halaman_pilih_quiz(ROOT):
     top_bar = tk.Frame(ROOT, bg="#A0B084", height=25) # Warna hijau zaitun pudar
     top_bar.pack(fill="x")
     
-    label_top = tk.Label(top_bar, text="QuizPy | Kerjakan Quiz", bg="#A0B084", fg="#4A2C11", font=("Helvetica", 9, "bold"))
+    label_top = tk.Label(top_bar, text="QuizPy | Kerjakan Quiz", bg="#A0B084", fg="#4E220F", font=("Helvetica", 9, "bold"))
     label_top.pack(side="left", padx=10, pady=2)
 
     # 2. Area Judul & Pencarian
     header_frame = tk.Frame(ROOT, bg="#F4EFE6")
     header_frame.pack(fill="x", padx=20, pady=(20, 10))
 
-    judul = tk.Label(header_frame, text="Pilih Quiz", font=("Helvetica", 24, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    judul = tk.Label(header_frame, text="Pilih Quiz", font=("Helvetica", 24, "bold"), fg="#4E220F", bg="#F4EFE6")
     judul.pack(side="left")
 
     cari_entry = tk.Entry(header_frame, font=("Helvetica", 10), width=25)
@@ -119,7 +119,7 @@ def halaman_pilih_quiz(ROOT):
     bottom_frame = tk.Frame(ROOT, bg="#F4EFE6")
     bottom_frame.pack(fill="x", padx=20, pady=20)
 
-    btn_kembali = tk.Button(bottom_frame, text="Kembali", bg="white", fg="#4A2C11", 
+    btn_kembali = tk.Button(bottom_frame, text="Kembali", bg="white", fg="#4E220F", 
                             font=("Helvetica", 10, "bold"), width=15, relief="solid", bd=1,
                             command=lambda: {
                                 bersihkan_layar(ROOT),  # Bersihkan halaman 
@@ -127,7 +127,7 @@ def halaman_pilih_quiz(ROOT):
                             }) 
     btn_kembali.pack(side="left", ipady=5)
 
-    btn_mulai = tk.Button(bottom_frame, text="Mulai Quiz", bg="#4A2C11", fg="white", 
+    btn_mulai = tk.Button(bottom_frame, text="Mulai Quiz", bg="#4E220F", fg="white", 
                         font=("Helvetica", 10, "bold"), width=15,
                         command=lambda: aksi_mulai_kuis()) 
     btn_mulai.pack(side="right", ipady=5)
@@ -193,12 +193,12 @@ def halaman_pilih_quiz(ROOT):
                 tombol.configure(bg="#A06A42", fg="white")
             else:
                 # Reset tombol lainnya kembali ke putih
-                tombol.configure(bg="white", fg="#4A2C11")
+                tombol.configure(bg="white", fg="#4E220F")
 
     # --- FUNGSI MEMBUAT TOMBOL ---
     def buat_item_quiz(parent, judul_quiz, deskripsi):
         teks_tombol = f"{judul_quiz}\n{deskripsi}"
-        btn = tk.Button(parent, text=teks_tombol, bg="white", fg="#4A2C11", 
+        btn = tk.Button(parent, text=teks_tombol, bg="white", fg="#4E220F", 
                         font=("Helvetica", 9), justify="left", anchor="w", relief="solid", bd=1)
         
         # Simpan widget tombol ke dalam dictionary berdasarkan judulnya
@@ -234,7 +234,7 @@ def halaman_pilih_quiz(ROOT):
     
     if not daftar_quiz:
         print("Belum ada kuis yang tersedia.")
-        tk.Label(list_frame, text="Belum ada kuis yang tersedia.", bg="#F4EFE6", fg="#4A2C11").pack(pady=20)
+        tk.Label(list_frame, text="Belum ada kuis yang tersedia.", bg="#F4EFE6", fg="#4E220F").pack(pady=20)
     else:
         for quiz in daftar_quiz:
             buat_item_quiz(list_frame, quiz["judul"], quiz["deskripsi"])
@@ -265,7 +265,7 @@ def halaman_soal_quiz(ROOT):
         nonlocal nomor_soal, jumlah_soal
         return f"Soal {nomor_soal+1} dari {jumlah_soal}" 
 
-    label_soal = tk.Label(header_frame, text=text_indikator_soal(), font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    label_soal = tk.Label(header_frame, text=text_indikator_soal(), font=("Helvetica", 10, "bold"), fg="#4E220F", bg="#F4EFE6")
     label_soal.pack(side="left")
 
     
@@ -317,7 +317,7 @@ def halaman_soal_quiz(ROOT):
     # Panjang total progress bar
     panjang_progres = logika.ambil_rasio_progressbar()
 
-    progress_fill = tk.Frame(progress_bg, bg="#4A2C11", height=10) # Bagian yang terisi (coklat tua)
+    progress_fill = tk.Frame(progress_bg, bg="#4E220F", height=10) # Bagian yang terisi (coklat tua)
     progress_fill.pack(side="left")
     progress_fill.place(x=0, y=0, relheight=1.0, relwidth=0.0)
     progress_bg.pack_propagate(False) # Mencegah frame bg mengecil mengikuti isi
@@ -334,7 +334,7 @@ def halaman_soal_quiz(ROOT):
     pertanyaan_frame.pack(fill="x", padx=20, pady=10)
     
     pertanyaan = logika.Soal[nomor_soal]['deskripsi']
-    teks_pertanyaan_frame = tk.Label(pertanyaan_frame, text=pertanyaan, font=("Helvetica", 14, "bold"), fg="#4A2C11", bg="white", wraplength=500)
+    teks_pertanyaan_frame = tk.Label(pertanyaan_frame, text=pertanyaan, font=("Helvetica", 14, "bold"), fg="#4E220F", bg="white", wraplength=500)
     teks_pertanyaan_frame.pack(pady=20)
 
     # 5. Pilihan Ganda (Grid 2x2)
@@ -356,18 +356,18 @@ def halaman_soal_quiz(ROOT):
                 btn.configure(bg="#A06A42", fg="white")
                 print(f"\n@@ Pilihan ke-{index+1} terpilih!")
             else:
-                btn.configure(bg="white", fg="#4A2C11")
+                btn.configure(bg="white", fg="#4E220F")
 
     def reset_opsi():
         for btn in tombol_pilihan_dict.values():
-            btn.configure(bg="white", fg="#4A2C11")
+            btn.configure(bg="white", fg="#4E220F")
             
         jawaban.set(value="")
         # print("\n@@ Jawaban telah di reset!")
     
     def buat_item_opsi(parent, nomor_index, baris, kolom):
         nonlocal teks_pilihan
-        btn = tk.Button(parent, text=teks_pilihan[nomor_index], bg="white", fg="#4A2C11", font=("Helvetica", 10), relief="solid", bd=1, wraplength=200)
+        btn = tk.Button(parent, text=teks_pilihan[nomor_index], bg="white", fg="#4E220F", font=("Helvetica", 10), relief="solid", bd=1, wraplength=200)
         btn.grid(row=baris, column=kolom, sticky="ew", padx=(0, 5), pady=5, ipady=8)
         tombol_pilihan_dict[nomor_index] = btn
         btn.configure(command=lambda opsi=nomor_index: pilih_opsi(opsi))
@@ -399,12 +399,12 @@ def halaman_soal_quiz(ROOT):
         bersihkan_layar(ROOT)
         halaman_homescreen(ROOT)
 
-    btn_keluar = tk.Button(bottom_frame, text="Keluar", bg="white", fg="#4A2C11", 
+    btn_keluar = tk.Button(bottom_frame, text="Keluar", bg="white", fg="#4E220F", 
                            font=("Helvetica", 10), relief="solid", bd=1, width=12,
-                           command=lambda: {})
+                           command=lambda: keluar_quiz())
     btn_keluar.pack(side="left", ipady=5)
 
-    label_reset = tk.Button(bottom_frame, text="Reset Jawaban", font=("Helvetica", 10), fg="#4A2C11", bg="#F4EFE6",  
+    label_reset = tk.Button(bottom_frame, text="Reset Jawaban", font=("Helvetica", 10), fg="#4E220F", bg="#F4EFE6",  
                             relief="sunken", bd=1, width=16,
                             command=lambda:reset_opsi())
     label_reset.pack(side="left", expand=True)
@@ -442,7 +442,7 @@ def halaman_soal_quiz(ROOT):
         except IndexError:
             print(f"{nomor_soal} index is not in the list!")
 
-    btn_berikutnya = tk.Button(bottom_frame, text="Berikutnya", bg="#4A2C11", fg="white", font=("Helvetica", 10, "bold"), width=12,
+    btn_berikutnya = tk.Button(bottom_frame, text="Berikutnya", bg="#4E220F", fg="white", font=("Helvetica", 10, "bold"), width=12,
                                command=lambda: {
                                    load_berikutnya()
                                })
@@ -465,7 +465,7 @@ def halaman_hasil_quiz(ROOT):
     main_frame.pack(expand=True)
 
     # Judul / Header
-    judul = tk.Label(main_frame, text=f"quiz selesai, {username_var.get()}!", font=("Helvetica", 24, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    judul = tk.Label(main_frame, text=f"quiz selesai, {username_var.get()}!", font=("Helvetica", 24, "bold"), fg="#4E220F", bg="#F4EFE6")
     judul.pack(pady=(0, 20))
 
     # Tampilan Skor dengan Lingkaran (menggunakan Canvas)
@@ -482,7 +482,7 @@ def halaman_hasil_quiz(ROOT):
     stats_frame.pack(pady=20)
 
     # Kotak Jawaban Benar (Background Hijau)
-    box_benar = tk.Label(stats_frame, text=f"Benar: {jumlah_benar}", font=("Helvetica", 11, "bold"), bg="#A0B084", fg="#4A2C11", width=15, height=2)
+    box_benar = tk.Label(stats_frame, text=f"Benar: {jumlah_benar}", font=("Helvetica", 11, "bold"), bg="#A0B084", fg="#4E220F", width=15, height=2)
     box_benar.grid(row=0, column=0, padx=10)
 
     # Kotak Jawaban Salah (Background Putih, Border Cokelat)
@@ -490,7 +490,7 @@ def halaman_hasil_quiz(ROOT):
     box_salah.grid(row=0, column=1, padx=10)
 
     # Kotak Waktu (Background Putih, Border Cokelat)
-    box_waktu = tk.Label(stats_frame, text=f"Waktu: {logika.format_waktu(waktu)}", font=("Helvetica", 11, "bold"), bg="white", fg="#4A2C11", width=15, height=2, relief="solid", bd=1)
+    box_waktu = tk.Label(stats_frame, text=f"Waktu: {logika.format_waktu(waktu)}", font=("Helvetica", 11, "bold"), bg="white", fg="#4E220F", width=15, height=2, relief="solid", bd=1)
     box_waktu.grid(row=0, column=2, padx=10)
 
     # Frame untuk Navigasi Tombol Bawah
@@ -498,16 +498,16 @@ def halaman_hasil_quiz(ROOT):
     btn_frame.pack(pady=20)
 
     # Tombol Tinjau Jawaban
-    btn_tinjau = tk.Button(btn_frame, text="Tinjau Jawaban", bg="white", fg="#4A2C11", font=("Helvetica", 10), width=15, relief="solid", bd=1)
+    btn_tinjau = tk.Button(btn_frame, text="Tinjau Jawaban", bg="white", fg="#4E220F", font=("Helvetica", 10), width=15, relief="solid", bd=1)
     btn_tinjau.grid(row=0, column=0, padx=10, ipady=5)
 
     # Tombol Papan Skor
-    btn_papan = tk.Button(btn_frame, text="Papan Skor", bg="white", fg="#4A2C11", font=("Helvetica", 10), width=15, relief="solid", bd=1,
+    btn_papan = tk.Button(btn_frame, text="Papan Skor", bg="white", fg="#4E220F", font=("Helvetica", 10), width=15, relief="solid", bd=1,
                           command=lambda: halaman_papan_skor(ROOT))
     btn_papan.grid(row=0, column=1, padx=10, ipady=5)
 
     # Tombol Main Lagi
-    btn_main = tk.Button(btn_frame, text="Main Lagi", bg="#4A2C11", fg="white", font=("Helvetica", 10, "bold"), width=15,
+    btn_main = tk.Button(btn_frame, text="Main Lagi", bg="#4E220F", fg="white", font=("Helvetica", 10, "bold"), width=15,
                         command=lambda: {
                             bersihkan_layar(ROOT),  # Bersihkan halaman 
                             logika.reset_data(),
@@ -526,7 +526,7 @@ def halaman_papan_skor(ROOT):
     top_bar = tk.Frame(ROOT, bg="#A0B084", height=25)
     top_bar.pack(fill="x")
     
-    label_top = tk.Label(top_bar, text="QuizPy | Papan Skor", bg="#A0B084", fg="#4A2C11", font=("Helvetica", 9, "bold"))
+    label_top = tk.Label(top_bar, text="QuizPy | Papan Skor", bg="#A0B084", fg="#4E220F", font=("Helvetica", 9, "bold"))
     label_top.pack(side="left", padx=10, pady=2)
 
     # Kontainer Utama
@@ -537,10 +537,10 @@ def halaman_papan_skor(ROOT):
     header_frame = tk.Frame(main_frame, bg="#F4EFE6")
     header_frame.pack(fill="x", pady=(10, 20))
 
-    judul = tk.Label(header_frame, text="10 Skor Tertinggi", font=("Helvetica", 24, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    judul = tk.Label(header_frame, text="10 Skor Tertinggi", font=("Helvetica", 24, "bold"), fg="#4E220F", bg="#F4EFE6")
     judul.pack(side="left")
 
-    btn_filter = tk.Button(header_frame, text="Semua kategori", bg="white", fg="#4A2C11", font=("Helvetica", 10), relief="solid", bd=1, padx=15)
+    btn_filter = tk.Button(header_frame, text="Semua kategori", bg="white", fg="#4E220F", font=("Helvetica", 10), relief="solid", bd=1, padx=15)
     btn_filter.pack(side="right", ipady=2)
 
     # Tabel Frame Container
@@ -611,7 +611,7 @@ def halaman_papan_skor(ROOT):
     )
 
     # Header Tabel (Background Cokelat)
-    header_bg = "#4A2C11"
+    header_bg = "#4E220F"
     header_fg = "white"
     row_header = tk.Frame(tabel_frame, bg=header_bg)
     row_header.pack(fill="x", pady=(0, 10), ipady=5)
@@ -637,10 +637,10 @@ def halaman_papan_skor(ROOT):
         row_frame = tk.Frame(tabel_frame, bg="white", relief="solid", bd=1)
         row_frame.pack(fill="x", pady=4, ipady=5)
         
-        tk.Label(row_frame, text=rank+1, bg="white", fg="#4A2C11", font=("Helvetica", 10), width=5, anchor="w").pack(side="left", padx=(15, 0))
-        tk.Label(row_frame, text=data['username'], bg="white", fg="#4A2C11", font=("Helvetica", 10), width=25, anchor="w").pack(side="left")
-        tk.Label(row_frame, text=data['judul_quiz'], bg="white", fg="#4A2C11", font=("Helvetica", 10), width=20, anchor="w").pack(side="left")
-        tk.Label(row_frame, text=data['skor'], bg="white", fg="#4A2C11", font=("Helvetica", 10), width=10, anchor="e").pack(side="left")
+        tk.Label(row_frame, text=rank+1, bg="white", fg="#4E220F", font=("Helvetica", 10), width=5, anchor="w").pack(side="left", padx=(15, 0))
+        tk.Label(row_frame, text=data['username'], bg="white", fg="#4E220F", font=("Helvetica", 10), width=25, anchor="w").pack(side="left")
+        tk.Label(row_frame, text=data['judul_quiz'], bg="white", fg="#4E220F", font=("Helvetica", 10), width=20, anchor="w").pack(side="left")
+        tk.Label(row_frame, text=data['skor'], bg="white", fg="#4E220F", font=("Helvetica", 10), width=10, anchor="e").pack(side="left")
 
     # Frame Pembatas untuk mendorong tombol ke dasar layar
     spacer = tk.Frame(main_frame, bg="#F4EFE6", height=5)
@@ -650,7 +650,7 @@ def halaman_papan_skor(ROOT):
     bottom_frame = tk.Frame(main_frame, bg="#F4EFE6")
     bottom_frame.pack(fill="x", pady=(20, 10))
 
-    btn_kembali = tk.Button(bottom_frame, text="Kembali", bg="white", fg="#4A2C11", font=("Helvetica", 10), width=15, relief="solid", bd=1,
+    btn_kembali = tk.Button(bottom_frame, text="Kembali", bg="white", fg="#4E220F", font=("Helvetica", 10), width=15, relief="solid", bd=1,
                             command=lambda: {logika.reset_data(),bersihkan_layar(ROOT), halaman_homescreen(ROOT)})
     btn_kembali.pack(side="left", ipady=5)
 
@@ -749,14 +749,14 @@ def halaman_buat_kepala_quiz(ROOT):
     top_bar = tk.Frame(ROOT, bg="#A0B084", height=25)
     top_bar.pack(fill="x")
     
-    label_top = tk.Label(top_bar, text="QuizPy | Buat Quiz Baru (Langkah 1 dari 2)", bg="#A0B084", fg="#4A2C11", font=("Helvetica", 9, "bold"))
+    label_top = tk.Label(top_bar, text="QuizPy | Buat Quiz Baru (Langkah 1 dari 2)", bg="#A0B084", fg="#4E220F", font=("Helvetica", 9, "bold"))
     label_top.pack(side="left", padx=10, pady=2)
 
     # Header Judul Halaman
     header_frame = tk.Frame(ROOT, bg="#F4EFE6")
     header_frame.pack(fill="x", padx=40, pady=(20, 10))
 
-    label_judul = tk.Label(header_frame, text="Informasi Quiz", font=("Helvetica", 24, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    label_judul = tk.Label(header_frame, text="Informasi Quiz", font=("Helvetica", 24, "bold"), fg="#4E220F", bg="#F4EFE6")
     label_judul.pack(side="left")
 
     # Frame Kontainer Formulir
@@ -764,7 +764,7 @@ def halaman_buat_kepala_quiz(ROOT):
     form_frame.pack(fill="both", expand=True, padx=40)
 
     # Input Judul Quiz
-    label_judul = tk.Label(form_frame, text="Judul quiz", font=("Helvetica", 14, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    label_judul = tk.Label(form_frame, text="Judul quiz", font=("Helvetica", 14, "bold"), fg="#4E220F", bg="#F4EFE6")
     label_judul.grid(row=0, column=0, sticky="w", pady=(10, 5))
     
     judul_var.trace_add("write", batasan_judul)
@@ -773,7 +773,7 @@ def halaman_buat_kepala_quiz(ROOT):
     entry_judul.grid(row=1, column=0, columnspan=2, sticky="we", ipady=5)
 
     # Input Deskripsi Quiz
-    label_deskripsi = tk.Label(form_frame, text="Deskripsi", font=("Helvetica", 14, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    label_deskripsi = tk.Label(form_frame, text="Deskripsi", font=("Helvetica", 14, "bold"), fg="#4E220F", bg="#F4EFE6")
     label_deskripsi.grid(row=2, column=0, sticky="w", pady=(15, 5))
 
     label_deskripsi_cnt = tk.Label(form_frame, text="0/55 karakter", font=("Helvetica", 10, "bold"), fg="#A06A42", bg="#F4EFE6")
@@ -786,7 +786,7 @@ def halaman_buat_kepala_quiz(ROOT):
     entry_deskripsi.grid(row=3, column=0, columnspan=2, sticky="we", pady=5)
 
     # Input Jumlah Soal dan Batas Waktu (Bersebelahan)
-    label_jumlah_soal = tk.Label(form_frame, text="Jumlah soal (maks. 25)", font=("Helvetica", 14, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    label_jumlah_soal = tk.Label(form_frame, text="Jumlah soal (maks. 25)", font=("Helvetica", 14, "bold"), fg="#4E220F", bg="#F4EFE6")
     label_jumlah_soal.grid(row=4, column=0, sticky="w", pady=(15, 5))
     
     jumlah_soal_var.trace_add("write", batasan_soal)
@@ -794,7 +794,7 @@ def halaman_buat_kepala_quiz(ROOT):
     entry_jumlah_soal.insert(0,"23")
     entry_jumlah_soal.grid(row=5, column=0, sticky="we", padx=(0, 10), ipady=5)
     
-    label_waktu = tk.Label(form_frame, text="Batas waktu (menit)", font=("Helvetica", 14, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    label_waktu = tk.Label(form_frame, text="Batas waktu (menit)", font=("Helvetica", 14, "bold"), fg="#4E220F", bg="#F4EFE6")
     label_waktu.grid(row=4, column=1, sticky="w", pady=(15, 5))
     
     batas_waktu_var.trace_add("write", batasan_waktu)
@@ -810,15 +810,16 @@ def halaman_buat_kepala_quiz(ROOT):
     bottom_frame = tk.Frame(ROOT, bg="#F4EFE6")
     bottom_frame.pack(fill="x", padx=40, pady=20)
 
-    btn_batal = tk.Button(bottom_frame, text="Batal", bg="white", fg="#4A2C11", font=("Helvetica", 10, "bold"), width=15, relief="solid", bd=1,
+    btn_batal = tk.Button(bottom_frame, text="Batal", bg="white", fg="#4E220F", font=("Helvetica", 10, "bold"), width=15, relief="solid", bd=1,
                           command=lambda:{
-                              reset_pembuatan_quiz(ROOT),
+                              reset_pembuatan_quiz(),
+                              logika.reset_data(),
                               bersihkan_layar(ROOT),
                               halaman_homescreen(ROOT)
                           })
     btn_batal.pack(side="left", ipady=5)
 
-    btn_lanjut = tk.Button(bottom_frame, text="Lanjut: Tambah Soal", bg="#4A2C11", fg="white", font=("Helvetica", 10, "bold"), width=20,
+    btn_lanjut = tk.Button(bottom_frame, text="Lanjut: Tambah Soal", bg="#4E220F", fg="white", font=("Helvetica", 10, "bold"), width=20,
                            command= lambda: lanjut_pembuatan_soal())
     btn_lanjut.pack(side="right", ipady=5)
 
@@ -866,7 +867,7 @@ def halaman_buat_quiz_soal(ROOT):
     left_panel.pack(side="left", fill="y", padx=(0, 15))
     left_panel.pack_propagate(False) # Pertahankan lebar
 
-    label_daftar = tk.Label(left_panel, text=f"Daftar soal ({jumlah_soal_var.get()})", font=("Helvetica", 9, "bold"), bg="#A0B084", fg="#4A2C11")
+    label_daftar = tk.Label(left_panel, text=f"Daftar soal ({jumlah_soal_var.get()})", font=("Helvetica", 9, "bold"), bg="#A0B084", fg="#4E220F")
     label_daftar.pack(pady=(15, 10))
     
     # --- AREA SCROLL UNTUK DAFTAR QUIZ ---
@@ -913,40 +914,96 @@ def halaman_buat_quiz_soal(ROOT):
     list_frame.bind("<Destroy>", unbind_scroll)
 
     tombol_soal_list = {}
+    
+    def simpan_input_soal():
+        nonlocal deskripsi_soal
 
-    def pilih_soal(indeks):
-        #TODO: Deskripsi Soal, Pilihan A-D (0-3), Jawaban Benar, serta Penjelasan
-        # Menyimpan, membersihkan, Mengisi
-        nonlocal deskripsi_soal, jawaban_a_var, jawaban_b_var, jawaban_c_var, jawaban_d_var, jawaban_benar_var, penjelasan_var, nomor_pertanyaan_var
-        tersimpan = logika.simpan_soal(nomor_pertanyaan_var.get(), deskripsi_soal, jawaban_a_var.get(), jawaban_b_var.get(), jawaban_c_var.get(), jawaban_d_var.get(), jawaban_benar_var.get(), penjelasan_var.get())
-        if not tersimpan:
-            print(f"Soal {nomor_pertanyaan_var.get()} tidak tersimpan")
-            return
-        
-        reset_data_soal()
-        
-        deskripsi_soal, jawaban_a, jawaban_b, jawaban_c, jawaban_d, jawaban_benar, penjelasan = logika.ambil_soal(indeks)
+        # Read directly from the widgets
+        deskripsi_soal = entry_deskripsi_soal.get("1.0", "end-1c")
+
+        jawaban_a = jawaban_a_var.get()
+        jawaban_b = jawaban_b_var.get()
+        jawaban_c = jawaban_c_var.get()
+        jawaban_d = jawaban_d_var.get()
+
+        jawaban_benar = jawaban_benar_var.get()
+        penjelasan = penjelasan_var.get()
+
+        # Save into your logic module
+        tersimpan = logika.simpan_soal(
+            logika.Nomor_soal,
+            deskripsi_soal,
+            jawaban_a,
+            jawaban_b,
+            jawaban_c,
+            jawaban_d,
+            jawaban_benar,
+            penjelasan
+        )
+
+        return tersimpan
+
+    def muat_input_soal(indeks):
+        nonlocal deskripsi_soal
+
+        # Get data from logic module
+        data = logika.ambil_soal(indeks)
+
+        (
+            deskripsi_soal,
+            jawaban_a,
+            jawaban_b,
+            jawaban_c,
+            jawaban_d,
+            jawaban_benar,
+            penjelasan
+        ) = data
+
+        # Update question description
+        entry_deskripsi_soal.delete("1.0", "end")
+        entry_deskripsi_soal.insert("1.0", deskripsi_soal)
+
+        # Update answer choices
         jawaban_a_var.set(jawaban_a)
         jawaban_b_var.set(jawaban_b)
         jawaban_c_var.set(jawaban_c)
         jawaban_d_var.set(jawaban_d)
-        jawaban_benar_var.set(jawaban_benar)
-        penjelasan_var.set(penjelasan)
-        
-        entry_deskripsi_soal.delete("1.0", "end")
-        entry_deskripsi_soal.insert("1.0", deskripsi_soal)
-        
 
-        nomor_pertanyaan_var.set(indeks)
+        # Update correct answer
+        jawaban_benar_var.set(jawaban_benar)
+
+        # Update explanation
+        penjelasan_var.set(penjelasan)
+
+        # Update correct-answer highlighting
+        pilih_jawaban(jawaban_benar)
+
+    def pilih_soal(indeks):
+        #TODO: Deskripsi Soal, Pilihan A-D (0-3), Jawaban Benar, serta Penjelasan
+        # Menyimpan, membersihkan, Mengisi
+            
+        # 1. Menyimpan informasi dari soal saat ini
+        if not simpan_input_soal():
+            print("Gagal menyimpan soal sebelumnya!")
+            return
+        
+        # 2. Mengupdate Nomor soal
         logika.Nomor_soal = indeks
+        nomor_pertanyaan_var.set(indeks)
+        
+        # 3. Mengisi entry point dari data yang ada
+        muat_input_soal(indeks)
+        
+        # 4. Update button appearances
         for i, tombol in tombol_soal_list.items():
             if i == indeks:
                 tombol.configure(bg="#A06A42", fg="white")
             else:
-                tombol.configure(bg="white", fg="#4A2C11")
+                tombol.configure(bg="white", fg="#4E220F")    
+        
 
     def buat_item_soal(parent, indeks):
-        btn = tk.Button(parent, text=f"Soal {indeks+1}", bg="white", fg="#4A2C11", relief="flat", anchor="w", padx=10)
+        btn = tk.Button(parent, text=f"Soal {indeks+1}", bg="white", fg="#4E220F", relief="flat", anchor="w", padx=10)
         tombol_soal_list[indeks] = btn
         
         btn.configure(command=lambda q=indeks: pilih_soal(q))
@@ -973,7 +1030,7 @@ def halaman_buat_quiz_soal(ROOT):
     right_panel.pack(side="left", fill="both", expand=True)
 
     # Input Deskripsi Soal
-    label_tanya = tk.Label(right_panel, text="Pertanyaan", font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    label_tanya = tk.Label(right_panel, text="Pertanyaan", font=("Helvetica", 10, "bold"), fg="#4E220F", bg="#F4EFE6")
     label_tanya.pack(anchor="w", pady=(10, 5))
     
     entry_deskripsi_soal = tk.Text(right_panel, font=("Helvetica", 10), height=3)
@@ -981,7 +1038,7 @@ def halaman_buat_quiz_soal(ROOT):
     entry_deskripsi_soal.pack(fill="x", pady=5)
 
     # Input Pilihan Jawaban
-    label_pilih = tk.Label(right_panel, text="Pilihan jawaban (tandai yang benar)", font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    label_pilih = tk.Label(right_panel, text="Pilihan jawaban (tandai yang benar)", font=("Helvetica", 10, "bold"), fg="#4E220F", bg="#F4EFE6")
     label_pilih.pack(anchor="w", pady=(15, 5))
 
     # Opsi A
@@ -1021,26 +1078,37 @@ def halaman_buat_quiz_soal(ROOT):
     entry_jelas.insert(0, "Tuliskan penjelasan anda di sini..")
     entry_jelas.pack(fill="x", pady=(15, 5), ipady=5)
 
-    pilih_soal(0)
     
     # Tombol Navigasi Bawah
     bottom_frame = tk.Frame(ROOT, bg="#F4EFE6")
     bottom_frame.pack(fill="x", padx=20, pady=(0, 20))
 
-    btn_kembali = tk.Button(bottom_frame, text="Kembali", bg="white", fg="#4A2C11", font=("Helvetica", 10, "bold"), width=15, relief="solid", bd=1, 
+    btn_kembali = tk.Button(bottom_frame, text="Kembali", bg="white", fg="#4E220F", font=("Helvetica", 10, "bold"), width=15, relief="solid", bd=1, 
                             command=lambda: {
                                 bersihkan_layar(ROOT), 
                                 halaman_buat_kepala_quiz(ROOT)
                             })
     btn_kembali.pack(side="left", ipady=5)
 
-    btn_simpan = tk.Button(bottom_frame, text="Simpan Quiz", bg="#4A2C11", fg="white", font=("Helvetica", 10, "bold"), width=15,
-                           command=lambda: {
-                               bersihkan_layar(ROOT),
-                               halaman_homescreen(ROOT)
-                           })
+    def simpan_semua_quiz():
+        # Simpan informasi soal saat ini
+        if not simpan_input_soal():
+            
+            return # tidak berubah jika tidak tersimpan
+        
+        # Simpan seluruh quiz melalui logika.py 
+        if not logika.simpan_quiz():
+            messagebox.showerror("Penyimpanan Error", "Quiz tidak tersimpan!")
+        
+        # Continue with your quiz-saving process
+        bersihkan_layar(ROOT)
+        halaman_homescreen(ROOT)
+    
+    btn_simpan = tk.Button(bottom_frame, text="Simpan Quiz", bg="#4E220F", fg="white", font=("Helvetica", 10, "bold"), width=15,
+                           command=lambda: simpan_semua_quiz())
     btn_simpan.pack(side="right", ipady=5)
     
+    pilih_soal(0)
 
 def halaman_tinjau_jawaban(ROOT, data_tinjauan=None):
     # Membersihkan layar dari widget sebelumnya
@@ -1053,14 +1121,14 @@ def halaman_tinjau_jawaban(ROOT, data_tinjauan=None):
     top_bar = tk.Frame(ROOT, bg="#A0B084", height=25)
     top_bar.pack(fill="x")
     
-    label_top = tk.Label(top_bar, text="QuizPy | Tinjauan Jawaban", bg="#A0B084", fg="#4A2C11", font=("Helvetica", 9, "bold"))
+    label_top = tk.Label(top_bar, text="QuizPy | Tinjauan Jawaban", bg="#A0B084", fg="#4E220F", font=("Helvetica", 9, "bold"))
     label_top.pack(side="left", padx=10, pady=2)
 
     # Header Judul
     header_frame = tk.Frame(ROOT, bg="#F4EFE6")
     header_frame.pack(fill="x", padx=40, pady=(20, 10))
 
-    judul = tk.Label(header_frame, text="Tinjauan Jawaban", font=("Helvetica", 24, "bold"), fg="#4A2C11", bg="#F4EFE6")
+    judul = tk.Label(header_frame, text="Tinjauan Jawaban", font=("Helvetica", 24, "bold"), fg="#4E220F", bg="#F4EFE6")
     judul.pack(side="left")
 
     # Data Dummy jika tidak ada data yang dilemparkan dari fungsi sebelumnya
@@ -1118,7 +1186,7 @@ def halaman_tinjau_jawaban(ROOT, data_tinjauan=None):
         soal_frame.pack(fill="x", pady=10, ipady=10, padx=5)
 
         # Pertanyaan
-        lbl_tanya = tk.Label(soal_frame, text=f"Soal {i}: {item['pertanyaan']}", font=("Helvetica", 11, "bold"), fg="#4A2C11", bg="white", anchor="w")
+        lbl_tanya = tk.Label(soal_frame, text=f"Soal {i}: {item['pertanyaan']}", font=("Helvetica", 11, "bold"), fg="#4E220F", bg="white", anchor="w")
         lbl_tanya.pack(fill="x", padx=15, pady=(5, 10))
 
         # Menentukan warna teks berdasarkan status benar/salah
@@ -1130,19 +1198,19 @@ def halaman_tinjau_jawaban(ROOT, data_tinjauan=None):
 
         # Jika salah, tampilkan jawaban yang benar
         if item["status"] == "Salah":
-            lbl_jwbn_benar = tk.Label(soal_frame, text=f"Jawaban Benar: {item['jawaban_benar']}", font=("Helvetica", 10, "bold"), fg="#4A2C11", bg="white", anchor="w")
+            lbl_jwbn_benar = tk.Label(soal_frame, text=f"Jawaban Benar: {item['jawaban_benar']}", font=("Helvetica", 10, "bold"), fg="#4E220F", bg="white", anchor="w")
             lbl_jwbn_benar.pack(fill="x", padx=15, pady=2)
         else: # Jika benar, tampilkan penambahan poin dari pertanyaan (Placeholder)
-            lbl_penambahan_poin = tk.Label(soal_frame, text= "+Placeholder points", font=("Helvetica", 10, "bold"),fg="#F4EFE6", bg="#4A2C11")
+            lbl_penambahan_poin = tk.Label(soal_frame, text= "+Placeholder points", font=("Helvetica", 10, "bold"),fg="#F4EFE6", bg="#4E220F")
 
         # Penjelasan tambahan
         if item.get("penjelasan"):
-            lbl_jelas = tk.Label(soal_frame, text=f"Penjelasan: {item['penjelasan']}", font=("Helvetica", 9, "italic"), fg="#4A2C11", bg="white", anchor="w")
+            lbl_jelas = tk.Label(soal_frame, text=f"Penjelasan: {item['penjelasan']}", font=("Helvetica", 9, "italic"), fg="#4E220F", bg="white", anchor="w")
             lbl_jelas.pack(fill="x", padx=15, pady=(5, 5))
             
     # Total poin pemain (Placeholder)
 
-    totalpoin = tk.Label(header_frame, text=f"Total: {logika.Skor}/{logika.Perfect_Skor}",font=("Helvetica", 15, "bold"), fg="#F4EFE6", bg="#4A2C11" )
+    totalpoin = tk.Label(header_frame, text=f"Total: {logika.Skor}/{logika.Perfect_Skor}",font=("Helvetica", 15, "bold"), fg="#F4EFE6", bg="#4E220F" )
     totalpoin.place(relx= 1.0, y=23, anchor="e")
     
     # --- TOMBOL NAVIGASI BAWAH ---
@@ -1150,7 +1218,7 @@ def halaman_tinjau_jawaban(ROOT, data_tinjauan=None):
     bottom_frame.pack(fill="x", padx=40, pady=20)
 
     # Tombol Kembali ke Hasil Kuis (Bisa disesuaikan command-nya untuk memanggil halaman_hasil_quiz)
-    btn_kembali = tk.Button(bottom_frame, text="Kembali ke Hasil", bg="white", fg="#4A2C11", font=("Helvetica", 10, "bold"), width=20, relief="solid", bd=1)
+    btn_kembali = tk.Button(bottom_frame, text="Kembali ke Hasil", bg="white", fg="#4E220F", font=("Helvetica", 10, "bold"), width=20, relief="solid", bd=1)
     btn_kembali.pack(side="left", ipady=5)
     
 if __name__ == "__main__":
