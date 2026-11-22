@@ -625,12 +625,12 @@ def halaman_papan_skor(ROOT):
     data_peringkat = logika.sort_user_history(data_peringkat_raw)[:10]
 
     # Debugging Papan Peringkat
-    print("PAPAN_PERINGKAT_RAW")
-    for data in data_peringkat_raw:
-        print(data)
-    print('='*40,"\nPAPAN_PERINGKAT_SORTED")
-    for data in data_peringkat:
-        print(data)
+    # print("PAPAN_PERINGKAT_RAW")
+    # for data in data_peringkat_raw:
+    #     print(data)
+    # print('='*40,"\nPAPAN_PERINGKAT_SORTED")
+    # for data in data_peringkat:
+    #     print(data)
 
     # Melakukan iterasi untuk membuat baris Tabel
     for rank, data in enumerate(data_peringkat):
@@ -1093,12 +1093,12 @@ def halaman_buat_quiz_soal(ROOT):
     def simpan_semua_quiz():
         # Simpan informasi soal saat ini
         if not simpan_input_soal():
-            
             return # tidak berubah jika tidak tersimpan
         
         # Simpan seluruh quiz melalui logika.py 
         if not logika.simpan_quiz():
             messagebox.showerror("Penyimpanan Error", "Quiz tidak tersimpan!")
+            return
         
         # Continue with your quiz-saving process
         bersihkan_layar(ROOT)

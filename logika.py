@@ -165,6 +165,5 @@ def ambil_soal(index):
     return None
 
 def simpan_quiz():
-    global Judul_quiz, Deskripsi, Total_waktu, Jumlah_soal, Soal
+    global Judul_quiz, Deskripsi, Total_waktu, Jumlah_soal, Soal # Menyimpan menggunakan data global di logika.py
     return save_buat_quiz(Judul_quiz, Deskripsi, Total_waktu, Jumlah_soal, Soal)
-    pass
