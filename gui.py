@@ -775,7 +775,7 @@ def halaman_buat_kepala_quiz(ROOT):
     label_deskripsi = tk.Label(form_frame, text="Deskripsi", font=("Helvetica", 14, "bold"), fg="#4E220F", bg="#F4EFE6")
     label_deskripsi.grid(row=2, column=0, sticky="w", pady=(15, 5))
 
-    label_deskripsi_cnt = tk.Label(form_frame, text="0/55 karakter", font=("Helvetica", 10, "bold"), fg="#A06A42", bg="#F4EFE6")
+    label_deskripsi_cnt = tk.Label(form_frame, text=f"{len(deskripsi)}/55 karakter", font=("Helvetica", 10, "bold"), fg="#A06A42", bg="#F4EFE6")
     label_deskripsi_cnt.grid(row=2, column=1, sticky="e", pady=(15, 5))
     
     entry_deskripsi = tk.Text(form_frame, font=("Helvetica", 14), height=4, width=60)
@@ -821,13 +821,13 @@ def halaman_buat_kepala_quiz(ROOT):
 
 def halaman_buat_quiz_soal(ROOT):
     ROOT.configure(bg="#F4EFE6")
-    nomor_pertanyaan_var = tk.IntVar(value=None)
+    nomor_pertanyaan_var = tk.IntVar(value=0)
     deskripsi_soal = ""
     jawaban_a_var = tk.StringVar(value="")
     jawaban_b_var = tk.StringVar(value="")
     jawaban_c_var = tk.StringVar(value="")
     jawaban_d_var = tk.StringVar(value="")
-    jawaban_benar_var = tk.IntVar()
+    jawaban_benar_var = tk.IntVar(value=0)
     penjelasan_var = tk.StringVar(value="")
     
     def reset_data_soal():
@@ -854,6 +854,13 @@ def halaman_buat_quiz_soal(ROOT):
 
         deskripsi_soal = teks
 
+    # Bilah Atas
+    top_bar = tk.Frame(ROOT, bg="#A0B084", height=25)
+    top_bar.pack(fill="x")
+    
+    label_top = tk.Label(top_bar, text="QuizPy | Buat Quiz Baru (Langkah 2 dari 2)", bg="#A0B084", fg="#4E220F", font=("Helvetica", 9, "bold"))
+    label_top.pack(side="left", padx=10, pady=2)
+    
     # Kontainer Utama
     main_frame = tk.Frame(ROOT, bg="#F4EFE6")
     main_frame.pack(fill="both", expand=True, padx=20, pady=10)
@@ -974,19 +981,12 @@ def halaman_buat_quiz_soal(ROOT):
         # Update correct-answer highlighting
         pilih_jawaban(jawaban_benar)
 
-    def pilih_soal(indeks):
-        # # 1. Memverifikasi Jika telah ada soal yang dibuat
-        # soal_baru = True
-        # soal_list = logika.Soal
-        # for soal in soal_list:
-        #     if soal != None:
-        #         soal_baru = False
-        
-        # # 2. Menyimpan informasi dari soal saat ini
-        # if soal_baru:
-        if not simpan_input_soal():
-            print("Gagal menyimpan soal sebelumnya!")
-            return
+    def pilih_soal(indeks, simpan_sebelumnya=True):
+        # 1. Simpan soal yang sedang aktif SEBELUM pindah ke indeks baru
+        if simpan_sebelumnya:
+            if not simpan_input_soal():
+                print("Gagal menyimpan soal sebelumnya!")
+                return
     
         # 3. Mengupdate Nomor soal
         logika.Nomor_soal = indeks
@@ -1076,7 +1076,6 @@ def halaman_buat_quiz_soal(ROOT):
 
     # Penjelasan
     entry_jelas = tk.Entry(right_panel, font=("Helvetica", 10), textvariable=penjelasan_var)
-    entry_jelas.insert(0, "Tuliskan penjelasan anda di sini..")
     entry_jelas.pack(fill="x", pady=(15, 5), ipady=5)
 
     
@@ -1086,6 +1085,7 @@ def halaman_buat_quiz_soal(ROOT):
 
     btn_kembali = tk.Button(bottom_frame, text="Kembali", bg="white", fg="#4E220F", font=("Helvetica", 10, "bold"), width=15, relief="solid", bd=1, 
                             command=lambda: {
+                                simpan_input_soal(),
                                 bersihkan_layar(ROOT), 
                                 halaman_buat_kepala_quiz(ROOT)
                             })
@@ -1109,7 +1109,7 @@ def halaman_buat_quiz_soal(ROOT):
                            command=lambda: simpan_semua_quiz())
     btn_simpan.pack(side="right", ipady=5)
     
-    pilih_soal(0)
+    pilih_soal(0, False)
 
 def halaman_tinjau_jawaban(ROOT, data_tinjauan=None):
     # Membersihkan layar dari widget sebelumnya
