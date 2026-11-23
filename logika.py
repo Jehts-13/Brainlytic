@@ -166,4 +166,10 @@ def ambil_soal(index):
 
 def simpan_quiz():
     global Judul_quiz, Deskripsi, Total_waktu, Jumlah_soal, Soal # Menyimpan menggunakan data global di logika.py
-    return save_buat_quiz(Judul_quiz, Deskripsi, Total_waktu, Jumlah_soal, Soal)
+    tersimpan = save_buat_quiz(Judul_quiz, Deskripsi, Total_waktu, Jumlah_soal, Soal)
+    
+    # Jika save berhasil, reset kembali seluruh variable data temporary di logika.py
+    if tersimpan:
+        reset_data()
+        Deskripsi = ''
+    return tersimpan

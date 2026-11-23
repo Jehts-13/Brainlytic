@@ -36,7 +36,7 @@ def load_daftar_quiz(filepath="data/daftar_quiz.csv"):
             jumlah_soal = row.get('jumlah_soal', 0)
             
             teks_deskripsi = f"{deskripsi_dasar}. {jumlah_soal} soal, {logika.format_waktu(int(waktu))} menit."
-            print("Menambahkan quiz:", nama, "dengan deskripsi:", teks_deskripsi)
+            print("Judul Quiz:", nama, "dengan deskripsi:", teks_deskripsi)
             daftar_quiz.append({
                 "judul": nama,
                 "deskripsi": teks_deskripsi
