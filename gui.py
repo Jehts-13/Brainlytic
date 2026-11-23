@@ -39,8 +39,10 @@ def halaman_homescreen(ROOT):
             messagebox.showwarning("Input Tidak Valid", "Nama hanya boleh berisi huruf dan angka (tanpa spasi atau simbol)!")
             return # Menghentikan proses agar tidak pindah halaman
         
-        # Jika lolos validasi, jalankan perintah asli
-        logika.simpan_nama_pemain(nama)
+        # Jika lolos validasi, simpan username
+        logika.username = nama
+        print(f"Nama pemain disimpan: {username}")
+        
         bersihkan_layar(ROOT)
         halaman_pilih_quiz(ROOT)
     

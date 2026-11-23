@@ -18,11 +18,6 @@ Jumlah_salah = 0
 Skor = 0
 
 
-def simpan_nama_pemain(NAMA):
-    global username
-    username = NAMA
-    print(f"Nama pemain disimpan: {username}")
-
 def muat_list_quiz(JUDUL):
     global Judul_quiz, Jumlah_soal, Soal, Nomor_soal, Total_waktu, Riwayat_jawaban
     Soal = load_quiz_soal(JUDUL)
