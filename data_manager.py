@@ -10,6 +10,9 @@ def _siapkan_file_csv(filepath):
         os.makedirs(folder, exist_ok=True)
     return not os.path.exists(filepath) or os.stat(filepath).st_size == 0
 
+def _bersihkan_teks(teks):
+    return ' '.join(teks.split())
+
 def validasi_data(filepath_daftar="data/daftar_quiz.csv", filepath_soal="data/soal_quiz.csv"):
     '''Fungsi untuk memvalidasi Jumlah Soal yang ada di daftar_quiz.csv dengan Jumlah Soal yang ada di soal_quiz.csv'''
 
@@ -43,7 +46,7 @@ def load_daftar_quiz(filepath="data/daftar_quiz.csv"):
 
 
 # Fungsi untuk mengambil dan mengirim jumlah soal dan batas waktu dari daftar_quiz.csv
-def load_quiz_jumlah_time(JUDUL, filepath="data/daftar_quiz.csv"):
+def load_quiz_jumlah_waktu(JUDUL, filepath="data/daftar_quiz.csv"):
     if not os.path.exists(filepath):
         return None  # Return None if the file doesn't exist
 
@@ -126,7 +129,7 @@ def save_daftar_quiz(nama_quiz, deskripsi, batas_waktu, jumlah_soal, filepath="d
     # Menyiapkan file jika kosong atau folder dan file belum ada
     file_kosong = _siapkan_file_csv(filepath)
 
-    with open(filepath, mode='a', newline='', encoding='utf-8') as file:
+    with open(filepath, mode='a', newline='\n', encoding='utf-8') as file:
         fieldnames = ['nama_quiz', 'deskripsi', 'batas_waktu', 'jumlah_soal']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         

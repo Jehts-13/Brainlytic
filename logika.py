@@ -23,7 +23,7 @@ def simpan_nama_pemain(NAMA):
     username = NAMA
     print(f"Nama pemain disimpan: {username}")
 
-def muat_quiz(JUDUL):
+def muat_list_quiz(JUDUL):
     global Judul_quiz, Jumlah_soal, Soal, Nomor_soal, Total_waktu, Riwayat_jawaban
     Soal = load_quiz_soal(JUDUL)
     if Soal == None:
@@ -31,7 +31,7 @@ def muat_quiz(JUDUL):
         return 
 
     Judul_quiz = JUDUL
-    Jumlah_soal, Total_waktu = load_quiz_jumlah_time(JUDUL)
+    Jumlah_soal, Total_waktu = load_quiz_jumlah_waktu(JUDUL)
     
     Nomor_soal = 0
     Riwayat_jawaban = []
@@ -57,16 +57,20 @@ def hitung_skor(sisa_waktu):
     try:
         for i in range(Jumlah_soal):
             jawaban = Soal[i]['jawaban']
+            
             print(type(jawaban), '==' if type(jawaban) == type(Riwayat_jawaban[i]) else '!=' ,type(Riwayat_jawaban[i]))
+            
             if Riwayat_jawaban[i] == jawaban:
                 Jumlah_benar += 1
-                print(f"Riwayat_jawaban {Riwayat_jawaban[i]} == jawaban {jawaban} (Benar)")
+                print(f"Riwayat_jawaban: {Riwayat_jawaban[i]}\t\tjawaban {jawaban} (Benar)")
             else:
                 Jumlah_salah += 1
-                print(f"Riwayat_jawaban {Riwayat_jawaban[i]} != jawaban {jawaban} (Salah)")
+                print(f"Riwayat_jawaban {Riwayat_jawaban[i]}\t\tjawaban {jawaban} (Salah)")
         # Menghitung persentase skor
         Skor = int((Jumlah_benar / Jumlah_soal) * 100)
+        
         print(f"Jumlah Benar: {Jumlah_benar:<5}Jumlah Salah: {Jumlah_salah:<5}Skor: {f"{Skor:.2f}":<7}")
+        
         # Menghitung waktu yang digunakan
         Waktu_digunakan = Total_waktu - sisa_waktu
 

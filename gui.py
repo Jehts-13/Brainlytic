@@ -93,8 +93,6 @@ def bersihkan_layar(ROOT):
         widget.destroy()
 
 def halaman_pilih_quiz(ROOT):
-    quiz_dipilih = None  # Variabel global untuk menyimpan quiz yang dipilih
-    
     ROOT.configure(bg="#F4EFE6")
 
     # 1. Bilah Atas (Top Bar)
@@ -221,8 +219,8 @@ def halaman_pilih_quiz(ROOT):
         print(f"Kuis yang akan dimainkan: {judul}")
         # Lanjutkan ke logika pemanggilan muat_soal(judul) di sini
         # halaman_soal_quiz(ROOT, judul)
-        logika.muat_quiz(judul)
-        time.sleep(1)
+        logika.muat_list_quiz(judul)
+        time.sleep(0.5)
         bersihkan_layar(ROOT)
         halaman_soal_quiz(ROOT)  # Panggil halaman soal quiz dengan judul yang dipilih
         return
@@ -415,7 +413,7 @@ def halaman_soal_quiz(ROOT):
             nonlocal nomor_soal 
             logika.simpan_jawaban_soal(jawaban.get() if jawaban.get() != "" else None)
             
-            # Jika jumlah_soal == nomor_soal+1, lanjut ke hasil quiz
+            # Jika nomor_soal adalah nomor terakhir, lanjut ke hasil quiz
             if jumlah_soal == nomor_soal + 1:
                 logika.hitung_skor(sisa_waktu)
                 time.sleep(0.5)
@@ -769,7 +767,6 @@ def halaman_buat_kepala_quiz(ROOT):
     
     judul_var.trace_add("write", batasan_judul)
     entry_judul = tk.Entry(form_frame, font=("Helvetica", 14), width=60, textvariable=judul_var)
-    entry_judul.insert(0,"judul_admin") #! dev test
     entry_judul.grid(row=1, column=0, columnspan=2, sticky="we", ipady=5)
 
     # Input Deskripsi Quiz
@@ -781,7 +778,6 @@ def halaman_buat_kepala_quiz(ROOT):
     
     entry_deskripsi = tk.Text(form_frame, font=("Helvetica", 14), height=4, width=60)
     entry_deskripsi.bind("<KeyRelease>", batasan_deskripsi)
-    deskripsi = "test_deskripsi_admin" #! dev test
     entry_deskripsi.insert("1.0", deskripsi)
     entry_deskripsi.grid(row=3, column=0, columnspan=2, sticky="we", pady=5)
 
@@ -791,7 +787,6 @@ def halaman_buat_kepala_quiz(ROOT):
     
     jumlah_soal_var.trace_add("write", batasan_soal)
     entry_jumlah_soal = tk.Entry(form_frame, font=("Helvetica", 14), textvariable=jumlah_soal_var)
-    entry_jumlah_soal.insert(0,"23")
     entry_jumlah_soal.grid(row=5, column=0, sticky="we", padx=(0, 10), ipady=5)
     
     label_waktu = tk.Label(form_frame, text="Batas waktu (menit)", font=("Helvetica", 14, "bold"), fg="#4E220F", bg="#F4EFE6")
@@ -799,7 +794,6 @@ def halaman_buat_kepala_quiz(ROOT):
     
     batas_waktu_var.trace_add("write", batasan_waktu)
     entry_waktu = tk.Entry(form_frame, font=("Helvetica", 14), textvariable=batas_waktu_var)
-    entry_waktu.insert(0, "50")
     entry_waktu.grid(row=5, column=1, sticky="we", ipady=5)
 
     # Mengatur bobot kolom agar lebar grid proporsional
@@ -979,22 +973,27 @@ def halaman_buat_quiz_soal(ROOT):
         pilih_jawaban(jawaban_benar)
 
     def pilih_soal(indeks):
-        #TODO: Deskripsi Soal, Pilihan A-D (0-3), Jawaban Benar, serta Penjelasan
-        # Menyimpan, membersihkan, Mengisi
-            
-        # 1. Menyimpan informasi dari soal saat ini
+        # # 1. Memverifikasi Jika telah ada soal yang dibuat
+        # soal_baru = True
+        # soal_list = logika.Soal
+        # for soal in soal_list:
+        #     if soal != None:
+        #         soal_baru = False
+        
+        # # 2. Menyimpan informasi dari soal saat ini
+        # if soal_baru:
         if not simpan_input_soal():
             print("Gagal menyimpan soal sebelumnya!")
             return
-        
-        # 2. Mengupdate Nomor soal
+    
+        # 3. Mengupdate Nomor soal
         logika.Nomor_soal = indeks
         nomor_pertanyaan_var.set(indeks)
         
-        # 3. Mengisi entry point dari data yang ada
+        # 4. Mengisi entry point dari data yang ada
         muat_input_soal(indeks)
         
-        # 4. Update button appearances
+        # 5. Update button appearances
         for i, tombol in tombol_soal_list.items():
             if i == indeks:
                 tombol.configure(bg="#A06A42", fg="white")
