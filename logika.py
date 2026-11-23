@@ -123,7 +123,7 @@ def simpan_kepala_quiz(judul, deskripsi, jumlah, waktu):
     Judul_quiz = judul
     Deskripsi = deskripsi
     Jumlah_soal = int(jumlah)
-    Total_waktu = int(waktu)
+    Total_waktu = int(waktu) * 60
     Nomor_soal = 0
     # inisialisasi Soal sebagai list ketika awal pembuatan
     if Soal == None:
