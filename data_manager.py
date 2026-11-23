@@ -181,3 +181,6 @@ def save_buat_quiz(judul_quiz, deskripsi_quiz, batas_waktu, jumlah_soal, soal):
     print("data/daftar_quiz.csv telah di update!" if daftar_quiz_tersimpan else "Quiz tidak tersimpan di data/daftar_quiz.csv")
     print("data/soal_quiz.csv telah di update!" if soal_quiz_tersimpan else "Quiz tidak tersimpan di data/soal_quiz.csv")
     return daftar_quiz_tersimpan and soal_quiz_tersimpan
+
+def load_export(judul_quiz):
+    pass
