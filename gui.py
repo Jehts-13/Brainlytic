@@ -62,7 +62,7 @@ def halaman_homescreen(ROOT):
 
     global username_var
     if username_var is None:
-        username_var = tk.StringVar(value="Nama")
+        username_var = tk.StringVar(value="")
     username_var.trace_add("write", batasi_input)
     input_nama = tk.Entry(frame_nama, width=50, font=("Helvetica", 12), textvariable=username_var)
     input_nama.pack(ipady=5)
@@ -1101,7 +1101,7 @@ def halaman_buat_quiz_soal(ROOT):
             messagebox.showerror("Penyimpanan Error", "Quiz tidak tersimpan!")
             return
         
-        # Continue with your quiz-saving process
+        # Bersihkan seluruh data di logika.py
         bersihkan_layar(ROOT)
         halaman_homescreen(ROOT)
     
