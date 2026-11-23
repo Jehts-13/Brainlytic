@@ -18,7 +18,7 @@ Jumlah_salah = 0
 Skor = 0
 
 
-def muat_list_quiz(JUDUL):
+def muat_soal_quiz(JUDUL):
     global Judul_quiz, Jumlah_soal, Soal, Nomor_soal, Total_waktu, Riwayat_jawaban
     Soal = load_quiz_soal(JUDUL)
     if Soal == None:

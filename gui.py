@@ -41,7 +41,7 @@ def halaman_homescreen(ROOT):
         
         # Jika lolos validasi, simpan username
         logika.username = nama
-        print(f"Nama pemain disimpan: {username}")
+        print(f"Nama pemain disimpan: {logika.username}")
         
         bersihkan_layar(ROOT)
         halaman_pilih_quiz(ROOT)
@@ -221,7 +221,7 @@ def halaman_pilih_quiz(ROOT):
         print(f"Kuis yang akan dimainkan: {judul}")
         # Lanjutkan ke logika pemanggilan muat_soal(judul) di sini
         # halaman_soal_quiz(ROOT, judul)
-        logika.muat_list_quiz(judul)
+        logika.muat_soal_quiz(judul)
         time.sleep(0.5)
         bersihkan_layar(ROOT)
         halaman_soal_quiz(ROOT)  # Panggil halaman soal quiz dengan judul yang dipilih
