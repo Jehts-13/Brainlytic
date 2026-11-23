@@ -1,14 +1,9 @@
 11/16/2026 10:34AM
 ---
 on going:
-- membetulkan timer
-
-- buat fungsi validasi_data_quiz()
 - menambahkan fitur validasi quiz sebelum memuat homescreen
-
 - memindahkan format data batas_waktu dan jumlah_soal
-- menghubungkan halaman_buat_kepala_quiz dengan halaman_homescreen
-
+- quiz dapat di export ke dalam .txt (test)
 
 future ideas:
 - 
@@ -32,7 +27,7 @@ feature:
 - memunculkan soal-soal quiz
 - fungsionalitas tombol di halaman pengerjaan quiz
 - menyimpan jawaban dalam user_history.csv
-
+- 
 
 
 
