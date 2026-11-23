@@ -1100,7 +1100,10 @@ def halaman_buat_quiz_soal(ROOT):
         if not logika.simpan_quiz():
             messagebox.showerror("Penyimpanan Error", "Quiz tidak tersimpan!")
             return
-        
+
+        # Reset semua data ketika kembali ke homescreen
+        reset_pembuatan_quiz()
+
         # Bersihkan seluruh data di logika.py
         bersihkan_layar(ROOT)
         halaman_homescreen(ROOT)
