@@ -13,8 +13,8 @@ def _siapkan_file_csv(filepath):
 def _bersihkan_teks(teks):
     return ' '.join(teks.split())
 
-def validasi_data(filepath_daftar="data/daftar_quiz.csv", filepath_soal="data/soal_quiz.csv"):
-    '''Fungsi untuk memvalidasi Jumlah Soal yang ada di daftar_quiz.csv dengan Jumlah Soal yang ada di soal_quiz.csv'''
+# def validasi_data(filepath_daftar="data/daftar_quiz.csv", filepath_soal="data/soal_quiz.csv"):
+#     '''Fungsi untuk memvalidasi Jumlah Soal yang ada di daftar_quiz.csv dengan Jumlah Soal yang ada di soal_quiz.csv'''
 
 
 
