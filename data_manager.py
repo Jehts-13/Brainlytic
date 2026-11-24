@@ -24,7 +24,7 @@ def load_daftar_quiz(filepath="data/daftar_quiz.csv"):
         return []  # Return an empty list if the file doesn't exist
 
     daftar_quiz = []
-    with open(filepath, mode='r', encoding='utf-8') as file:
+    with open(filepath, mode='r') as file:
         # Menggunakan DictReader agar lebih aman dari koma di dalam teks
         csv_reader = csv.DictReader(file)
         
@@ -50,7 +50,7 @@ def load_quiz_jumlah_waktu(JUDUL, filepath="data/daftar_quiz.csv"):
     if not os.path.exists(filepath):
         return None  # Return None if the file doesn't exist
 
-    with open(filepath, mode='r', encoding='utf-8') as file:
+    with open(filepath, mode='r') as file:
         csv_reader = csv.DictReader(file)
         
         for row in csv_reader:
@@ -69,7 +69,7 @@ def load_quiz_soal(JUDUL,  filepath="data/soal_quiz.csv"):
         return None  # Return None if the file doesn't exist
     
     list_soal = []
-    with open(filepath, mode='r', encoding='utf-8') as file:
+    with open(filepath, mode='r') as file:
         csv_reader = csv.DictReader(file)
         for row in csv_reader:
             if row.get('nama_quiz') == JUDUL:
@@ -91,7 +91,7 @@ def load_user_history(filepath="data/user_history.csv"):
         return []
     
     daftar_user_history = []
-    with open(filepath, mode='r', encoding='utf-8') as file:
+    with open(filepath, mode='r') as file:
         csv_reader = csv.DictReader(file)
         
         for row in csv_reader:
@@ -129,7 +129,7 @@ def save_daftar_quiz(nama_quiz, deskripsi, batas_waktu, jumlah_soal, filepath="d
     # Menyiapkan file jika kosong atau folder dan file belum ada
     file_kosong = _siapkan_file_csv(filepath)
 
-    with open(filepath, mode='a', newline='\n', encoding='utf-8') as file:
+    with open(filepath, mode='a', newline='\n') as file:
         fieldnames = ['nama_quiz', 'deskripsi', 'batas_waktu', 'jumlah_soal']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         
@@ -154,7 +154,7 @@ def save_soal_quiz(judul_quiz, soal, filepath="data/soal_quiz.csv"):
     # Menyiapkan file jika kosong atau folder dan file belum ada
     file_kosong = _siapkan_file_csv(filepath)
     
-    with open(filepath, mode='a', newline='', encoding='utf-8') as file:
+    with open(filepath, mode='a', newline='') as file:
         fieldnames = ['nama_quiz', 'deskripsi_soal', 'opsi_a', 'opsi_b', 'opsi_c', 'opsi_d', 'jawaban_benar', 'penjelasan']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
 
