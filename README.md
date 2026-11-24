@@ -73,10 +73,10 @@ An interactive desktop quiz application developed using Python and Tkinter. User
 
 ## Kebutuhan Sistem
 
-- Python \[3.x\] (diuji di Python \[versi\])  
+- Python \[3.4\] (diuji di Python \[3.14.4\])  
 - tkinter (sudah terpasang bersama Python)  
-- Sistem operasi yang sudah diuji: \[Windows 11 / macOS / Linux\]  
-- Pustaka tambahan: \[tidak ada / nama pustaka, jika disetujui dosen\]
+- Sistem operasi yang sudah diuji: \[Windows 10 / Windows 11 / macOS / Linux\]  
+- Pustaka tambahan: \[csv, datetime\]
 
 ## Cara Menjalankan
 

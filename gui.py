@@ -498,8 +498,8 @@ def halaman_hasil_quiz(ROOT):
     btn_frame.pack(pady=20)
 
     # Tombol Tinjau Jawaban
-    btn_tinjau = tk.Button(btn_frame, text="Tinjau Jawaban", bg="white", fg="#4E220F", font=("Helvetica", 10), width=15, relief="solid", bd=1)
-    btn_tinjau.grid(row=0, column=0, padx=10, ipady=5)
+    # btn_tinjau = tk.Button(btn_frame, text="Tinjau Jawaban", bg="white", fg="#4E220F", font=("Helvetica", 10), width=15, relief="solid", bd=1)
+    # btn_tinjau.grid(row=0, column=0, padx=10, ipady=5)
 
     # Tombol Papan Skor
     btn_papan = tk.Button(btn_frame, text="Papan Skor", bg="white", fg="#4E220F", font=("Helvetica", 10), width=15, relief="solid", bd=1,
@@ -829,17 +829,6 @@ def halaman_buat_quiz_soal(ROOT):
     jawaban_d_var = tk.StringVar(value="")
     jawaban_benar_var = tk.IntVar(value=0)
     penjelasan_var = tk.StringVar(value="")
-    
-    def reset_data_soal():
-        nonlocal deskripsi_soal, nomor_pertanyaan_var, jawaban_a_var, jawaban_b_var, jawaban_c_var, jawaban_d_var, jawaban_benar_var, penjelasan_var
-        deskripsi_soal = ""
-        nomor_pertanyaan_var.set(0)
-        jawaban_a_var.set("")
-        jawaban_b_var.set("")
-        jawaban_c_var.set("")
-        jawaban_d_var.set("")
-        jawaban_benar_var.set(None)
-        penjelasan_var.set("")
 
     def batasan_deskripsi_soal(*args):
         nonlocal deskripsi_soal

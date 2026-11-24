@@ -23,12 +23,13 @@ def muat_soal_quiz(JUDUL):
     Soal = load_quiz_soal(JUDUL)
     if Soal == None:
         print("Pertanyaan tidak ditemukan!")
+        reset_data()
         return 
 
     Judul_quiz = JUDUL
     Jumlah_soal, Total_waktu = load_quiz_jumlah_waktu(JUDUL)
     
-    Nomor_soal = 0
+    Nomor_soal = 0 # index 0
     Riwayat_jawaban = []
     
     
@@ -79,7 +80,7 @@ def format_waktu(SISA_DETIK):
     '''
     menit = SISA_DETIK // 60
     detik = SISA_DETIK % 60
-    return f"{menit:02d}:{detik:02d}"
+    return f"{menit:2d}:{detik:2d}"
 
 
 def reset_data():
