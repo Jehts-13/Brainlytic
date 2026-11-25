@@ -126,6 +126,7 @@ def simpan_kepala_quiz(judul, deskripsi, jumlah, waktu):
     Jumlah_soal = int(jumlah)
     Total_waktu = int(waktu) * 60
     Nomor_soal = 0
+    
     # inisialisasi Soal sebagai list ketika awal pembuatan
     if Soal == None:
         print("[Soal] belum pernah di inisialisasi!")

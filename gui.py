@@ -29,6 +29,7 @@ def bersihkan_layar(ROOT):
 
 
 def halaman_homescreen(ROOT):
+    bersihkan_layar(ROOT)
     def batasi_input(*args):
         batas_maksimal = 20
         nama = username_var.get()
@@ -48,7 +49,6 @@ def halaman_homescreen(ROOT):
         logika.username = nama
         print(f"Nama pemain disimpan: {logika.username}")
 
-        bersihkan_layar(ROOT)
         halaman_pilih_quiz(ROOT)
 
     judul = tk.Label(
@@ -114,7 +114,7 @@ def halaman_homescreen(ROOT):
         font=("Helvetica", 10, "bold"),
         width=25,
         height=5,
-        command=lambda: [bersihkan_layar(ROOT), halaman_buat_kepala_quiz(ROOT)],
+        command=lambda: halaman_buat_kepala_quiz(ROOT),
     )
     btn_buat.grid(row=0, column=1, padx=10)
 
@@ -126,13 +126,14 @@ def halaman_homescreen(ROOT):
         bg="#F4EFE6",
         cursor="hand2",
     )
-    link_skor.bind("<Button-1>", lambda event: halaman_papan_skor(ROOT=ROOT))
+    link_skor.bind("<Button-1>", lambda event: halaman_papan_skor(ROOT))
     link_skor.pack(pady=10)
 
     ROOT.mainloop()
 
 
 def halaman_pilih_quiz(ROOT):
+    bersihkan_layar(ROOT)
     ROOT.configure(bg="#F4EFE6")
 
     top_bar = tk.Frame(ROOT, bg="#A0B084", height=25)
@@ -160,8 +161,6 @@ def halaman_pilih_quiz(ROOT):
     judul.pack(side="left")
 
     cari_entry = tk.Entry(header_frame, font=("Helvetica", 10), width=25)
-    cari_entry.insert(0, "Cari quiz...")
-    cari_entry.pack(side="right", ipady=5)
 
     bottom_frame = tk.Frame(ROOT, bg="#F4EFE6")
     bottom_frame.pack(fill="x", padx=20, pady=20)
@@ -175,7 +174,7 @@ def halaman_pilih_quiz(ROOT):
         width=15,
         relief="solid",
         bd=1,
-        command=lambda: [bersihkan_layar(ROOT), halaman_homescreen(ROOT)],
+        command=lambda: halaman_homescreen(ROOT),
     )
     btn_kembali.pack(side="left", ipady=5)
 
@@ -261,7 +260,6 @@ def halaman_pilih_quiz(ROOT):
         print(f"Kuis yang akan dimainkan: {judul}")
         logika.muat_soal_quiz(judul)
         time.sleep(0.5)
-        bersihkan_layar(ROOT)
         halaman_soal_quiz(ROOT)
 
     daftar_quiz = load_daftar_quiz()
@@ -288,6 +286,7 @@ def halaman_soal_quiz(ROOT):
     print(f"batas waktu:\t{batas_waktu}")
 
     ROOT.configure(bg="#F4EFE6")
+    bersihkan_layar(ROOT)
 
     header_frame = tk.Frame(ROOT, bg="#F4EFE6")
     header_frame.pack(fill="x", padx=20, pady=(15, 5))
@@ -336,10 +335,8 @@ def halaman_soal_quiz(ROOT):
                 print("The Quiz has encountered an error!\t# Cannot continue the process!")
                 print("Cancelling the quiz...")
                 logika.reset_data()
-                bersihkan_layar(ROOT)
                 halaman_homescreen(ROOT)
                 return
-            bersihkan_layar(ROOT)
             halaman_hasil_quiz(ROOT)
 
     timer_id = ROOT.after(1000, update_timer)
@@ -436,7 +433,6 @@ def halaman_soal_quiz(ROOT):
             timer_id = None
 
         logika.reset_data()
-        bersihkan_layar(ROOT)
         halaman_homescreen(ROOT)
 
     btn_keluar = tk.Button(
@@ -594,10 +590,7 @@ def halaman_hasil_quiz(ROOT):
         width=15, 
         relief="solid", 
         bd=1, 
-        command=lambda: [
-            bersihkan_layar(ROOT), 
-            halaman_tinjau_jawaban(ROOT)
-        ]
+        command=lambda: halaman_tinjau_jawaban(ROOT)
     )
     btn_tinjau.grid(row=0, column=0, padx=10, ipady=5)
 
@@ -622,7 +615,6 @@ def halaman_hasil_quiz(ROOT):
         font=("Helvetica", 10, "bold"),
         width=15,
         command=lambda: [
-            bersihkan_layar(ROOT),
             logika.reset_data(),
             halaman_homescreen(ROOT),
         ],
@@ -631,9 +623,7 @@ def halaman_hasil_quiz(ROOT):
 
 
 def halaman_papan_skor(ROOT):
-    for widget in ROOT.winfo_children():
-        widget.destroy()
-
+    bersihkan_layar(ROOT)
     ROOT.configure(bg="#F4EFE6")
 
     top_bar = tk.Frame(ROOT, bg="#A0B084", height=25)
@@ -918,7 +908,7 @@ def halaman_buat_kepala_quiz(ROOT):
             jumlah_soal_var.get(),
             batas_waktu_var.get(),
         )
-        bersihkan_layar(ROOT)
+        
         halaman_buat_quiz_soal(ROOT)
 
     ROOT.configure(bg="#F4EFE6")
@@ -1055,7 +1045,6 @@ def halaman_buat_kepala_quiz(ROOT):
 
 
 def halaman_buat_quiz_soal(ROOT):
-    ROOT.configure(bg="#F4EFE6")
     nomor_pertanyaan_var = tk.IntVar(value=0)
     deskripsi_soal = ""
     jawaban_a_var = tk.StringVar(value="")
@@ -1064,6 +1053,9 @@ def halaman_buat_quiz_soal(ROOT):
     jawaban_d_var = tk.StringVar(value="")
     jawaban_benar_var = tk.IntVar(value=0)
     penjelasan_var = tk.StringVar(value="")
+    
+    ROOT.configure(bg="#F4EFE6")
+    bersihkan_layar(ROOT)
 
     def batasan_deskripsi_soal(*args):
         nonlocal deskripsi_soal
@@ -1323,7 +1315,6 @@ def halaman_buat_quiz_soal(ROOT):
         bd=1,
         command=lambda: [
             simpan_input_soal(),
-            bersihkan_layar(ROOT),
             halaman_buat_kepala_quiz(ROOT),
         ],
     )
@@ -1338,7 +1329,6 @@ def halaman_buat_quiz_soal(ROOT):
             return
 
         reset_pembuatan_quiz()
-        bersihkan_layar(ROOT)
         halaman_homescreen(ROOT)
 
     btn_simpan = tk.Button(
@@ -1354,102 +1344,225 @@ def halaman_buat_quiz_soal(ROOT):
 
     pilih_soal(0, False)
 
-def halaman_tinjau_jawaban(ROOT, data_tinjauan=None):
-    # Membersihkan layar dari widget sebelumnya
-    for widget in ROOT.winfo_children():
-        widget.destroy()
+def kotak_bulat(canvas, x1, y1, x2, y2, radius, **opsi):
+    """Menggambar persegi bersudut bulat di atas Canvas."""
+    r = min(radius, (x2 - x1) / 2, (y2 - y1) / 2)
+    titik = [
+        x1 + r, y1, x1 + r, y1, x2 - r, y1, x2 - r, y1, x2, y1,
+        x2, y1 + r, x2, y1 + r, x2, y2 - r, x2, y2 - r, x2, y2,
+        x2 - r, y2, x2 - r, y2, x1 + r, y2, x1 + r, y2, x1, y2,
+        x1, y2 - r, x1, y2 - r, x1, y1 + r, x1, y1 + r, x1, y1,
+    ]
+    return canvas.create_polygon(titik, smooth=True, **opsi)
 
-    ROOT.configure(bg="#F4EFE6")
 
-    # Bilah Atas
-    top_bar = tk.Frame(ROOT, bg="#A0B084", height=25)
+def tombol_bulat(parent, teks, lebar, tinggi, bg, fg, garis, command, font):
+    """Tombol bersudut bulat (tk.Button tidak mendukung sudut bulat)."""
+    tombol = tk.Canvas(
+        parent, width=lebar, height=tinggi, bg="#F8F1DE",
+        highlightthickness=0, cursor="hand2",
+    )
+    kotak_bulat(tombol, 1, 1, lebar - 2, tinggi - 2, 12, fill=bg, outline=garis, width=2)
+    tombol.create_text(lebar / 2, tinggi / 2, text=teks, fill=fg, font=font)
+    tombol.bind("<Button-1>", lambda event: command())
+    return tombol
+
+
+def gaya_scrollbar():
+    """Scrollbar ramping tanpa panah, tanpa mengubah tema widget lain."""
+    style = ttk.Style()
+    try:
+        style.element_create("Earthy.trough", "from", "clam")
+        style.element_create("Earthy.thumb", "from", "clam")
+    except tk.TclError:
+        pass  # elemen sudah dibuat saat halaman dibuka sebelumnya
+
+    style.layout(
+        "Earthy.Vertical.TScrollbar",
+        [("Earthy.trough", {"sticky": "ns", "children": [
+            ("Earthy.thumb", {"expand": "1", "sticky": "nswe"})
+        ]})],
+    )
+    style.configure(
+        "Earthy.Vertical.TScrollbar", width=8, gripcount=0, borderwidth=0,
+        troughcolor="#B1BA98", background="#4E220F",
+        bordercolor="#B1BA98", lightcolor="#4E220F", darkcolor="#4E220F",
+    )
+    style.map("Earthy.Vertical.TScrollbar", background=[("active", "#4E220F")])
+
+
+def halaman_tinjau_jawaban(ROOT):
+    BG = "#F8F1DE"
+    HIJAU = "#0C0C0B"
+    COKLAT_TUA = "#4E220F"
+    COKLAT = "#9C6537"
+    MERAH = "#97351C"
+    FONT = "Helvetica"
+
+    bersihkan_layar(ROOT)
+    ROOT.configure(bg=BG)
+
+    soal = logika.Soal or []
+    jawaban_user = logika.Riwayat_jawaban or []
+
+    # --- BILAH ATAS ---
+    top_bar = tk.Frame(ROOT, bg=HIJAU, height=36)
     top_bar.pack(fill="x")
-    
-    label_top = tk.Label(top_bar, text="QuizPy | Tinjauan Jawaban", bg="#A0B084", fg="#4E220F", font=("Helvetica", 9, "bold"))
-    label_top.pack(side="left", padx=10, pady=2)
+    top_bar.pack_propagate(False)
+    tk.Label(
+        top_bar, text="QuizPy  |  Tinjauan Jawaban", bg=HIJAU, fg=COKLAT_TUA,
+        font=(FONT, 10, "bold"),
+    ).pack(side="left")
 
-    # Header Judul
-    header_frame = tk.Frame(ROOT, bg="#F4EFE6")
-    header_frame.pack(fill="x", padx=40, pady=(20, 10))
+    # --- HEADER ---
+    header = tk.Frame(ROOT, bg=BG)
+    header.pack(fill="x", padx=60, pady=(20, 18))
+    tk.Label(
+        header, text="Tinjauan Jawaban", font=(FONT, 24, "bold"),
+        fg=COKLAT_TUA, bg=BG,
+    ).pack(side="left")
 
-    judul = tk.Label(header_frame, text="Tinjauan Jawaban", font=("Helvetica", 24, "bold"), fg="#4E220F", bg="#F4EFE6")
-    judul.pack(side="left")
+    badge = tk.Canvas(header, width=180, height=32, bg=BG, highlightthickness=0)
+    badge.pack(side="right")
+    kotak_bulat(badge, 0, 0, 179, 31, 16, fill=COKLAT, outline=COKLAT)
+    badge.create_text(
+        90, 16, text=f"Total: {logika.Skor} / 100 poin", fill="white",
+        font=(FONT, 10, "bold"),
+    )
 
-    # Mengambil data dari logika.py
-    soal = logika.Soal
-    jawaban_user = logika.Riwayat_jawaban
+    # --- TOMBOL BAWAH (di-pack sebelum daftar agar tidak terdorong keluar) ---
+    bottom = tk.Frame(ROOT, bg=BG)
+    bottom.pack(side="bottom", fill="x", padx=60, pady=(24, 28))
 
+    def kembali():
+        halaman_hasil_quiz(ROOT)
 
-    # --- AREA SCROLL UNTUK DAFTAR TINJAUAN ---
-    scroll_container = tk.Frame(ROOT, bg="#F4EFE6")
-    scroll_container.pack(fill="both", expand=True, padx=40, pady=(0, 20))
+    def main_lagi():
+        logika.reset_data()
+        halaman_homescreen(ROOT)
 
-    canvas = tk.Canvas(scroll_container, bg="#F4EFE6", highlightthickness=0)
-    canvas.pack(side="left", fill="both", expand=True)
+    tombol_bulat(
+        bottom, "Kembali", 146, 48, "white", COKLAT_TUA, HIJAU,
+        kembali, (FONT, 11),
+    ).pack(side="left")
+    tombol_bulat(
+        bottom, "Main Lagi", 146, 48, COKLAT_TUA, "white", COKLAT_TUA,
+        main_lagi, (FONT, 11, "bold"),
+    ).pack(side="right")
+    tk.Label(
+        bottom, text=f"Benar {logika.Jumlah_benar} dari {len(soal)} soal",
+        font=(FONT, 10), fg=COKLAT_TUA, bg=BG,
+    ).pack(expand=True)
 
-    scrollbar = ttk.Scrollbar(scroll_container, orient="vertical", command=canvas.yview)
+    # --- DAFTAR YANG BISA DIGULIR ---
+    container = tk.Frame(ROOT, bg=BG)
+    container.pack(fill="both", expand=True, padx=(60, 36))
+
+    gaya_scrollbar()
+    canvas = tk.Canvas(container, bg=BG, highlightthickness=0)
+    scrollbar = ttk.Scrollbar(
+        container, orient="vertical", command=canvas.yview,
+        style="Earthy.Vertical.TScrollbar",
+    )
     scrollbar.pack(side="right", fill="y")
+    canvas.pack(side="left", fill="both", expand=True, padx=(0, 16))
     canvas.configure(yscrollcommand=scrollbar.set)
 
-    list_frame = tk.Frame(canvas, bg="#F4EFE6")
-    list_frame.columnconfigure(0, weight=1)
-    canvas_window = canvas.create_window((0, 0), window=list_frame, anchor="nw")
+    list_frame = tk.Frame(canvas, bg=BG)
+    window_id = canvas.create_window((0, 0), window=list_frame, anchor="nw")
 
-    def on_configure(event):
-        canvas.configure(scrollregion=canvas.bbox("all"))
-        canvas.itemconfig(canvas_window, width=event.width)
-        
-    canvas.bind("<Configure>", on_configure)
+    # Lebar list mengikuti canvas, sehingga kartu melebar sampai ujung kanan
+    canvas.bind("<Configure>", lambda e: canvas.itemconfig(window_id, width=e.width))
+    list_frame.bind(
+        "<Configure>",
+        lambda e: canvas.configure(scrollregion=canvas.bbox("all")),
+    )
 
-    def _on_mousewheel(event):
-        canvas.yview_scroll(int(-1*(event.delta/120)), "units")
-        
-    canvas.bind_all("<MouseWheel>", _on_mousewheel)
+    def gulir(event):
+        if list_frame.winfo_height() <= canvas.winfo_height():
+            return
+        ke_atas = event.num == 4 or event.delta > 0
+        canvas.yview_scroll(-1 if ke_atas else 1, "units")
 
-    def unbind_scroll(event):
-        canvas.unbind_all("<MouseWheel>")
-    list_frame.bind("<Destroy>", unbind_scroll)
+    canvas.configure(yscrollincrement=20)
+    event_gulir = ("<MouseWheel>", "<Button-4>", "<Button-5>")
+    for nama_event in event_gulir:
+        canvas.bind_all(nama_event, gulir)
 
-    # --- MEMUAT KOTAK TINJAUAN UNTUK SETIAP SOAL ---
+    def lepas_gulir(event):
+        for nama_event in event_gulir:
+            canvas.unbind_all(nama_event)
+
+    canvas.bind("<Destroy>", lepas_gulir)
+
+    # --- KARTU PER SOAL ---
+    def teks_opsi(item, index):
+        return f"{'ABCD'[index]}. {item['pilihan'][index]}"
+
+    def buat_kartu(nomor, item, jawaban):
+        benar = jawaban == item["jawaban"]
+        kartu = tk.Canvas(list_frame, bg=BG, height=100, highlightthickness=0)
+        kartu.pack(fill="x", pady=(0, 10))
+
+        def kotak_jawaban(x1, x2, y, teks, isi, garis, warna_teks):
+            """Menggambar kotak jawaban, mengembalikan batas bawahnya."""
+            id_teks = kartu.create_text(
+                x1 + 10, y + 8, text=teks, anchor="nw", width=x2 - x1 - 20,
+                fill=warna_teks, font=(FONT, 10),
+            )
+            bawah = max(y + 34, kartu.bbox(id_teks)[3] + 8)
+            kotak = kotak_bulat(kartu, x1, y, x2, bawah, 8, fill=isi, outline=garis, width=2)
+            kartu.tag_lower(kotak, id_teks)
+            return bawah
+
+        def gambar(event):
+            lebar = event.width
+            kartu.delete("all")
+
+            # Label status
+            warna = HIJAU if benar else MERAH
+            kotak_bulat(kartu, 14, 12, 80, 36, 12, fill=warna, outline=warna)
+            kartu.create_text(
+                47, 24, text="Benar" if benar else "Salah",
+                fill=COKLAT_TUA if benar else "white", font=(FONT, 9, "bold"),
+            )
+
+            # Pertanyaan
+            id_soal = kartu.create_text(
+                92, 14, text=f"{nomor}. {item['deskripsi']}", anchor="nw",
+                width=lebar - 108, fill=COKLAT_TUA, font=(FONT, 12, "bold"),
+            )
+            y = max(52, kartu.bbox(id_soal)[3] + 16)
+
+            # Kotak jawaban
+            tengah = lebar / 2
+            if jawaban is None:
+                teks_user = "Jawabanmu: (tidak dijawab)"
+            else:
+                teks_user = f"Jawabanmu: {teks_opsi(item, jawaban)}"
+
+            if benar:
+                bawah = kotak_jawaban(14, tengah - 8, y, teks_user, HIJAU, HIJAU, COKLAT_TUA)
+            else:
+                bawah_user = kotak_jawaban(14, tengah - 8, y, teks_user, "white", COKLAT, COKLAT)
+                bawah_kunci = kotak_jawaban(
+                    tengah + 8, lebar - 14, y,
+                    f"Jawaban benar: {teks_opsi(item, item['jawaban'])}",
+                    HIJAU, HIJAU, COKLAT_TUA,
+                )
+                bawah = max(bawah_user, bawah_kunci)
+
+            # Latar kartu, diletakkan paling belakang
+            tinggi = int(bawah + 14)
+            latar = kotak_bulat(
+                kartu, 1, 1, lebar - 2, tinggi - 2, 14, fill="white",
+                outline=HIJAU if benar else COKLAT, width=2,
+            )
+            kartu.tag_lower(latar)
+            kartu.configure(height=tinggi)
+
+        kartu.bind("<Configure>", gambar)
+
     for i, item in enumerate(soal):
-        status = "Benar" if item["jawaban"] == jawaban_user[i] else "Salah"
-
-        # Frame untuk setiap soal
-        soal_frame = tk.Frame(list_frame, bg="white", relief="solid", bd=1)
-        soal_frame.grid(row=i, column=0, sticky="ew", pady=10, ipady=10, padx=5)
-        soal_frame.columnconfigure(1, weight=1)
-
-        # Pertanyaan
-        lbl_tanya = tk.Label(soal_frame, text=f"Soal {i+1}: {item['deskripsi']}", font=("Helvetica", 11, "bold"), fg="#4E220F", bg="yellow", anchor="w", wraplength=300)
-        lbl_tanya.grid(row=0, column=1, padx=10, pady=(5, 10), sticky="w")
-
-        # Menentukan warna teks berdasarkan status benar/salah
-        warna_status = "#FCFCFC" 
-        warna_status_bg = "#256B10" if status == "Benar" else "#97351C"
-
-        # Menampilkan jawaban pemain
-        lbl_jwbn_pemain = tk.Label(soal_frame, text=f"{soal[i]['pilihan'][jawaban_user[i]]} ({status})", font=("Helvetica", 10, "bold"), fg=warna_status, bg=warna_status_bg, anchor="w", wraplength=300)
-        lbl_jwbn_pemain.grid(row=0, column=0, padx=10, pady=(5, 10), sticky="w")
-
-        # Jika salah, tampilkan jawaban yang benar
-        if status == "Salah":
-            lbl_jwbn_benar = tk.Label(soal_frame, text=f"Jawaban Benar: {soal[i]['pilihan'][soal[i]['jawaban']]}", font=("Helvetica", 10, "bold"), fg="#4E220F", bg="black", anchor="w", wraplength=300)
-            lbl_jwbn_benar.grid(row=1, column=0, columnspan=2, padx=10, pady=(0, 5), sticky="w")
-
-        # Penjelasan tambahan
-        if item.get("penjelasan"):
-            lbl_jelas = tk.Label(soal_frame, text=f"Penjelasan: {item['penjelasan']}", font=("Helvetica", 9, "italic"), fg="#4E220F", bg="black", anchor="w", wraplength=300)
-            lbl_jelas.grid(row=2, column=0, columnspan=2, padx=10, pady=(0, 5), sticky="w")
-            
-    # Total poin pemain (Placeholder)
-
-    totalpoin = tk.Label(header_frame, text=f"Total: {logika.Skor}%",font=("Helvetica", 15, "bold"), fg="#F4EFE6", bg="#4E220F" )
-    totalpoin.place(relx= 1.0, y=23, anchor="e")
-    
-    # --- TOMBOL NAVIGASI BAWAH ---
-    bottom_frame = tk.Frame(ROOT, bg="#F4EFE6")
-    bottom_frame.pack(fill="x", padx=40, pady=20)
-
-    # Tombol Kembali ke Hasil Kuis (Bisa disesuaikan command-nya untuk memanggil halaman_hasil_quiz)
-    btn_kembali = tk.Button(bottom_frame, text="Kembali ke Hasil", bg="white", fg="#4E220F", font=("Helvetica", 10, "bold"), width=20, relief="solid", bd=1, command=lambda: [bersihkan_layar(ROOT), halaman_hasil_quiz(ROOT)])
-    btn_kembali.pack(side="left", ipady=5)
+        jawaban = jawaban_user[i] if i < len(jawaban_user) else None
+        buat_kartu(i + 1, item, jawaban)
