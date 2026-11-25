@@ -1413,21 +1413,20 @@ def halaman_tinjau_jawaban(ROOT, data_tinjauan=None):
 
         # Pertanyaan
         lbl_tanya = tk.Label(soal_frame, text=f"Soal {i}: {item['pertanyaan']}", font=("Helvetica", 11, "bold"), fg="#4E220F", bg="white", anchor="w")
-        lbl_tanya.pack(fill="x", padx=15, pady=(5, 10))
+        lbl_tanya.pack(fill="x", padx=(105, 10), pady=(5, 10))
 
         # Menentukan warna teks berdasarkan status benar/salah
-        warna_status = "#A0B084" if item["status"] == "Benar" else "#A06A42"
+        warna_status = "#FCFCFC" if item["status"] == "Benar" else "#FFFFFF"
+        warna_status_bg = "#415E0E" if item["status"] == "Benar" else "#97511C"
 
         # Menampilkan jawaban pemain
-        lbl_jwbn_pemain = tk.Label(soal_frame, text=f"Jawaban Anda: {item['jawaban_pemain']} ({item['status']})", font=("Helvetica", 10), fg=warna_status, bg="white", anchor="w")
-        lbl_jwbn_pemain.pack(fill="x", padx=15, pady=2)
+        lbl_jwbn_pemain = tk.Label(soal_frame, text=f"{item['jawaban_pemain']} ({item['status']})", font=("Helvetica", 10, "bold"), fg=warna_status, bg=warna_status_bg, anchor="w")
+        lbl_jwbn_pemain.place(x=10, y=15, anchor="w")
 
         # Jika salah, tampilkan jawaban yang benar
         if item["status"] == "Salah":
             lbl_jwbn_benar = tk.Label(soal_frame, text=f"Jawaban Benar: {item['jawaban_benar']}", font=("Helvetica", 10, "bold"), fg="#4E220F", bg="white", anchor="w")
             lbl_jwbn_benar.pack(fill="x", padx=15, pady=2)
-        else: # Jika benar, tampilkan penambahan poin dari pertanyaan (Placeholder)
-            lbl_penambahan_poin = tk.Label(soal_frame, text= "+Placeholder points", font=("Helvetica", 10, "bold"),fg="#F4EFE6", bg="#4E220F")
 
         # Penjelasan tambahan
         if item.get("penjelasan"):
