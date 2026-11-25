@@ -467,6 +467,11 @@ def halaman_soal_quiz(ROOT):
 
     def load_berikutnya():
         try:
+            if jawaban.get() == "":
+                messagebox.showwarning(
+                    "Peringatan", "Silakan pilih salah satu jawaban terlebih dahulu!"
+                )
+                return
             nonlocal nomor_soal
             logika.simpan_jawaban_soal(jawaban.get() if jawaban.get() != "" else None)
 
@@ -1387,6 +1392,7 @@ def halaman_tinjau_jawaban(ROOT, data_tinjauan=None):
     canvas.configure(yscrollcommand=scrollbar.set)
 
     list_frame = tk.Frame(canvas, bg="#F4EFE6")
+    list_frame.columnconfigure(0, weight=1)
     canvas_window = canvas.create_window((0, 0), window=list_frame, anchor="nw")
 
     def on_configure(event):
@@ -1410,29 +1416,30 @@ def halaman_tinjau_jawaban(ROOT, data_tinjauan=None):
 
         # Frame untuk setiap soal
         soal_frame = tk.Frame(list_frame, bg="white", relief="solid", bd=1)
-        soal_frame.pack(fill="x", pady=10, ipady=10, padx=5)
+        soal_frame.grid(row=i, column=0, sticky="ew", pady=10, ipady=10, padx=5)
+        soal_frame.columnconfigure(1, weight=1)
 
         # Pertanyaan
-        lbl_tanya = tk.Label(soal_frame, text=f"Soal {i+1}: {item['deskripsi']}", font=("Helvetica", 11, "bold"), fg="#4E220F", bg="white", anchor="w")
-        lbl_tanya.pack(fill="x", padx=(105, 10), pady=(5, 10))
+        lbl_tanya = tk.Label(soal_frame, text=f"Soal {i+1}: {item['deskripsi']}", font=("Helvetica", 11, "bold"), fg="#4E220F", bg="yellow", anchor="w", wraplength=300)
+        lbl_tanya.grid(row=0, column=1, padx=10, pady=(5, 10), sticky="w")
 
         # Menentukan warna teks berdasarkan status benar/salah
         warna_status = "#FCFCFC" 
         warna_status_bg = "#256B10" if status == "Benar" else "#97351C"
 
         # Menampilkan jawaban pemain
-        lbl_jwbn_pemain = tk.Label(soal_frame, text=f"{soal[i]['pilihan'][jawaban_user[i]]} ({status})", font=("Helvetica", 10, "bold"), fg=warna_status, bg=warna_status_bg, anchor="w")
-        lbl_jwbn_pemain.place(x=10, y=15, anchor="w")
+        lbl_jwbn_pemain = tk.Label(soal_frame, text=f"{soal[i]['pilihan'][jawaban_user[i]]} ({status})", font=("Helvetica", 10, "bold"), fg=warna_status, bg=warna_status_bg, anchor="w", wraplength=300)
+        lbl_jwbn_pemain.grid(row=0, column=0, padx=10, pady=(5, 10), sticky="w")
 
         # Jika salah, tampilkan jawaban yang benar
         if status == "Salah":
-            lbl_jwbn_benar = tk.Label(soal_frame, text=f"Jawaban Benar: {soal[i]['pilihan'][soal[i]['jawaban']]}", font=("Helvetica", 10, "bold"), fg="#4E220F", bg="white", anchor="w")
-            lbl_jwbn_benar.pack(fill="x", padx=15, pady=2)
+            lbl_jwbn_benar = tk.Label(soal_frame, text=f"Jawaban Benar: {soal[i]['pilihan'][soal[i]['jawaban']]}", font=("Helvetica", 10, "bold"), fg="#4E220F", bg="black", anchor="w", wraplength=300)
+            lbl_jwbn_benar.grid(row=1, column=0, columnspan=2, padx=10, pady=(0, 5), sticky="w")
 
         # Penjelasan tambahan
         if item.get("penjelasan"):
-            lbl_jelas = tk.Label(soal_frame, text=f"Penjelasan: {item['penjelasan']}", font=("Helvetica", 9, "italic"), fg="#4E220F", bg="white", anchor="w")
-            lbl_jelas.pack(fill="x", padx=15, pady=(5, 5))
+            lbl_jelas = tk.Label(soal_frame, text=f"Penjelasan: {item['penjelasan']}", font=("Helvetica", 9, "italic"), fg="#4E220F", bg="black", anchor="w", wraplength=300)
+            lbl_jelas.grid(row=2, column=0, columnspan=2, padx=10, pady=(0, 5), sticky="w")
             
     # Total poin pemain (Placeholder)
 

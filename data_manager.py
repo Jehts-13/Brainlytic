@@ -76,7 +76,8 @@ def load_quiz_soal(JUDUL,  filepath="data/soal_quiz.csv"):
                 deskripsi_soal = row.get('deskripsi_soal')
                 opsi = [row.get('opsi_a'), row.get('opsi_b'), row.get('opsi_c'), row.get('opsi_d')]
                 jawaban = int(row.get('jawaban_benar'))
-                list_soal.append({"deskripsi": deskripsi_soal,"jawaban":jawaban ,"pilihan": opsi})
+                penjelasan = row.get('penjelasan')
+                list_soal.append({"deskripsi": deskripsi_soal,"jawaban":jawaban ,"pilihan": opsi, 'penjelasan': penjelasan})
     if list_soal:
         return list_soal
     else:
