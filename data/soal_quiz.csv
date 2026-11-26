@@ -1,14 +1,14 @@
 nama_quiz,deskripsi_soal,opsi_a,opsi_b,opsi_c,opsi_d,jawaban_benar,penjelasan
 Dasar Python,Apa output dari print(type([]))?,List,<class 'list'>,Array,Error,0,List ditulis dengan kurung siku.
 Dasar Python,Tipe data untuk teks adalah?,Integer,String,Boolean,Float,1,String digunakan untuk teks.
-Struktur Kontrol,Manakah yang merupakan perulangan?,If,For,While,Switch,2,For digunakan untuk perulangan.
-Struktur Kontrol,Manakah yang digunakan untuk percabangan?,If,For,While,Switch,1,If digunakan untuk percabangan.
-Struktur Kontrol,Manakah yang digunakan untuk perulangan?,If,For,While,Switch,3,While digunakan untuk perulangan.
-Struktur Kontrol,Manakah yang digunakan untuk percabangan?,If,For,While,Switch,1,If digunakan untuk percabangan.
-Struktur Kontrol,Manakah yang digunakan untuk perulangan?,If,For,While,Switch,2,For digunakan untuk perulangan.
-Struktur Kontrol,Manakah yang digunakan untuk percabangan?,If,For,While,Switch,1,If digunakan untuk percabangan.
-Struktur Kontrol,Manakah yang digunakan untuk perulangan?,If,For,While,Switch,3,While digunakan untuk perulangan.
-Struktur Kontrol,Manakah yang digunakan untuk percabangan?,If,For,While,Switch,1,If digunakan untuk percabangan.
+Struktur Kontrol,Manakah yang merupakan perulangan?,If,For,While,Switch,1,For digunakan untuk perulangan.
+Struktur Kontrol,Manakah yang digunakan untuk percabangan?,If,For,While,Switch,0,If digunakan untuk percabangan.
+Struktur Kontrol,Manakah yang digunakan untuk perulangan?,If,For,While,Switch,2,While digunakan untuk perulangan.
+Struktur Kontrol,Manakah yang digunakan untuk percabangan?,If,For,While,Switch,0,If digunakan untuk percabangan.
+Struktur Kontrol,Manakah yang digunakan untuk perulangan?,If,For,While,Switch,1,For digunakan untuk perulangan.
+Struktur Kontrol,Manakah yang digunakan untuk percabangan?,If,For,While,Switch,0,If digunakan untuk percabangan.
+Struktur Kontrol,Manakah yang digunakan untuk perulangan?,If,For,While,Switch,2,While digunakan untuk perulangan.
+Struktur Kontrol,Manakah yang digunakan untuk percabangan?,If,For,While,Switch,0,If digunakan untuk percabangan.
 nama_kuis,pertanyaan,opsi_a,opsi_b,opsi_c,opsi_d,jawaban_benar,penjelasan
 Sains Umum,Planet manakah yang paling dekat dengan Matahari?,Venus,Merkurius,Mars,Bumi,1,Merkurius adalah planet pertama dan terdekat dari Matahari dalam tata surya.
 Sains Umum,Gas apa yang paling banyak menyusun atmosfer Bumi?,Oksigen,Karbon dioksida,Nitrogen,Hidrogen,2,Sekitar 78% atmosfer Bumi terdiri dari gas nitrogen.
@@ -25,7 +25,3 @@ Sains Umum,Unsur kimia dengan simbol Fe adalah?,Perak,Emas,Besi,Tembaga,2,Fe ber
 Sains Umum,Lapisan atmosfer tempat terjadinya fenomena cuaca seperti hujan dan awan adalah?,Stratosfer,Mesosfer,Troposfer,Termosfer,2,Troposfer adalah lapisan atmosfer terendah tempat hampir semua peristiwa cuaca terjadi.
 Sains Umum,Penyakit akibat kekurangan vitamin C disebut?,Rakhitis,Skorbut,Beri-beri,Anemia,1,Skorbut (scurvy) disebabkan oleh defisiensi vitamin C dalam jangka waktu lama.
 Sains Umum,Bunyi tidak dapat merambat melalui?,Zat padat,Zat cair,Gas,Ruang hampa,3,Bunyi adalah gelombang mekanik yang membutuhkan medium untuk merambat sehingga tidak bisa melewati ruang hampa.
-tes,deskripsi_teks_soal_quiz_tes adalah sesuatu yang tidak dapat diprediksi sehingga apapun yang kita lakukan haruslah sesuai dengan apa yang telah dipersiapkan,pilihan_jawaban_teks_quiz_tes_1_111111111111111111111111111111111111111111111111,pilihan_jawaban_teks_quiz_tes_2,pilihan_jawaban_teks_quiz_tes_3,pilihan_jawaban_teks_quiz_tes_4,0,ini_adalah_teks_penjelasanjudul_admin,satu-satunya pertanyaan di dunia ini adalah pertanyaan yang dapat dijawab dan dapat dijawa,ya,benar,betul,right,0,true
-xyz,asdfasdf,1,2,3,4,3,Tuliskan penjelasan anda di sini...
-xyz,fsdaf,aadf,"dfsadfas,dfjlkqjo;rqwoiuroiqwuoruoi________________________________________________",dfsadfasasdfkjahlkhajkhdfahskfdhkasjkfashflksdhlkfhsa,sasdfasdfasdfasfasdfwaerwea4$asdfasdfasfsafasdawffdafwadsafd,1,Tuliskan penjelasan anda di sini...
-xyz,asdffdsasdfs_________________________________________________________________________________,6,5,4,3,3,Tuliskan penjelasan anda di sini...
