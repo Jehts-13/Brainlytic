@@ -1365,24 +1365,10 @@ def halaman_tinjau_jawaban(ROOT, data_tinjauan=None):
     judul = tk.Label(header_frame, text="Tinjauan Jawaban", font=("Helvetica", 24, "bold"), fg="#4E220F", bg="#F4EFE6")
     judul.pack(side="left")
 
-    # Data Dummy jika tidak ada data yang dilemparkan dari fungsi sebelumnya
-    if data_tinjauan is None:
-        data_tinjauan = [
-            {
-                "pertanyaan": "Apa output dari print(type([]))?",
-                "jawaban_pemain": "List",
-                "jawaban_benar": "<class 'list'>",
-                "status": "Salah",
-                "penjelasan": "List ditulis dengan kurung siku."
-            },
-            {
-                "pertanyaan": "Tipe data untuk teks adalah?",
-                "jawaban_pemain": "String",
-                "jawaban_benar": "String",
-                "status": "Benar",
-                "penjelasan": "String digunakan untuk teks."
-            }
-        ]
+    # Mengambil data dari logika.py
+    soal = logika.Soal
+    jawaban_user = logika.Riwayat_jawaban
+
 
     # --- AREA SCROLL UNTUK DAFTAR TINJAUAN ---
     scroll_container = tk.Frame(ROOT, bg="#F4EFE6")
@@ -1414,26 +1400,28 @@ def halaman_tinjau_jawaban(ROOT, data_tinjauan=None):
     list_frame.bind("<Destroy>", unbind_scroll)
 
     # --- MEMUAT KOTAK TINJAUAN UNTUK SETIAP SOAL ---
-    for i, item in enumerate(data_tinjauan, start=1):
+    for i, item in enumerate(soal):
+        status = "Benar" if item["jawaban"] == jawaban_user[i] else "Salah"
+
         # Frame untuk setiap soal
         soal_frame = tk.Frame(list_frame, bg="white", relief="solid", bd=1)
         soal_frame.pack(fill="x", pady=10, ipady=10, padx=5)
 
         # Pertanyaan
-        lbl_tanya = tk.Label(soal_frame, text=f"Soal {i}: {item['pertanyaan']}", font=("Helvetica", 11, "bold"), fg="#4E220F", bg="white", anchor="w")
+        lbl_tanya = tk.Label(soal_frame, text=f"Soal {i+1}: {item['deskripsi']}", font=("Helvetica", 11, "bold"), fg="#4E220F", bg="white", anchor="w")
         lbl_tanya.pack(fill="x", padx=(105, 10), pady=(5, 10))
 
         # Menentukan warna teks berdasarkan status benar/salah
-        warna_status = "#FCFCFC" if item["status"] == "Benar" else "#FFFFFF"
-        warna_status_bg = "#415E0E" if item["status"] == "Benar" else "#97511C"
+        warna_status = "#FCFCFC" 
+        warna_status_bg = "#256B10" if status == "Benar" else "#97351C"
 
         # Menampilkan jawaban pemain
-        lbl_jwbn_pemain = tk.Label(soal_frame, text=f"{item['jawaban_pemain']} ({item['status']})", font=("Helvetica", 10, "bold"), fg=warna_status, bg=warna_status_bg, anchor="w")
+        lbl_jwbn_pemain = tk.Label(soal_frame, text=f"{soal[i]['pilihan'][jawaban_user[i]]} ({status})", font=("Helvetica", 10, "bold"), fg=warna_status, bg=warna_status_bg, anchor="w")
         lbl_jwbn_pemain.place(x=10, y=15, anchor="w")
 
         # Jika salah, tampilkan jawaban yang benar
-        if item["status"] == "Salah":
-            lbl_jwbn_benar = tk.Label(soal_frame, text=f"Jawaban Benar: {item['jawaban_benar']}", font=("Helvetica", 10, "bold"), fg="#4E220F", bg="white", anchor="w")
+        if status == "Salah":
+            lbl_jwbn_benar = tk.Label(soal_frame, text=f"Jawaban Benar: {soal[i]['pilihan'][soal[i]['jawaban']]}", font=("Helvetica", 10, "bold"), fg="#4E220F", bg="white", anchor="w")
             lbl_jwbn_benar.pack(fill="x", padx=15, pady=2)
 
         # Penjelasan tambahan

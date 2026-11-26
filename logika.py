@@ -164,7 +164,7 @@ def ambil_soal(index):
                 return ("", '','','','', 0, 'Tuliskan penjelasan anda di sini...')
             opsi_a, opsi_b, opsi_c, opsi_d = tuple(soal['opsi'])
             return (soal['deskripsi_soal'], opsi_a, opsi_b, opsi_c, opsi_d, soal['jawaban'], soal['penjelasan'])
-    return None
+    return None 
 
 def simpan_quiz():
     global Judul_quiz, Deskripsi, Total_waktu, Jumlah_soal, Soal # Menyimpan menggunakan data global di logika.py
